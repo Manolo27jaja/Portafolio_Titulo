@@ -1,0 +1,323 @@
+/*Navegador*/
+.logo{
+    width: 50px;
+    height: auto;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.ancho_nav{
+    width: auto;
+}
+/*body{
+    background-color: white;
+}*/
+
+/* Tarjetas */
+.container{
+    width: 100%;
+    display: flex;
+    max-width: 1100px;
+}
+.card{
+    width: 100%;
+    margin: 20px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0px 1px 10px rgba(0,0,0,0.2);
+    cursor: default;
+    transition: all 400ms ease;
+}
+.card:hover{
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.2);
+    transform: translateY(-3%);
+}
+.card img{
+    width: 100%;
+    height: 210px;
+}
+.card .content{
+    padding: 15px;
+    text-align: center;
+}
+.card .content p{
+    line-height: 1.5;
+    color: #6a6a6a;
+}
+.card .content h3{
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+.card .content a{
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px;
+    margin-top: 10px;
+    color: darkgray;
+    border: 1px solid darkgrey;
+    border-radius: 4px;
+    transition: all 400ms ease;
+}
+.card .content a:hover{
+    background: #2fb4cc;
+    color: black;
+}
+
+
+
+
+/*carrusel tarjetas*/
+
+
+#carrusel_css{
+    margin: 0;
+    padding: 0%;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    height: 50vh;
+    width: 50%;
+    align-items: center;
+}
+h4, h2, small, a{
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+}
+.carousel{
+    width: 100%;
+    margin: 0px 0px;
+}
+@media(min-width:768px) {
+    .carousel{
+        margin: 0px 60px;
+    }
+}
+.carousel h2{
+    font-size: 45px;
+    line-height: 38px;
+    padding-bottom: 50px;
+    opacity: .9;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-align: center;
+    color: #fff;
+}
+.carrusel-list{
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    height: 304px;
+    padding: 10px 0px;
+    margin: 0px auto;
+    max-width: 90vw;
+    overflow: hidden;
+}
+.carrusel-track{
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    transition: .5s ease-in-out;
+}
+.carrusel{
+    position: relative;
+    width: 210px;
+    padding: 0 18px;
+    float: left;
+    box-sizing: border-box;
+    display: flex;
+    height: 100%;
+}
+.carrusel h4{
+    position: absolute;
+    z-index: 1;
+    font-size: 22px;
+    line-height: 23px;
+    color: #fff;
+    padding: 15px;
+}
+.carrusel h4 small{
+    font-size: 15px;
+    display: block;
+}
+.carrusel a img{
+    object-fit: cover;
+    height: 300px;
+    width: 200px;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.5);
+    transition: .3s ease-in-out;
+}
+@media(min-width:768px){
+    .carrusel{
+        width: 275px;
+    }
+    .carrusel a img{
+        width: 250px;
+    }
+}
+.carrusel-arrow{
+    border-radius: 30px;
+    background-color: #fff;
+    position: absolute;
+    z-index: 4;
+    width: 48px;
+    height: 48px;
+    text-align: center;
+    border: 0;
+    cursor: pointer;
+}
+.carrusel-arrow:focus{
+    outline: 0;
+}
+.carrusel-arrow svg{
+    width: 12px;
+    height: 100%;
+    color: rgba(0,0,0,0.7);
+}
+.carrusel-prev{
+    left: 0px;
+}
+.carrusel-next{
+    right: 0px;
+}
+
+.margen_publi{
+    max-width: max-content;
+    height: auto;
+    border-radius: inherit;
+    margin-left: 10%;
+}
+/* carrusel portada */
+
+body{
+    /*margin: 0;
+    padding: 0;
+    height: 100vh;*/
+    justify-content: center;
+    align-items: center;
+}
+.slider{
+    width: 1100;
+    height: 500px;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.slides{
+    width: 500%;
+    height: 500%;
+    display: flex;
+}
+.slides input{
+    display: none;
+}
+.slide{
+    width: 20%;
+    transition: 2s;
+}
+.slide img{
+    width: 1100px;
+    height: 500px;
+}
+.navigation-manual{
+    position: absolute;
+    width: 1100px;
+    margin-top: -40px;
+    display: flex;
+    justify-content: center;
+}
+.manual-btn{
+    border: 2px solid #40D3DC;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 1s;
+}
+.manual-btn:not(:last-child){
+    margin-right: 40px;
+}
+.manual-btn:hover{
+    background: #40D3DC;
+}
+#radio1:checked ~ .first{
+    margin-left: 0;
+}
+#radio2:checked ~ .first{
+    margin-left: -20%;
+}
+#radio3:checked ~ .first{
+    margin-left: -40%;
+}
+#radio4:checked ~ .first{
+    margin-left: -60%;
+}
+.navigation-auto{
+    position: absolute;
+    display: flex;
+    width: 1100px;
+    justify-content: center;
+    margin-top: 460px;
+}
+.navigation-auto div{
+    border: 2px solid white;
+    padding: 5px;
+    border-radius: 10px;
+    transition: 1s;
+}
+.navigation-auto div:not(:last-child){
+    margin-right: 40px;
+}
+#radio1:checked ~ .navigation-auto .auto-btn1{
+    background: white;
+}
+#radio2:checked ~ .navigation-auto .auto-btn2{
+    background: white;
+}
+#radio3:checked ~ .navigation-auto .auto-btn3{
+    background: white;
+}
+#radio4:checked ~ .navigation-auto .auto-btn4{
+    background: white;
+}
+
+/* Footer */
+.navbar-nav .nav-link:hover {
+    color:peru ;
+}
+
+.margen{
+    margin: 5%;
+}
+
+.logo_2{
+    width: 50px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.ancho_foot{
+    width: max-content;
+}
+
+footer{
+    width: 100%;
+}
+
+.tamano_bus{
+    width: 400px;
+}
+
+.alto_nav{
+    height: 35px;
+}
+
+.nav-link{
+    color: black;
+}
+
