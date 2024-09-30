@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'portafolio.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ecommersedatabasempagency',
+        'NAME': 'mpagency',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'Localhost',
@@ -127,3 +127,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# settings.py
+AUTH_USER_MODEL = 'ecommerse.Usuario'

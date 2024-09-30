@@ -1,4 +1,4 @@
-/*Navegador*/
+/*______________________________Navegador___________________________*/
 .logo{
     width: 50px;
     height: auto;
@@ -9,11 +9,8 @@
 .ancho_nav{
     width: auto;
 }
-/*body{
-    background-color: white;
-}*/
 
-/* Tarjetas */
+/*____________________________Tarjetas__________________________*/
 .container{
     width: 100%;
     display: flex;
@@ -65,9 +62,85 @@
 }
 
 
+/*________________________________Tarjetas giratorias_______________________*/
 
+.card {
+    position: relative;
+    width: 300px;
+    height: 350px;
+    margin: 20px;
+}
 
-/*carrusel tarjetas*/
+.card .face {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: .5s;
+}
+
+.card .front {
+    transform: perspective(600px) rotateY(0deg);
+    box-shadow: 0 5px 10px #000;
+}
+
+.card .front img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card .front h3 {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+    color: #fff;
+    background: rgb(0,0,0,.4);
+    text-align: center;
+}
+
+.card .back {
+    transform: perspective(600px) rotateY(180deg);
+    background: rgb(3, 35, 54);
+    padding: 15px;
+    color: #f3f3f3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    box-shadow: 0px 5px 10px #000;
+}
+
+.card .back .link{
+    border-top: solid 1px #f3f3f3;
+    height: 50px;
+    line-height: 50px;
+}
+
+.card .back .link a {
+    color: #f3f3f3;
+}
+
+.card .back h3 {
+    font-size: 30px;
+    margin-top: 20px;
+    letter-spacing: 2px;
+}
+
+.card:hover .front {
+    transform: perspective(600px) rotateY(180deg);   
+}
+
+.card:hover .back {
+    transform: perspective(600px) rotateY(360deg);   
+}
+
+/*___________________________carrusel tarjetas_______________________________*/
 
 
 #carrusel_css{
@@ -193,12 +266,12 @@ a{
     border-radius: inherit;
     margin-left: 10%;
 }
-/* carrusel portada */
-
+/*_______________________________carrusel portada_________________________*/
+/*
 body{
     /*margin: 0;
     padding: 0;
-    height: 100vh;*/
+    height: 100vh;*//*
     justify-content: center;
     align-items: center;
 }
@@ -285,8 +358,8 @@ body{
 #radio4:checked ~ .navigation-auto .auto-btn4{
     background: white;
 }
-
-/* Footer */
+*/
+/*__________________________________________Footer__________________________*/
 .navbar-nav .nav-link:hover {
     color:peru ;
 }
