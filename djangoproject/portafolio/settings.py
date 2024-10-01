@@ -131,3 +131,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # settings.py
 AUTH_USER_MODEL = 'ecommerse.Usuario'
+# settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-relay.brevo.com'  # SMTP server de Brevo
+EMAIL_PORT = 587  # Puerto 587 es para TLS
+EMAIL_USE_TLS = True  # Activar TLS
+EMAIL_HOST_USER = 'bastianmadrid72@gmail.com'  # Tu correo registrado en Brevo (como aparece en la imagen)
+EMAIL_HOST_PASSWORD = 'B19hYzSrVXqcjdD3'  # La clave SMTP que generaste en Brevo
+DEFAULT_FROM_EMAIL = 'bastianmadrid72@gmail.com'  # Dirección de remitente por defecto
