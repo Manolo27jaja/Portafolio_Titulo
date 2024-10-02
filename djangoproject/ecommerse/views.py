@@ -59,6 +59,13 @@ def limpiar_carrito(request):
     return redirect('carrito') 
 
 #_____________________________________________________
+
+def buscar(request):
+    query = request.GET.get('q', '')  # Obtener el término de búsqueda desde la URL
+    resultados = Producto.objects.filter(nombre__icontains=query) if query else Producto.objects.none()
+    return render(request, 'buscar.html', {'resultados': resultados, 'query': query})
+
+#____________________________________________________
 # Metodos de sistema login
 
 #def home(request):
