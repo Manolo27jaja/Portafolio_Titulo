@@ -16,13 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from ecommerse.views import agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, carrito#, obtener_carrito#, #read_carrito,
+from ecommerse.views import agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, carrito, buscar#, obtener_carrito#, #read_carrito,
 from ecommerse import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
+    path('buscar/', buscar, name='buscar'),
     path('', home, name='home'),
     #path('carrito/', read_carrito, name='read_carrito'),
     path('carrito/', carrito, name='carrito'),
