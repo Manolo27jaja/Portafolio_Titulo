@@ -71,8 +71,10 @@ def buscar(request):
 #def home(request):
  #   return render(request, 'home.html')
 
-#def ingreso(request):
- #   return render(request, 'inicio_sesion.html')
+#____________________________________________________
+
+def modal(request):
+   return render(request, 'modal.html')
 
 
 def registro(request):
