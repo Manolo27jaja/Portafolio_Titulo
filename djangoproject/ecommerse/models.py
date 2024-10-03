@@ -35,8 +35,8 @@ class UsuarioManager(BaseUserManager):
         return user
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True, default='example@example.com')
-    nombre = models.CharField(max_length=30, default='Usuario')
+    email = models.EmailField(unique=True)
+    nombre = models.CharField(max_length=30)
     telefono = models.CharField(max_length=15, blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

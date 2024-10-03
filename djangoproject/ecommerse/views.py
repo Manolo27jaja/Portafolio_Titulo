@@ -16,13 +16,13 @@ def home(request):
     producto_ids_2 = [7, 8, 9, 10, 11, 12]  # Segundo conjunto de productos para el otro carrusel
     productos_1 = Producto.objects.filter(id__in=producto_ids_1)
     productos_2 = Producto.objects.filter(id__in=producto_ids_2)
-    por_categorias_1 = Producto.objects.filter(categoria="Consola")[:4]
-    por_categorias_2 = Producto.objects.filter(categoria="Computadores")[:4]
+    por_categorias_1 = Producto.objects.filter(categoria="Consola")[:3]
+    por_categorias_2 = Producto.objects.filter(categoria="Computador")[:3]
     return render(request, 'home.html', {"productos_1": productos_1, "productos_2": productos_2, "por_categorias_1": por_categorias_1, "por_categorias_2": por_categorias_2})
 #_________________________________________________
 
 def carrito(request):
-    producto_ids_1 = [1,2,3,4]  # Primer conjunto de productos
+    producto_ids_1 = [1]  # Primer conjunto de productos
     producto_d = Producto.objects.filter(id__in=producto_ids_1)
     return render(request, 'carrito.html', {"productos":producto_d})
     
@@ -122,3 +122,10 @@ def perfil(request):
 #     return str(uuid.uuid4())
 
 #____________________________________________________________
+
+    def save(self, commit=True):
+        user = super(RegistroForm, self).save(commit=False)
+        user.set_password(self.cleaned_data['password'])  # Establecer la contraseña correctamente
+        if commit:
+            user.save()
+        return user

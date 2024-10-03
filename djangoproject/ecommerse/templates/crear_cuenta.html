@@ -1,4 +1,6 @@
 {% load static %}
+{% load custom_filters %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -39,16 +41,37 @@
     
 <div class="card mb-3 top" style="width: 30%;">
     <div class="margen">
-      <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Registrarse</button>
-      </form>
-      <div class="mb-3">
-        <img src="{% static 'imagenes/registro.jpeg'%}" alt="" style="width: 100%; border-radius: 30%;">
-      </div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_nombre">Nombre</label>
+                {{ form.nombre|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                <label for="id_email">Email</label>
+                {{ form.email|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                {{ form.telefono|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                <label for="id_password">Contraseña</label>
+                {{ form.password|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                <label for="id_confirmar_password">Confirmar Contraseña</label>
+                {{ form.confirmar_password|add_class:"form-control" }}
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Registrarse</button>
+        </form>
+        <div class="mb-3">
+            <img src="{% static 'imagenes/registro.jpeg' %}" alt="" style="width: 100%; border-radius: 30%;">
+        </div>
     </div>
-  </div>
+</div>
+
   <!--Scripts-->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
