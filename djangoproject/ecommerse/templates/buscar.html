@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="GET" action="{% url 'buscar' %}">
+        <input type="text" name="q" placeholder="Buscar productos...">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <h2>Resultados para "{{ query }}"</h2>
+
+    {% if resultados %}
+        <ul>
+            {% for producto in resultados %}
+            <li>{{ producto.nombre }} - {{ producto.precio }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No se encontraron productos.</p>
+    {% endif %}
+</body>
+</html>
