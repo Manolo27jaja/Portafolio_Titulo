@@ -22,7 +22,7 @@ def home(request):
 #_________________________________________________
 
 def carrito(request):
-    producto_ids_1 = [1,2,3,4]  # Primer conjunto de productos
+    producto_ids_1 = [1, 2, 3]  # Primer conjunto de productos
     producto_d = Producto.objects.filter(id__in=producto_ids_1)
     return render(request, 'carrito.html', {"productos":producto_d})
     
