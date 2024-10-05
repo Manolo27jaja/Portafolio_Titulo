@@ -1,0 +1,179 @@
+/*Navegador*/
+.logo{
+    width: 50px;
+    height: auto;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.ancho_nav{
+    width: auto;
+}
+
+/*__________________________*/
+body{
+    font-family: "Segoe UI", 'consolas';
+}
+.container{
+    flex-direction: row; /*| row-reverse | column | column-reverse*/
+} 
+.display-1{
+    background: #171818;
+    color: white;
+} 
+/*_____________________Tarjeta por defecto____________________*/
+img {
+    max-width: 100%;          /* Ajusta la imagen al ancho del contenedor */
+    height: 100px;             /* Mantiene la relación de aspecto */
+    border-radius: 10px;      /* Esquinas redondeadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Añade sombra para darle profundidad */
+    transition: transform 0.3s ease; /* Efecto de animación al hacer hover */
+}
+
+img:hover {
+    transform: scale(1.05);   /* Aumenta el tamaño al hacer hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Incrementa la sombra */
+}
+
+/*_______________________tarjetas giratorias____________________________*/
+.card {
+    position: relative;
+    width: 300px;
+    height: 350px;
+    margin: 20px;
+}
+
+.card .face {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: .5s;
+}
+
+.card .front {
+    transform: perspective(600px) rotateY(0deg);
+    box-shadow: 0 5px 10px #000;
+}
+
+.card .front img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card .front h3 {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+    color: #fff;
+    background: rgb(0,0,0,.4);
+    text-align: center;
+}
+
+.card .back {
+    transform: perspective(600px) rotateY(180deg);
+    background: rgb(187, 219, 238);
+    padding: 15px;
+    color: #0e0101;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    box-shadow: 0px 5px 10px #000;
+}
+
+.card .back .link{
+    border-top: solid 1px #110202;
+    height: 50px;
+    line-height: 50px;
+}
+
+.card .back .link a {
+    color: #090101;
+}
+
+.card .back h3 {
+    font-size: 30px;
+    margin-top: 20px;
+    letter-spacing: 2px;
+}
+
+.card .back p {
+    letter-spacing: 1px;
+}
+
+.card:hover .front {
+    transform: perspective(600px) rotateY(180deg);   
+}
+
+.card:hover .back {
+    transform: perspective(600px) rotateY(360deg);   
+}
+
+
+
+
+
+
+
+
+
+
+.container {
+    margin-top: 20px;
+}
+
+
+
+
+
+
+
+/* estilos para el buscador con sus productos.......................................... */
+
+.card {
+    border: none;
+    border-radius: 15px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    transition: transform 0.2s; 
+}
+
+.card:hover {
+    transform: scale(1.05); 
+}
+
+/* Estilo de la imagen */
+.card-img-top {
+    height: 200px; 
+    object-fit: cover; 
+    border-top-left-radius: 15px; 
+    border-top-right-radius: 15px;
+}
+
+/* Estilo del título y precio del producto */
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold; 
+}
+
+.card-text {
+    font-size: 1rem; 
+    color: #333; 
+}
+
+/* Botón */
+.btn-primary {
+    background-color: #007bff; 
+    border-color: #007bff; 
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; 
+    border-color: #0056b3; 
+}
