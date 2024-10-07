@@ -44,5 +44,8 @@
 </div>
 <div class="row text-center">
     <div class="col-6"><a href="{% url 'CLS' %}" class="btn btn-danger">Limpiar</a></div>
-    <div class="col-6"><a href="#" class="btn btn-success">Guardar</a></div>
+    <form method="POST" action="{% url 'guardar_carrito' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Guardar</button>
+    </form>
 </div>

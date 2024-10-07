@@ -140,3 +140,9 @@ EMAIL_USE_TLS = True  # Activar TLS
 EMAIL_HOST_USER = 'bastianmadrid72@gmail.com'  # Tu correo registrado en Brevo (como aparece en la imagen)
 EMAIL_HOST_PASSWORD = 'B19hYzSrVXqcjdD3'  # La clave SMTP que generaste en Brevo
 DEFAULT_FROM_EMAIL = 'bastianmadrid72@gmail.com'  # Dirección de remitente por defecto
+
+#______
+
+LOGIN_URL = '/inicio_sesion/'
+
+#______
