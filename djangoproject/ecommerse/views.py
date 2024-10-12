@@ -13,17 +13,35 @@ from ecommerse.models import Producto, Carrito, CarritoItem, Usuario
 from .models import Usuario
 
 def home(request):
-    producto_ids_1 = [1, 2, 3, 4, 5, 6]  # Primer conjunto de productos
+    producto_ids_1 = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]  # Primer conjunto de productos
     producto_ids_2 = [7, 8, 9, 10, 11, 12]  # Segundo conjunto de productos para el otro carrusel
+    producto_ids_3 = [7, 8, 9]  # Tercer conjunto de productos
+
     productos_1 = Producto.objects.filter(id__in=producto_ids_1)
     productos_2 = Producto.objects.filter(id__in=producto_ids_2)
+    productos_3 = Producto.objects.filter(id__in=producto_ids_3)  # Nuevos productos
+
     por_categorias_1 = Producto.objects.filter(categoria="Consola")[:4]
     por_categorias_2 = Producto.objects.filter(categoria="Computadores")[:4]
-    return render(request, 'home.html', {"productos_1": productos_1, "productos_2": productos_2, "por_categorias_1": por_categorias_1, "por_categorias_2": por_categorias_2})
+    por_categorias_3 = Producto.objects.filter(categoria="Accesorios")[:4]  # Nueva categoría
+
+    return render(request, 'home.html', {
+        "productos_1": productos_1,
+        "productos_2": productos_2,
+        "productos_3": productos_3,  # Añade aquí la nueva sección
+        "por_categorias_1": por_categorias_1,
+        "por_categorias_2": por_categorias_2,
+        "por_categorias_3": por_categorias_3  # Añade aquí la nueva categoría
+    })
+
+
+
+
+
 #_________________________________________________
 
 def carrito(request):
-    producto_ids_1 = [5]  # Primer conjunto de productos
+    producto_ids_1 = [5,4]  # Primer conjunto de productos
     producto_d = Producto.objects.filter(id__in=producto_ids_1)
     return render(request, 'carrito.html', {"productos":producto_d})
 
