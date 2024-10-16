@@ -10,6 +10,70 @@ from ecommerse.Carrito import Carrito
 # Bloque de importaciones del modelo de base de datos
 from ecommerse.models import Producto
 from .models import Usuario
+import mercadopago
+from django.conf import settings
+import logging
+from django.shortcuts import render
+from django.contrib.auth import logout
+
+logging.basicConfig(level=logging.INFO)
+
+def pago_celular_bricks(request):
+    # Crear una instancia del SDK de Mercado Pago usando el Access Token
+    sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
+
+    # Definir los datos de la preferencia
+    preference_data = {
+        "items": [
+            {
+                "title": "Celular",
+                "quantity": 1,
+                "currency_id": "CLP",
+                "unit_price": 1500.00
+            }
+        ],
+        "payer": {
+            "email": "comprador@ejemplo.com"  # Asegúrate de usar un correo de prueba
+        },
+        "back_urls": {
+            "success": "http://localhost:8000/pago-exitoso/",
+            "failure": "http://localhost:8000/pago-fallido/"
+        },
+        "auto_return": "approved",
+        "payment_methods": {
+            "excluded_payment_types": [],  # Asegúrate de no excluir métodos si no es necesario
+            "installments": 12  # Máximo de 12 cuotas
+        },
+        "notification_url": "http://localhost:8000/notificaciones/",
+    }
+
+    # Intentar crear la preferencia y capturar la respuesta de la API
+    try:
+        preference = sdk.preference().create(preference_data)
+
+        # Capturar la respuesta de la API
+        response = preference.get('response', {})
+        status = preference.get('status', 'error')
+        
+        # Log para depuración
+        logging.info(f"Mercado Pago API Response: {response}")
+
+        # Comprobar si se creó la preferencia correctamente
+        if status == 201:  # Status 201 indica éxito en la creación de la preferencia
+            context = {
+                'preference_id': response.get('id'),
+                'mercado_pago_public_key': settings.MERCADOPAGO_PUBLIC_KEY,
+                'sandbox_init_point': response.get('sandbox_init_point')  # Utilizar sandbox URL si es necesario
+            }
+            return render(request, 'pago_celular_bricks.html', context)
+        else:
+            # Si ocurre un error, mostrar el mensaje de error
+            logging.error(f"Error en la creación de la preferencia: {response}")
+            return JsonResponse({'error': 'No se pudo crear la preferencia', 'response': response}, status=400)
+    
+    except Exception as e:
+        logging.error(f"Error en la creación de la preferencia: {e}")
+        return JsonResponse({'error': 'Ocurrió un error en el servidor', 'details': str(e)}, status=500)
 
 def home(request):
     producto_ids_1 = [1, 2, 3, 4, 5, 6]  # Primer conjunto de productos
@@ -116,6 +180,14 @@ def recuperar(request):
 
 def perfil(request):
     return render(request, 'perfil_usuario.html')
+
+def pago_exitoso(request):
+    """Vista para manejar pagos exitosos."""
+    return render(request, 'pago_exitoso.html')
+
+def pago_fallido(request):
+    """Vista para manejar pagos fallidos."""
+    return render(request, 'pago_fallido.html')
 
 # def generar_buy_order():
 #     return str(uuid.uuid4())

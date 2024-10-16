@@ -33,5 +33,9 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     # URL para la vista cuando la contraseña ha sido reseteada con éxito
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    # URL para la vistas de pago aceptado o rechazado
+    path('pago-exitoso/', views.pago_exitoso, name='pago_exitoso'),
+    path('pago-fallido/', views.pago_fallido, name='pago_fallido'),
+    path('pago-celular-bricks/', views.pago_celular_bricks, name='pago_celular_bricks'),
 ]
 

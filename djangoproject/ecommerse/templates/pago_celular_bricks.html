@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagar Celular</title>
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+</head>
+<body>
+    <h1>Compra de Celular</h1>
+    <p>Precio: 500,000 CLP</p>
+
+    <!-- Botón de Mercado Pago -->
+    <div id="checkout-btn"></div>
+
+    <script>
+        const mp = new MercadoPago('{{ mercado_pago_public_key }}', {locale: 'es-CL'});
+    
+        mp.checkout({
+            preference: {
+                id: '{{ preference_id }}' // Usamos la preference_id generada en la vista
+            },
+            render: {
+                container: '#checkout-btn', // Muestra el botón en este contenedor
+                label: 'Pagar con Mercado Pago', // Texto del botón
+            }
+        });
+    </script>
+
+    <a href="/">Volver al inicio</a>
+</body>
+</html>
