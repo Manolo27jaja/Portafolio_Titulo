@@ -16,6 +16,8 @@ class Producto(models.Model):
 
     def __str__(self):
         return f'{self.nombre} -> {self.precio}'
+#________________________________________________________        
+
 #___________________________________
 class UsuarioManager(BaseUserManager):
     def create_user(self, email, nombre, password=None, telefono=None):
@@ -59,3 +61,18 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         """Verifica si el usuario tiene permisos para ver una app específica."""
         return self.is_superuser  # Los superusuarios pueden ver todas las apps
 #_____________________________________________
+class Carrito(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)  # Relación con el modelo de Usuario
+    creado = models.DateTimeField(auto_now_add=True)  # Fecha de creación del carrito
+
+    def __str__(self):
+        return f'Carrito de {self.usuario.email}'
+class CarritoItem(models.Model):
+    carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE, related_name='items')  # Relación con el carrito
+    producto = models.ForeignKey('Producto', on_delete=models.CASCADE)  # Relación con el producto
+    cantidad = models.IntegerField(default=1)
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f'{self.cantidad} x {self.producto.nombre} en el carrito de {self.carrito.usuario.email}'    
+#_______________________________________________

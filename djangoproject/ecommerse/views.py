@@ -1,14 +1,15 @@
-from django.shortcuts import redirect, render, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render, HttpResponse
 # Bloque de importaciones del sistema login
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from .forms import RegistroForm, LoginForm
 from django.contrib import messages
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 # Bloque de importaciones del carrito
-from ecommerse.Carrito import Carrito
+from ecommerse.CarritoClass import CarritoClass
 # Bloque de importaciones del modelo de base de datos
-from ecommerse.models import Producto
+from ecommerse.models import Producto, Carrito, CarritoItem, Usuario
 from .models import Usuario
 import mercadopago
 from django.conf import settings
@@ -86,9 +87,31 @@ def home(request):
 #_________________________________________________
 
 def carrito(request):
-    producto_ids_1 = [1,2,3,4]  # Primer conjunto de productos
+    producto_ids_1 = [5]  # Primer conjunto de productos
     producto_d = Producto.objects.filter(id__in=producto_ids_1)
     return render(request, 'carrito.html', {"productos":producto_d})
+
+@login_required
+def guardar_carrito(request):
+    if request.method == 'POST':
+        # Recuperar el carrito desde la sesión
+        carrito_session = request.session.get('carrito', {})
+        if not carrito_session:
+            return redirect('home')  # Si no hay nada en el carrito, redirigir
+        # Crear un nuevo objeto de carrito en la base de datos
+        carrito = Carrito.objects.create(usuario=request.user)
+        # Guardar cada producto en CarritoItem
+        for key, value in carrito_session.items():
+            CarritoItem.objects.create(
+                carrito=carrito,
+                producto_id=value['producto_id'],
+                cantidad=value['cantidad'],
+                precio=value['acumulado'],
+            )
+        # Limpiar el carrito de la sesión después de guardarlo
+        request.session['carrito'] = {}
+        request.session.modified = True
+        return redirect('carrito')
     
 #_______________________________________________________
 
@@ -100,25 +123,26 @@ def read_ingreso(request):
     return render(request, 'inicio_sesion.html')
 
 def agregar_producto(request, producto_id):
-    carrito = Carrito(request)
+    carrito = CarritoClass(request)
+    #producto = get_object_or_404(Producto, id=producto_id)
     producto = Producto.objects.get(id=producto_id)
     carrito.agregar(producto)
     return redirect('carrito') #minuto 4:37 segunda parte del video
 
 def eliminar_producto(request, producto_id):
-    carrito = Carrito(request)
+    carrito = CarritoClass(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.eliminar(producto)
     return redirect('carrito')
 
 def restar_producto(request, producto_id):
-    carrito = Carrito(request)
+    carrito = CarritoClass(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.restar(producto)
     return redirect('carrito')
 
 def limpiar_carrito(request):
-    carrito = Carrito(request)
+    carrito = CarritoClass(request)
     carrito.limpiar()
     return redirect('carrito') 
 

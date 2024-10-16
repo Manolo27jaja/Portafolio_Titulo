@@ -26,10 +26,9 @@
                             <input class="form-control me-2 tamano_bus" type="search" placeholder="" aria-label="Search">
                             <button class="btn btn-outline-light" type="submit">Buscar</button>
                             <button onclick="changeColor(body)" class="btn btn-outline-light" type="submit">Modo Oscuro</button>
-                            <button onclick="changeColor(body)" class="btn btn-outline-light" type="submit">Modo Oscuro</button>
                         </form>
                     </div>
-                    <a href="">
+                    <a href="{% url 'carrito' %}">
                         <img src="{% static 'imagenes/carrito_white.png'%}" alt="" class="logo">
                     </a>
                     <div class="dropdown"></div>
@@ -58,9 +57,6 @@
                             </li>
                         </ul>
                     </div>
-                    <a href="{% static 'templates/inicio_sesion.html'%}" class="ancho_nav">
-                    <img src="{% static 'imagenes/Logo_usuario_cuenta.jpeg'%}" class="logo">
-                    </a>
                 </div>
             </div>
         </nav>
@@ -158,7 +154,7 @@
             </div>
         </div>
 <!--___________________Segunda tarjeta(giratoria)solo de prueba, se puede quitar_____________________-->
-        <div class="container">
+        <!--<div class="container">
             {% for producto in productos %}
             <div class="card">
                 <div class="face front">
@@ -177,7 +173,7 @@
             </div>
             {% endfor %}
         </div>
-    </div>
+    </div>-->
     <!--___________________________ Footer _______________________________-->
 <footer class="bg-light text-dark pt-5 pb-4">
     <div class="container text-center text-md-start">
