@@ -124,6 +124,7 @@
             </div>
         </nav>
 <!--___________________________termina el nav______________________________________-->
+<!-- Lista del carrito del usuario -->
     <div class="container">
         <div class="row">
             <div class="col-8">
@@ -152,6 +153,8 @@
             <div class="col-4">
                 {% include "carritoReal.html" %}
             </div>
+            <a href="{% url 'miCarrito' %}">Ver mi Carrito</a>
+
         </div>
 <!--___________________Segunda tarjeta(giratoria)solo de prueba, se puede quitar_____________________-->
         <!--<div class="container">

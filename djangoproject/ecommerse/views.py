@@ -82,6 +82,9 @@ def limpiar_carrito(request):
     carrito.limpiar()
     return redirect('carrito') 
 
+def miCarrito(request):
+    return render(request, 'miCarrito.html') 
+
 #_____________________________________________________
 
 def buscar(request):
@@ -143,6 +146,7 @@ def perfil(request):
 
 
 
+
 # def generar_buy_order():
 #     return str(uuid.uuid4())
 
@@ -150,3 +154,14 @@ def perfil(request):
 #     return str(uuid.uuid4())
 
 #____________________________________________________________
+
+def mostrar_carrito(request):
+    carrito = CarritoClass(request)
+    # Agregar el precio unitario calculado al carrito
+    for item in carrito.carrito.values():
+        item['precio_unitario'] = item['acumulado'] / item['cantidad'] if item['cantidad'] > 0 else 0
+
+    contexto = {
+        'carrito': carrito.carrito
+    }
+    return render(request, 'miCarrito.html', contexto)

@@ -16,6 +16,8 @@ urlpatterns = [
     path('eliminar/<int:producto_id>/', eliminar_producto, name="Del"),
     path('restar/<int:producto_id>/', restar_producto, name="Sub"),
     path('limpiar/', limpiar_carrito, name="CLS"),
+    #path('miCarrito/', views.miCarrito, name="miCarrito"),
+    path('miCarrito/', views.mostrar_carrito, name='miCarrito'),
     #Paths de Sistema Login
     path('registro/', views.registro, name='registro'),
     path('inicio_sesion/', views.inicio_sesion, name='inicio_sesion'),
