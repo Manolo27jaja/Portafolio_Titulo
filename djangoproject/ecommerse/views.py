@@ -10,7 +10,9 @@ from django.template.loader import render_to_string
 from ecommerse.CarritoClass import CarritoClass
 # Bloque de importaciones del modelo de base de datos
 from ecommerse.models import Producto, Carrito, CarritoItem, Usuario
-from .models import Usuario
+from .models import Usuario, Carrito
+
+
 
 def home(request):
     producto_ids_1 = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]  # Primer conjunto de productos
@@ -34,16 +36,13 @@ def home(request):
         "por_categorias_3": por_categorias_3  # Añade aquí la nueva categoría
     })
 
-
-
-
-
 #_________________________________________________
 
 def carrito(request):
-    producto_ids_1 = [5,4]  # Primer conjunto de productos
+    producto_ids_1 = [5, 4]  # Primer conjunto de productos
     producto_d = Producto.objects.filter(id__in=producto_ids_1)
-    return render(request, 'carrito.html', {"productos":producto_d})
+    return render(request, 'carrito.html', {"productos": producto_d})
+
 
 @login_required
 def guardar_carrito(request):
@@ -66,22 +65,17 @@ def guardar_carrito(request):
         request.session['carrito'] = {}
         request.session.modified = True
         return redirect('carrito')
-    
-#_______________________________________________________
 
-#____________________________________________________
-# def read_carrito(request):
-#     return render(request, 'carrito.html')
+#_______________________________________________________
 
 def read_ingreso(request):
     return render(request, 'inicio_sesion.html')
 
 def agregar_producto(request, producto_id):
     carrito = CarritoClass(request)
-    #producto = get_object_or_404(Producto, id=producto_id)
     producto = Producto.objects.get(id=producto_id)
     carrito.agregar(producto)
-    return redirect('carrito') #minuto 4:37 segunda parte del video
+    return redirect('carrito')
 
 def eliminar_producto(request, producto_id):
     carrito = CarritoClass(request)
@@ -107,17 +101,9 @@ def buscar(request):
     resultados = Producto.objects.filter(nombre__icontains=query) if query else Producto.objects.none()
     return render(request, 'buscar.html', {'resultados': resultados, 'query': query})
 
-#____________________________________________________
 # Metodos de sistema login
-
-#def home(request):
- #   return render(request, 'home.html')
-
-#____________________________________________________
-
 def modal(request):
-   return render(request, 'modal.html')
-
+    return render(request, 'modal.html')
 
 def registro(request):
     if request.method == 'POST':
@@ -155,14 +141,22 @@ def cerrar_sesion(request):
 def recuperar(request):
     return render(request, 'recuperar.html')
 
-
 def perfil(request):
     return render(request, 'perfil_usuario.html')
 
-# def generar_buy_order():
-#     return str(uuid.uuid4())
-
-# def generar_session_id():
-#     return str(uuid.uuid4())
-
 #____________________________________________________________
+
+
+def mostrar_producto_carrito(request):
+    # Obtiene todos los carritos para el usuario
+    carritos = Carrito.objects.filter(usuario=request.user)
+
+    if carritos.exists():
+        # Si hay carritos, selecciona el primero (puedes personalizar esta lógica)
+        carrito = carritos.first()
+        items = carrito.items.all()  # Obtiene todos los items del carrito
+    else:
+        items = []  # No hay items si no existe el carrito
+
+    return render(request, 'producto_carrito.html', {'items': items})
+

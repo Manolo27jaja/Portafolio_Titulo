@@ -3,9 +3,12 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 # Importa la libreria de dijango para hacer modelos de base de datos
 from django.db import models
+from django.utils import timezone 
+from django.shortcuts import render
 
 # Aqui se crea la base de datos
 # Crea la base de datos del carrito de compras, una base de datos basica para hacer funcionar funcionalidades.
+
 # Tabla producto
 class Producto(models.Model):
     nombre = models.CharField(max_length=64)
@@ -16,9 +19,10 @@ class Producto(models.Model):
 
     def __str__(self):
         return f'{self.nombre} -> {self.precio}'
+
 #________________________________________________________        
 
-#___________________________________
+
 class UsuarioManager(BaseUserManager):
     def create_user(self, email, nombre, password=None, telefono=None):
         if not email:
@@ -49,9 +53,8 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['nombre']
 
-    def _str_(self):
+    def __str__(self):
         return self.email
-
 
     def has_perm(self, perm, obj=None):
         """Verifica si el usuario tiene un permiso específico."""
@@ -60,19 +63,39 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     def has_module_perms(self, app_label):
         """Verifica si el usuario tiene permisos para ver una app específica."""
         return self.is_superuser  # Los superusuarios pueden ver todas las apps
+
 #_____________________________________________
+
 class Carrito(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)  # Relación con el modelo de Usuario
     creado = models.DateTimeField(auto_now_add=True)  # Fecha de creación del carrito
+    
 
     def __str__(self):
         return f'Carrito de {self.usuario.email}'
+
 class CarritoItem(models.Model):
     carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE, related_name='items')  # Relación con el carrito
     producto = models.ForeignKey('Producto', on_delete=models.CASCADE)  # Relación con el producto
     cantidad = models.IntegerField(default=1)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
-
+    
+    
     def __str__(self):
-        return f'{self.cantidad} x {self.producto.nombre} en el carrito de {self.carrito.usuario.email}'    
-#_______________________________________________
+        return f'{self.cantidad} x {self.producto.nombre} en el carrito de {self.carrito.usuario.email}'
+
+#_______________________________________________________________
+
+def mostrar_detalles_compra(request):
+    # Obtiene los productos del carrito
+    carritos = Carrito.objects.filter(usuario=request.user)
+    items = []
+
+    if carritos.exists():
+        carrito = carritos.first()
+        items = carrito.items.all()
+
+    # Establece un tiempo estimado de envío (puedes modificarlo según tu lógica)
+    tiempo_envio = "3-5 días hábiles"  # Esto es solo un ejemplo
+
+    return render(request, 'producto_carrito.html', {'items': items, 'tiempo_envio': tiempo_envio})
