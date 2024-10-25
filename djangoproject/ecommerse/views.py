@@ -82,8 +82,13 @@ def limpiar_carrito(request):
     carrito.limpiar()
     return redirect('carrito') 
 
+# def miCarrito(request):
+#     return render(request, 'miCarrito.html') 
+
 def miCarrito(request):
-    return render(request, 'miCarrito.html') 
+    carrito = CarritoClass(request)  # Instancia de la clase Carrito
+    return render(request, 'miCarrito.html', {'carrito': carrito.carrito})  # Pasar carrito al template
+
 
 #_____________________________________________________
 

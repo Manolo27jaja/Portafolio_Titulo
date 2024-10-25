@@ -3,6 +3,9 @@ from django.urls import path
 from ecommerse.views import agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, carrito, buscar, modal, guardar_carrito
 from ecommerse import views
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -16,7 +19,7 @@ urlpatterns = [
     path('eliminar/<int:producto_id>/', eliminar_producto, name="Del"),
     path('restar/<int:producto_id>/', restar_producto, name="Sub"),
     path('limpiar/', limpiar_carrito, name="CLS"),
-    #path('miCarrito/', views.miCarrito, name="miCarrito"),
+    path('miCarrito/', views.miCarrito, name="miCarrito"),
     path('miCarrito/', views.mostrar_carrito, name='miCarrito'),
     #Paths de Sistema Login
     path('registro/', views.registro, name='registro'),
@@ -35,3 +38,5 @@ urlpatterns = [
 
 ]
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

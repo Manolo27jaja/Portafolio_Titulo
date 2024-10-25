@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -148,3 +150,7 @@ DEFAULT_FROM_EMAIL = 'bastianmadrid72@gmail.com'  # Dirección de remitente por 
 LOGIN_URL = '/inicio_sesion/'
 
 #______
+
+# Para mostrar las imagenes en mi carrito
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

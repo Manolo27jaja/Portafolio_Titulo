@@ -1,5 +1,5 @@
 {% load static %}
-{% load carrito_extras %}
+{% load my_filters %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -160,34 +160,43 @@
         </div>
     </div> -->
     
-    <h1>Tu Carrito de Compras</h1>
-    
-    {% if carrito %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Precio Unitario</th>
-                    <th>Cantidad</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in carrito.values %}
-                    <tr>
-                        <td>{{ item.nombre }}</td>
-                        <td>${{ item.precio_unitario }}</td> <!-- Precio unitario -->
-                        <td>{{ item.cantidad }}</td>
-                        <td>${{ item.acumulado }}</td> <!-- Precio total -->
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="container mt-5">
+        <h1 class="mb-4">Carrito de Compras</h1>
         
-        <h3>Total: ${{ carrito|get_total_carrito }}</h3> <!-- Total del carrito -->
-    {% else %}
-        <p>Tu carrito está vacío.</p>
-    {% endif %}
+        {% if carrito %}
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Nombre del Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key, producto in carrito.items %}
+                        <tr>
+                            <!-- Columna para la imagen -->
+                            <td>
+                                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" width="100" class="img-fluid img-thumbnail">
+                            </td>
+                            <td>{{ producto.nombre }}</td>
+                            <td>{{ producto.cantidad }}</td>
+                            <td>${{ producto.acumulado|floatformat:2 }}</td>
+                            <td>${{ producto.cantidad|multiply:producto.acumulado|floatformat:2 }}</td>
+                            
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="alert alert-info">Tu carrito está vacío.</p>
+        {% endif %}
+    </div>
+    
+    
     <!-- Fin del contenido -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
