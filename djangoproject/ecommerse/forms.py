@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django import forms # Se importa el modulo de formularios de django, permite crear formularios personalizados
 from .models import Usuario # Se importa el modelo Usuario, este modelo representa al usuario en la base de datos
 from django.core.exceptions import ValidationError
@@ -25,6 +26,20 @@ class RegistroForm(forms.ModelForm): # La clase RegistroForm hereda de forms.Mod
         }
 
     def clean_confirmar_password(self): # Metodo para validar que los campos de contraseña y confirmar contraseña coincidan
+=======
+from django import forms
+from .models import Usuario
+
+class RegistroForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+    confirmar_password = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = Usuario
+        fields = ['nombre', 'email', 'telefono', 'password']
+
+    def clean_confirmar_password(self):
+>>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
         password = self.cleaned_data.get('password')
         confirmar_password = self.cleaned_data.get('confirmar_password')
 
@@ -32,6 +47,7 @@ class RegistroForm(forms.ModelForm): # La clase RegistroForm hereda de forms.Mod
             raise forms.ValidationError("Las contraseñas no coinciden")
         return confirmar_password
 
+<<<<<<< HEAD
     def clean_password(self): # Metodo la validar que la contraseña es correcta
         password = self.cleaned_data.get('password') # Obtiene la contraseña ingresada por el usuario
 
@@ -80,3 +96,9 @@ class CustomSetPasswordForm(SetPasswordForm):
         }
 
 
+=======
+
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
+>>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
