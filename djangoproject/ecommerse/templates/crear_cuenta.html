@@ -38,6 +38,20 @@
 <!-- Card creacion de cuenta-->
     
 <div class="card mb-3 top" style="width: 30%;">
+<<<<<<< HEAD
+    <div class="card-body">
+        <form method="post" class="form-group">
+            {% csrf_token %}
+            {{ form.as_p }} <!-- Usaremos Bootstrap para estilizar los campos luego -->
+            <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+        </form>
+        <div class="mt-3">
+            <img src="{% static 'imagenes/registro.jpeg' %}" alt="" class="img-fluid rounded-circle">
+        </div>
+    </div>
+</div>
+
+=======
     <div class="margen">
       <form method="post">
         {% csrf_token %}
@@ -49,6 +63,7 @@
       </div>
     </div>
   </div>
+>>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
   <!--Scripts-->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
