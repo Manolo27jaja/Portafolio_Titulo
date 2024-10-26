@@ -22,9 +22,8 @@ def home(request):
     return render(request, 'home.html', {"productos_1": productos_1, "productos_2": productos_2, "por_categorias_1": por_categorias_1, "por_categorias_2": por_categorias_2})
 #_________________________________________________
 
-def carrito(request):
-    producto_ids_1 = [5]  # Primer conjunto de productos
-    producto_d = Producto.objects.filter(id__in=producto_ids_1)
+def carritoid(request, producto_id):
+    producto_d = Producto.objects.filter(id=producto_id)
     return render(request, 'carrito.html', {"productos":producto_d})
 
 @login_required
@@ -47,7 +46,7 @@ def guardar_carrito(request):
         # Limpiar el carrito de la sesión después de guardarlo
         request.session['carrito'] = {}
         request.session.modified = True
-        return redirect('carrito')
+        return redirect('home')
     
 #_______________________________________________________
 
@@ -63,24 +62,24 @@ def agregar_producto(request, producto_id):
     #producto = get_object_or_404(Producto, id=producto_id)
     producto = Producto.objects.get(id=producto_id)
     carrito.agregar(producto)
-    return redirect('carrito') #minuto 4:37 segunda parte del video
+    return redirect('carritoid', producto_id=producto.id) #minuto 4:37 segunda parte del video
 
 def eliminar_producto(request, producto_id):
     carrito = CarritoClass(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.eliminar(producto)
-    return redirect('carrito')
+    return redirect('carritoid', producto_id=producto.id)
 
 def restar_producto(request, producto_id):
     carrito = CarritoClass(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.restar(producto)
-    return redirect('carrito')
+    return redirect('carritoid', producto_id=producto.id)
 
 def limpiar_carrito(request):
     carrito = CarritoClass(request)
     carrito.limpiar()
-    return redirect('carrito') 
+    return redirect('carritoid')
 
 #_____________________________________________________
 
