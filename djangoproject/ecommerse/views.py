@@ -82,6 +82,7 @@ def limpiar_carrito(request):
     carrito.limpiar()
     return redirect('carrito') 
 
+<<<<<<< HEAD
 # def miCarrito(request):
 #     return render(request, 'miCarrito.html') 
 
@@ -90,6 +91,8 @@ def miCarrito(request):
     return render(request, 'miCarrito.html', {'carrito': carrito.carrito})  # Pasar carrito al template
 
 
+=======
+>>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
 #_____________________________________________________
 
 def buscar(request):
@@ -111,6 +114,7 @@ def modal(request):
 
 def registro(request):
     if request.method == 'POST':
+<<<<<<< HEAD
         form = RegistroForm(request.POST) # Mediante esta linea de codigo se obtiene la info del formulario
         if form.is_valid():
             user = form.save(commit=False) # Si el formulario es valido, se crea un objeto en memoria de tipo usuario, pero no lo guarda en la base de datos
@@ -140,6 +144,37 @@ def inicio_sesion(request):
 
 def cerrar_sesion(request):
     logout(request) # Cierra la sesion del usuario
+=======
+        form = RegistroForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = RegistroForm()
+    return render(request, 'crear_cuenta.html', {'form': form})
+
+def inicio_sesion(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                messages.error(request, 'Email o contraseña incorrectos')
+    else:
+        form = LoginForm()
+    return render(request, 'inicio_sesion.html', {'form': form})
+
+def cerrar_sesion(request):
+    logout(request)
+>>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
     return redirect('home')
 
 def recuperar(request):
@@ -149,15 +184,19 @@ def recuperar(request):
 def perfil(request):
     return render(request, 'perfil_usuario.html')
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
 # def generar_buy_order():
 #     return str(uuid.uuid4())
 
 # def generar_session_id():
 #     return str(uuid.uuid4())
 
+<<<<<<< HEAD
 #____________________________________________________________
 
 def mostrar_carrito(request):
@@ -170,3 +209,6 @@ def mostrar_carrito(request):
         'carrito': carrito.carrito
     }
     return render(request, 'miCarrito.html', contexto)
+=======
+#____________________________________________________________
+>>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4

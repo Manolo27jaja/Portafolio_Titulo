@@ -19,6 +19,7 @@ class Producto(models.Model):
 #________________________________________________________        
 
 #___________________________________
+<<<<<<< HEAD
 class UsuarioManager(BaseUserManager): # Administracion personalizado para el modelo usuario, permite crear usuarios y superusuarios de manera mas sensilla
     def create_user(self, email, nombre, password, telefono): # El metodo crea un nuevo usuario con los 4 campos obligatorios
         if not email:
@@ -54,6 +55,37 @@ class Usuario(AbstractBaseUser, PermissionsMixin): # Definimos un modelo persona
 
     USERNAME_FIELD = 'email' # Se define el email como identificador principal
     REQUIRED_FIELDS = ['nombre','telefono'] # Se define que los campos adicionales son obligatorios (para el super usuario)
+=======
+class UsuarioManager(BaseUserManager):
+    def create_user(self, email, nombre, password=None, telefono=None):
+        if not email:
+            raise ValueError('El email es obligatorio')
+        email = self.normalize_email(email)
+        user = self.model(email=email, nombre=nombre, telefono=telefono)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, nombre, password=None):
+        user = self.create_user(email, nombre, password)
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db) 
+        return user
+
+class Usuario(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(unique=True, default='example@example.com')
+    nombre = models.CharField(max_length=30, default='Usuario')
+    telefono = models.CharField(max_length=15, blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
+    objects = UsuarioManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['nombre']
+>>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
 
     def _str_(self):
         return self.email
@@ -61,7 +93,11 @@ class Usuario(AbstractBaseUser, PermissionsMixin): # Definimos un modelo persona
 
     def has_perm(self, perm, obj=None):
         """Verifica si el usuario tiene un permiso específico."""
+<<<<<<< HEAD
         return self.is_superuser  # verifica si el usuario tiene permisos
+=======
+        return self.is_superuser  # Los superusuarios tienen todos los permisos
+>>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
 
     def has_module_perms(self, app_label):
         """Verifica si el usuario tiene permisos para ver una app específica."""
