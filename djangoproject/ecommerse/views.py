@@ -81,6 +81,17 @@ def limpiar_carrito(request):
     carrito.limpiar()
     return redirect('carritoid')
 
+<<<<<<< HEAD
+# def miCarrito(request):
+#     return render(request, 'miCarrito.html') 
+
+def miCarrito(request):
+    carrito = CarritoClass(request)  # Instancia de la clase Carrito
+    return render(request, 'miCarrito.html', {'carrito': carrito.carrito})  # Pasar carrito al template
+
+
+=======
+>>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
 #_____________________________________________________
 
 def buscar(request):
@@ -102,6 +113,37 @@ def modal(request):
 
 def registro(request):
     if request.method == 'POST':
+<<<<<<< HEAD
+        form = RegistroForm(request.POST) # Mediante esta linea de codigo se obtiene la info del formulario
+        if form.is_valid():
+            user = form.save(commit=False) # Si el formulario es valido, se crea un objeto en memoria de tipo usuario, pero no lo guarda en la base de datos
+            user.set_password(form.cleaned_data['password']) # Se cifra la contraseña para mayor seguridad
+            user.save() # Se guarda el usuario en la base de datos
+            login(request, user) # Se inicia la sesion del usuario
+            return redirect('home') # Re direcciona al home
+    else:
+        form = RegistroForm()
+    return render(request, 'crear_cuenta.html', {'form': form}) # Si el metodo de solicitud no es POST, se genera un formulario vacio
+
+def inicio_sesion(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST) # Si el metodo es POST se obtiene la info del formulario
+        if form.is_valid():
+            email = form.cleaned_data['email'] 
+            password = form.cleaned_data['password'] # Si el formulario es valido se obtiene el correo y la contraseña del usuario
+            user = authenticate(request, username=email, password=password) # se verifica si las credenciales son correctas 
+            if user is not None:
+                login(request, user) # Si las credenciales son validas, se inicia sesion y lo redirige al home
+                return redirect('home')
+            else:
+                messages.error(request, 'Email o contraseña incorrectos') # si las credenciales no son validas se envia un mensaje de error
+    else:
+        form = LoginForm()
+    return render(request, 'inicio_sesion.html', {'form': form}) # Si el metodo de solicitud no es POST, se genera un formulario vacio
+
+def cerrar_sesion(request):
+    logout(request) # Cierra la sesion del usuario
+=======
         form = RegistroForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
@@ -131,6 +173,7 @@ def inicio_sesion(request):
 
 def cerrar_sesion(request):
     logout(request)
+>>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
     return redirect('home')
 
 def recuperar(request):
@@ -140,10 +183,31 @@ def recuperar(request):
 def perfil(request):
     return render(request, 'perfil_usuario.html')
 
+<<<<<<< HEAD
+
+
+
+=======
+>>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
 # def generar_buy_order():
 #     return str(uuid.uuid4())
 
 # def generar_session_id():
 #     return str(uuid.uuid4())
 
+<<<<<<< HEAD
 #____________________________________________________________
+
+def mostrar_carrito(request):
+    carrito = CarritoClass(request)
+    # Agregar el precio unitario calculado al carrito
+    for item in carrito.carrito.values():
+        item['precio_unitario'] = item['acumulado'] / item['cantidad'] if item['cantidad'] > 0 else 0
+
+    contexto = {
+        'carrito': carrito.carrito
+    }
+    return render(request, 'miCarrito.html', contexto)
+=======
+#____________________________________________________________
+>>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
