@@ -29,7 +29,7 @@
                         <button onclick="changeColor(body)" class="btn btn-outline-light" type="submit">Modo Oscuro</button>
                     </form>
                 </div>
-                <a href="{% url 'carrito' %}">
+                <a href="#">
                     <img src="{% static 'imagenes/carrito_white.png'%}" alt="" class="logo">
                 </a>
                 <div class="dropdown"></div>
@@ -186,7 +186,7 @@
                     {% for producto in productos_1 %}
                     <div class="carrusel">
                         <div>
-                            <a href="/">
+                            <a href="{% url 'carritoid' producto.id %}">
                                 <h4><small>{{producto.nombre}}</small>${{producto.precio}}</h4>
                                 <picture>
                                     <img src="{% static 'imagenes/' %}{{ producto.imagen }}" alt="{{ producto.nombre }}">

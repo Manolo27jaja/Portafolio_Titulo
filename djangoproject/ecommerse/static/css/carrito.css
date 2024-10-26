@@ -1,161 +1,122 @@
-/*Navegador*/
-.logo{
-    width: 50px;
-    height: auto;
-    border-radius: 50%;
-    margin-left: 10px;
+/* Estilos generales */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
 }
 
-.ancho_nav{
-    width: auto;
+/* Contenedor principal */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/*__________________________*/
-body{
-    font-family: "Segoe UI", 'consolas';
-}
-.container{
-    flex-direction: row; /*| row-reverse | column | column-reverse*/
-} 
-.display-1{
-    background: #171818;
-    color: white;
-} 
-/*_____________________Tarjeta por defecto____________________*/
-img {
-    max-width: 100%;          /* Ajusta la imagen al ancho del contenedor */
-    height: 100px;             /* Mantiene la relación de aspecto */
-    border-radius: 10px;      /* Esquinas redondeadas */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Añade sombra para darle profundidad */
-    transition: transform 0.3s ease; /* Efecto de animación al hacer hover */
-}
-
-img:hover {
-    transform: scale(1.05);   /* Aumenta el tamaño al hacer hover */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Incrementa la sombra */
-}
-
-/*_______________________tarjetas giratorias____________________________*/
+/* Tarjeta de producto */
 .card {
-    position: relative;
-    width: 300px;
-    height: 350px;
-    margin: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
 }
 
-.card .face {
-    position:absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 10px;
-    overflow: hidden;
-    transition: .5s;
+.card:hover {
+  transform: scale(1.05);
 }
 
-.card .front {
-    transform: perspective(600px) rotateY(0deg);
-    box-shadow: 0 5px 10px #000;
+.card-body {
+  padding: 15px;
+  text-align: center;
 }
 
-.card .front img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
 }
 
-.card .front h3 {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 45px;
-    line-height: 45px;
-    color: #ece6e6;/*titulo del frente de la tarjeta*/
-    background: rgb(0,0,0,.4);
-    text-align: center;
+.card-text {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 15px;
 }
 
-.card .back {
-    transform: perspective(600px) rotateY(180deg);
-    background: rgb(5, 5, 6);
-    padding: 15px;
-    color: #faf9f9;/*Color de las ketras del back*/
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: center;
-    box-shadow: 0px 5px 10px #000;
+/* Imagen del producto */
+picture img {
+  width: 100%;
+  height: auto;
+  max-height: 150px; /* Altura máxima para la imagen */
+  object-fit: cover;
 }
 
-.card .back .link{
-    border-top: solid 1px #f7f4f4;
-    height: 50px;
-    line-height: 50px;
+/* Botón */
+.btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 10px;
+  transition: background-color 0.3s ease-in-out;
 }
 
-.card .back .link a {
-    color: #ede6e6;
+.btn:hover {
+  background-color: #0056b3;
 }
 
-.card .back h3 {
-    font-size: 30px;
-    margin-top: 20px;
-    letter-spacing: 2px;
+/* Diseño de la disposición */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
 }
 
-.card .back p {
-    letter-spacing: 1px;
+.col-8, .col-4, .col-12, .col-6 {
+  padding-right: 15px;
+  padding-left: 15px;
 }
 
-.card:hover .front {
-    transform: perspective(600px) rotateY(180deg);   
+.col-8 {
+  width: 66.67%;
 }
 
-.card:hover .back {
-    transform: perspective(600px) rotateY(360deg);   
+.col-4 {
+  width: 33.33%;
 }
 
-/*____________________________________________________________*/
-
-
-
-
-
-
-/*_______________________________________________________________*/
-
-/* Footer */
-.navbar-nav .nav-link:hover {
-    color:peru ;
+.col-12 {
+  width: 100%;
 }
 
-.margen{
-    margin: 5%;
+.col-6 {
+  width: 50%;
 }
 
-.logo_2{
-    width: 50px;
-    height: auto;
-    border-radius: 50%;
+/* Responsividad */
+@media only screen and (max-width: 768px) {
+  .col-8, .col-4 {
+      width: 100%;
+  }
+  
+  .card {
+      margin-bottom: 20px;
+  }
 }
 
-.ancho_foot{
-    width: max-content;
-}
-
-footer{
-    width: 100%;
-}
-
-.tamano_bus{
-    width: 400px;
-}
-
-.alto_nav{
-    height: 35px;
-}
-
-.nav-link{
-    color: black;
+@media only screen and (max-width: 576px) {
+  .col-6 {
+      width: 100%;
+  }
+  
+  .btn {
+      width: 100%;
+  }
 }

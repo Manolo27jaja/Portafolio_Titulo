@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from ecommerse.views import agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, carrito, buscar, modal, guardar_carrito
+from ecommerse.views import agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito, carritoid
 from ecommerse import views
 from django.contrib.auth import views as auth_views
 
@@ -9,7 +9,7 @@ urlpatterns = [
     path('buscar/', buscar, name='buscar'),
     path('', home, name='home'),
     path('modal/', modal, name='modal'),
-    path('carrito/', carrito, name='carrito'),
+    path('carritoid/<int:producto_id>/', carritoid, name='carritoid'),
     path('guardar_carrito/', guardar_carrito, name='guardar_carrito'),
     #Paths de Carrito de compras
     path('agregar/<int:producto_id>/', agregar_producto, name="Add"),
