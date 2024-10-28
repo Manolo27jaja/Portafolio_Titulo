@@ -1,0 +1,182 @@
+.card {
+    position: relative;
+    width: 300px;
+    height: 350px;
+    margin: 20px;
+}
+
+.card .face {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: .5s;
+}
+
+.card .front {
+    transform: perspective(600px) rotateY(0deg);
+    box-shadow: 0 5px 10px #000;
+}
+
+.card .front img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card .front h3 {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+    color: #ece6e6;/*titulo del frente de la tarjeta*/
+    background: rgb(0,0,0,.4);
+    text-align: center;
+}
+
+.card .back {
+    transform: perspective(600px) rotateY(180deg);
+    background: rgb(5, 5, 6);
+    padding: 15px;
+    color: #faf9f9;/*Color de las ketras del back*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    box-shadow: 0px 5px 10px #000;
+}
+
+.card .back .link{
+    border-top: solid 1px #f7f4f4;
+    height: 50px;
+    line-height: 50px;
+}
+
+.card .back .link a {
+    color: #ede6e6;
+}
+
+.card .back h3 {
+    font-size: 30px;
+    margin-top: 20px;
+    letter-spacing: 2px;
+}
+
+.card .back p {
+    letter-spacing: 1px;
+}
+
+.card:hover .front {
+    transform: perspective(600px) rotateY(180deg);   
+}
+
+.card:hover .back {
+    transform: perspective(600px) rotateY(360deg);   
+}
+
+
+
+________________________________________________________________________
+
+
+
+.product-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.product-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.product-details {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.product-title {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.product-description {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.product-price {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #28a745;
+}
+
+form {
+    margin-top: 20px;
+}
+
+#cantidad {
+    padding: 5px;
+    font-size: 1.1em;
+    width: 60px;
+    margin-right: 10px;
+}
+
+.btn-add-cart {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-add-cart:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos responsivos */
+@media (min-width: 768px) {
+    .product-container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .product-details {
+        text-align: left;
+        margin-left: 20px;
+        flex: 1;
+    }
+
+    .product-image {
+        max-width: 50%;
+    }
+}
+
+img {
+    max-width: 100%;          /* Ajusta la imagen al ancho del contenedor */
+    height: 100px;             /* Mantiene la relación de aspecto */
+    border-radius: 10px;      /* Esquinas redondeadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Añade sombra para darle profundidad */
+    transition: transform 0.3s ease; /* Efecto de animación al hacer hover */
+}
+
+img:hover {
+    transform: scale(1.05);   /* Aumenta el tamaño al hacer hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Incrementa la sombra */
+}
