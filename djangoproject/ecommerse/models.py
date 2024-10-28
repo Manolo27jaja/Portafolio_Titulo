@@ -1,10 +1,12 @@
 # Abstract es para usar los campos creados en la base de datos por el desarrollador y no por django
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.conf import settings  # Importa settings
 
 # Importa la libreria de dijango para hacer modelos de base de datos
 from django.db import models
 from django.utils import timezone 
 from django.shortcuts import render
+
 
 # Aqui se crea la base de datos
 # Crea la base de datos del carrito de compras, una base de datos basica para hacer funcionar funcionalidades.
@@ -85,6 +87,18 @@ class CarritoItem(models.Model):
         return f'{self.cantidad} x {self.producto.nombre} en el carrito de {self.carrito.usuario.email}'
 
 #_______________________________________________________________
+    
+
+    
+class ListaDeseados(models.Model):
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('usuario', 'producto')  # Para evitar duplicado
+
+
+        
 
 def mostrar_detalles_compra(request):
     # Obtiene los productos del carrito
@@ -99,3 +113,14 @@ def mostrar_detalles_compra(request):
     tiempo_envio = "3-5 días hábiles"  # Esto es solo un ejemplo
 
     return render(request, 'producto_carrito.html', {'items': items, 'tiempo_envio': tiempo_envio})
+
+
+
+
+
+class ListaDeseados(models.Model):
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('usuario', 'producto')  # Para evitar duplicado

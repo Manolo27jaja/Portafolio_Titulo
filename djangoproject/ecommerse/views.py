@@ -10,7 +10,7 @@ from django.template.loader import render_to_string
 from ecommerse.CarritoClass import CarritoClass
 # Bloque de importaciones del modelo de base de datos
 from ecommerse.models import Producto, Carrito, CarritoItem, Usuario
-from .models import Usuario, Carrito
+from .models import Usuario, Carrito , ListaDeseados
 
 
 
@@ -37,6 +37,9 @@ def home(request):
     })
 
 #_________________________________________________
+
+
+
 
 def carrito(request):
     producto_ids_1 = [5, 4]  # Primer conjunto de productos
@@ -160,3 +163,36 @@ def mostrar_producto_carrito(request):
 
     return render(request, 'producto_carrito.html', {'items': items})
 
+
+
+
+
+
+
+@login_required
+def agregar_deseado(request, producto_id):
+    print(f"Usuario autenticado: {request.user.is_authenticated}")  # Verifica si el usuario está autenticado
+    producto = get_object_or_404(Producto, id=producto_id)
+    deseado, created = ListaDeseados.objects.get_or_create(usuario=request.user, producto=producto)
+
+    if created:
+        messages.success(request, f'¡Has añadido {producto.nombre} a tus deseados!')
+    else:
+        messages.info(request, f'{producto.nombre} ya está en tu lista de deseados.')
+    
+    return redirect('ver_deseados')
+
+@login_required
+def eliminar_deseado(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    ListaDeseados.objects.filter(usuario=request.user, producto=producto).delete()
+    return redirect('ver_deseados')
+
+
+@login_required
+def ver_deseados(request):
+    productos_deseados = ListaDeseados.objects.filter(usuario=request.user).select_related('producto')
+    return render(request, 'deseados.html', {'productos_deseados': productos_deseados})
+
+def deseados(request):
+    return render(request, 'deseados.html')

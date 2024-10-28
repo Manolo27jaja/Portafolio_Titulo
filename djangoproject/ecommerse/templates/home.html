@@ -33,7 +33,12 @@
                         <input class="form-control me-2 tamano_bus" type="text" name="q" placeholder="Buscar productos..." aria-label="Search" style="width: 500px;">
                         <button class="btn btn-outline-light" type="submit">Buscar</button>
                     </form>
-                </div>
+                </div> 
+                
+                <a href="{% url 'deseados' %}">
+                    <img src="{% static 'imagenes/deseados_white.png' %}" alt="Deseados" class="logo">
+                </a>
+                
                 <a href="{% url 'carrito' %}">
                     <img src="{% static 'imagenes/carrito_white.png' %}" alt="Carrito" class="logo">
                 </a>
@@ -60,6 +65,7 @@
                                 <img src="{% static 'imagenes/cerrar_sesion_icono.png' %}" alt="Cerrar sesión" style="width: 20px; margin-right: 8px;">
                                 Cerrar Sesión
                             </a>
+                            
                         </li>
                     </ul>
                 </div>
@@ -297,23 +303,27 @@
 
 
 <!-- _______________________________Tarjetas______________________________________-->
-    <div class="container" id="tarjetas_margen">
-        {% for producto in por_categorias_1 %}
-        <div class="card">
-            <figure>
-                <img src="{% static 'imagenes/' %}{{ producto.imagen }}" alt="{{ producto.nombre }}">
-            </figure>
-            <div class="content">
-                <h3>{{producto.nombre}}</h3>
-                <p>{{producto.precio}}</p>
-                <a href="#">Añadir al Carrito</a>
-            </div>
-        </div> 
-        {% endfor %} 
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<div class="container" id="tarjetas_margen">
+    {% for producto in por_categorias_1 %}
+    <div class="card">
+        <figure>
+            <img src="{% static 'imagenes/' %}{{ producto.imagen }}" alt="{{ producto.nombre }}">
+        </figure>
+        <div class="content">
+            <h3>{{ producto.nombre }}</h3>
+            <p>${{ producto.precio }}</p>
+            <a href="#">Añadir al Carrito</a>
+            <!-- Botón para agregar a Deseados -->
+            <form action="{% url 'agregar_deseado' producto.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary">Agregar a Deseados</button>
+            </form>
+        </div>
+    </div> 
+    {% endfor %} 
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
-
 
 
  <!-- marcaaas-->
