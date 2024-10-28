@@ -1,10 +1,18 @@
 from django.contrib import admin
 from django.urls import path
+<<<<<<< HEAD
 <<<<<<< HEAD:djangoproject/portafolio/urls.py
 from ecommerse.views import agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, carrito, buscar, modal, guardar_carrito ,agregar_deseado,  eliminar_deseado , mostrar_producto_carrito   # Importa la nueva vista
 =======
 from ecommerse.views import agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito, carritoid
 >>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/portafolio/urls.py
+=======
+<<<<<<<< HEAD:djangoproject/portafolio/urls.py
+from ecommerse.views import agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, carrito, buscar, modal, guardar_carrito ,agregar_deseado,  eliminar_deseado , mostrar_producto_carrito   # Importa la nueva vista
+========
+from ecommerse.views import agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito, carritoid
+>>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/portafolio/urls.py
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a
 from ecommerse import views
 from django.contrib.auth import views as auth_views
 <<<<<<< HEAD
@@ -26,13 +34,21 @@ urlpatterns = [
     path('eliminar/<int:producto_id>/', eliminar_producto, name="Del"),
     path('restar/<int:producto_id>/', restar_producto, name="Sub"),
     path('limpiar/', limpiar_carrito, name="CLS"),
+<<<<<<< HEAD
 <<<<<<< HEAD:djangoproject/portafolio/urls.py
+=======
+<<<<<<<< HEAD:djangoproject/portafolio/urls.py
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a
     # Paths de Sistema Login
     path('registro/', views.registro, name='registro'),
     path('inicio_sesion/', views.inicio_sesion, name='inicio_sesion'),
     path('cerrar_sesion/', views.cerrar_sesion, name='cerrar_sesion'),
     path('read_sesion/', views.read_ingreso, name='read_ingreso'),
+<<<<<<< HEAD
 =======
+=======
+========
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a
 <<<<<<< HEAD
     path('miCarrito/', views.miCarrito, name="miCarrito"),
     path('miCarrito/', views.mostrar_carrito, name='miCarrito'),
@@ -59,7 +75,11 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 =======
+<<<<<<< HEAD
 >>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/portafolio/urls.py
+=======
+>>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/portafolio/urls.py
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a
     path('recuperar/', views.recuperar, name='recuperar'),
     # Paths para recuperar contraseña
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
@@ -79,6 +99,7 @@ if settings.DEBUG:
 
 ]
 
+<<<<<<< HEAD
 <<<<<<< HEAD:djangoproject/portafolio/urls.py
 
 
@@ -86,3 +107,12 @@ if settings.DEBUG:
 =======
 >>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
 >>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/portafolio/urls.py
+=======
+<<<<<<<< HEAD:djangoproject/portafolio/urls.py
+
+
+
+========
+>>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
+>>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/portafolio/urls.py
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a

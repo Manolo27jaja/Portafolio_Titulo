@@ -39,14 +39,24 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ecommerse',
+<<<<<<< HEAD
 <<<<<<< HEAD:djangoproject/portafolio/settings.py
     
 =======
+=======
+<<<<<<<< HEAD:djangoproject/portafolio/settings.py
+    
+========
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a
 <<<<<<< HEAD
     'widget_tweaks'
 =======
 >>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
+<<<<<<< HEAD
 >>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/portafolio/settings.py
+=======
+>>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/portafolio/settings.py
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a
 ]
 
 MIDDLEWARE = [

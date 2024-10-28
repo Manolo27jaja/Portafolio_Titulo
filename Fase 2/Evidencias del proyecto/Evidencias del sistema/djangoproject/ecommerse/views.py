@@ -38,7 +38,11 @@ def home(request):
 
 #_________________________________________________
 
+<<<<<<< HEAD
 <<<<<<< HEAD:djangoproject/ecommerse/views.py
+=======
+<<<<<<<< HEAD:djangoproject/ecommerse/views.py
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a
 
 
 
@@ -47,11 +51,19 @@ def carrito(request):
     producto_d = Producto.objects.filter(id__in=producto_ids_1)
     return render(request, 'carrito.html', {"productos": producto_d})
 
+<<<<<<< HEAD
 =======
 def carritoid(request, producto_id):
     producto_d = Producto.objects.filter(id=producto_id)
     return render(request, 'carrito.html', {"productos":producto_d})
 >>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/ecommerse/views.py
+=======
+========
+def carritoid(request, producto_id):
+    producto_d = Producto.objects.filter(id=producto_id)
+    return render(request, 'carrito.html', {"productos":producto_d})
+>>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/ecommerse/views.py
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a
 
 @login_required
 def guardar_carrito(request):
@@ -73,6 +85,7 @@ def guardar_carrito(request):
         # Limpiar el carrito de la sesión después de guardarlo
         request.session['carrito'] = {}
         request.session.modified = True
+<<<<<<< HEAD
 <<<<<<< HEAD:djangoproject/ecommerse/views.py
         return redirect('carrito')
 =======
@@ -80,6 +93,15 @@ def guardar_carrito(request):
     
 #_______________________________________________________
 >>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/ecommerse/views.py
+=======
+<<<<<<<< HEAD:djangoproject/ecommerse/views.py
+        return redirect('carrito')
+========
+        return redirect('home')
+    
+#_______________________________________________________
+>>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/ecommerse/views.py
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a
 
 #_______________________________________________________
 
@@ -90,11 +112,19 @@ def agregar_producto(request, producto_id):
     carrito = CarritoClass(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.agregar(producto)
+<<<<<<< HEAD
 <<<<<<< HEAD:djangoproject/ecommerse/views.py
     return redirect('carrito')
 =======
     return redirect('carritoid', producto_id=producto.id) #minuto 4:37 segunda parte del video
 >>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/ecommerse/views.py
+=======
+<<<<<<<< HEAD:djangoproject/ecommerse/views.py
+    return redirect('carrito')
+========
+    return redirect('carritoid', producto_id=producto.id) #minuto 4:37 segunda parte del video
+>>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/ecommerse/views.py
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a
 
 def eliminar_producto(request, producto_id):
     carrito = CarritoClass(request)
@@ -206,9 +236,15 @@ def recuperar(request):
 def perfil(request):
     return render(request, 'perfil_usuario.html')
 
+<<<<<<< HEAD
 <<<<<<< HEAD:djangoproject/ecommerse/views.py
 #____________________________________________________________
 =======
+=======
+<<<<<<<< HEAD:djangoproject/ecommerse/views.py
+#____________________________________________________________
+========
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a
 <<<<<<< HEAD
 
 
@@ -217,10 +253,17 @@ def perfil(request):
 >>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
 # def generar_buy_order():
 #     return str(uuid.uuid4())
+<<<<<<< HEAD
 >>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/ecommerse/views.py
 
 
 <<<<<<< HEAD:djangoproject/ecommerse/views.py
+=======
+>>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/ecommerse/views.py
+
+
+<<<<<<<< HEAD:djangoproject/ecommerse/views.py
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a
 def mostrar_producto_carrito(request):
     # Obtiene todos los carritos para el usuario
     carritos = Carrito.objects.filter(usuario=request.user)
@@ -267,7 +310,11 @@ def ver_deseados(request):
 
 def deseados(request):
     return render(request, 'deseados.html')
+<<<<<<< HEAD
 =======
+=======
+========
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a
 <<<<<<< HEAD
 #____________________________________________________________
 
@@ -284,4 +331,8 @@ def mostrar_carrito(request):
 =======
 #____________________________________________________________
 >>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
+<<<<<<< HEAD
 >>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/ecommerse/views.py
+=======
+>>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/ecommerse/views.py
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a

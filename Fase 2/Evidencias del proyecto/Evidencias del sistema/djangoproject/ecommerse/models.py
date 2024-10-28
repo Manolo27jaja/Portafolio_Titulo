@@ -24,9 +24,15 @@ class Producto(models.Model):
 
 #________________________________________________________        
 
+<<<<<<< HEAD
 <<<<<<< HEAD:djangoproject/ecommerse/models.py
 
 =======
+=======
+<<<<<<<< HEAD:djangoproject/ecommerse/models.py
+
+========
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a
 #___________________________________
 <<<<<<< HEAD
 class UsuarioManager(BaseUserManager): # Administracion personalizado para el modelo usuario, permite crear usuarios y superusuarios de manera mas sensilla
@@ -65,7 +71,11 @@ class Usuario(AbstractBaseUser, PermissionsMixin): # Definimos un modelo persona
     USERNAME_FIELD = 'email' # Se define el email como identificador principal
     REQUIRED_FIELDS = ['nombre','telefono'] # Se define que los campos adicionales son obligatorios (para el super usuario)
 =======
+<<<<<<< HEAD
 >>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/ecommerse/models.py
+=======
+>>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/ecommerse/models.py
+>>>>>>> 72e7c0c2bc4e0a695a307a2a0a61796b08eb308a
 class UsuarioManager(BaseUserManager):
     def create_user(self, email, nombre, password=None, telefono=None):
         if not email:
