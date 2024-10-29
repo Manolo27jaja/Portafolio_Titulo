@@ -44,15 +44,9 @@
                   <div class="form-floating mb-3">
                     {% csrf_token %}
                     {{ form.as_p }}
-<<<<<<< HEAD
                     <button type="submit" class="btn btn-primary">Iniciar sesión</button>
                     <p>¿A olvidado su contraseña? <a href="{% url 'password_reset'%}">¡Recuperela!</a></p>
                     <p>¿No esta registrado? <a href="{% url 'registro'%}">¡Registrate!</a></p>
-=======
-                    <button type="submit">Iniciar sesión</button>
-                    <p>¿A olvidado su contraseña? <a href="{% url 'recuperar'%}">¡Recuperela!</a></p>
-                    <p>¿A olvidado su contraseña? <a href="{% url 'registro'%}">¡Registrate!</a></p>
->>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
                   </div>
                 </form>
                 <div class="mb-3">
