@@ -39,10 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ecommerse',
-<<<<<<< HEAD
     'widget_tweaks'
-=======
->>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
 ]
 
 MIDDLEWARE = [
@@ -60,11 +57,7 @@ ROOT_URLCONF = 'portafolio.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-<<<<<<< HEAD
         'DIRS': [BASE_DIR / 'templates'],
-=======
-        'DIRS': [],
->>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -90,7 +83,7 @@ DATABASES = {
         'NAME': 'mpagency',
         'USER': 'root',
         'PASSWORD': '',
-        'HOST': 'Localhost',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }
@@ -118,11 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-<<<<<<< HEAD
 LANGUAGE_CODE = 'es'
-=======
-LANGUAGE_CODE = 'en-us'
->>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
 
 TIME_ZONE = 'UTC'
 
@@ -135,10 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-<<<<<<< HEAD
 STATICFILES_DIRS = [BASE_DIR / 'ecommerse' / 'static']
-=======
->>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -150,19 +136,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'ecommerse.Usuario'
 # settings.py
 
-<<<<<<< HEAD
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # Se define el backend que utilizara django para enviar correos, El SMTP (Simple Mail Transfer Protocol) es el protocolo estándar para enviar correos electrónicos.
 EMAIL_HOST = 'smtp-relay.brevo.com'  # SMTP server de Brevo, este sera el servicio de correo electronico 
 EMAIL_PORT = 587  # Puerto 587 es para TLS (Transport Layer Security), protocolo de cifrado que asegura la comunicación entre la aplicación y el servidor de correo.
 EMAIL_USE_TLS = True  # Activar TLS
 EMAIL_HOST_USER = 'bastianmadrid72@gmail.com'  # correo registrado en Brevo, este corre envia los email al usuario que quiera cambiar la contraseña
-=======
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp-relay.brevo.com'  # SMTP server de Brevo
-EMAIL_PORT = 587  # Puerto 587 es para TLS
-EMAIL_USE_TLS = True  # Activar TLS
-EMAIL_HOST_USER = 'bastianmadrid72@gmail.com'  # Tu correo registrado en Brevo (como aparece en la imagen)
->>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
 EMAIL_HOST_PASSWORD = 'B19hYzSrVXqcjdD3'  # La clave SMTP que generaste en Brevo
 DEFAULT_FROM_EMAIL = 'bastianmadrid72@gmail.com'  # Dirección de remitente por defecto
 
@@ -170,12 +148,8 @@ DEFAULT_FROM_EMAIL = 'bastianmadrid72@gmail.com'  # Dirección de remitente por 
 
 LOGIN_URL = '/inicio_sesion/'
 
-<<<<<<< HEAD
 #______
 
 # Para mostrar las imagenes en mi carrito
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-=======
-#______
->>>>>>> 02e8b3697dcc47d645419c7bd46c834e358461b4
