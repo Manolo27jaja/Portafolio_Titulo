@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 # Importa la libreria de dijango para hacer modelos de base de datos
 from django.db import models
+from django.conf import settings
 
 # Aqui se crea la base de datos
 # Crea la base de datos del carrito de compras, una base de datos basica para hacer funcionar funcionalidades.
@@ -82,3 +83,13 @@ class CarritoItem(models.Model):
     def __str__(self):
         return f'{self.cantidad} x {self.producto.nombre} en el carrito de {self.carrito.usuario.email}'    
 #_______________________________________________
+    
+
+
+# para los deseados
+class ListaDeseados(models.Model):
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('usuario', 'producto')

@@ -9,8 +9,9 @@ from django.template.loader import render_to_string
 # Bloque de importaciones del carrito
 from ecommerse.CarritoClass import CarritoClass
 # Bloque de importaciones del modelo de base de datos
-from ecommerse.models import Producto, Carrito, CarritoItem, Usuario
+from ecommerse.models import Producto, Carrito, CarritoItem, Usuario ,ListaDeseados
 from .models import Usuario
+from django.db.models import Q # esto es para buscar en django mas especifico dicen 
 
 def detalle_producto(request):
     d_p = [1]
@@ -94,10 +95,17 @@ def miCarrito(request):
     return render(request, 'miCarrito.html', {'carrito': carrito.carrito})  # Pasar carrito al template
 #_____________________________________________________
 
+
+#_______________buscar corregido______________________________________
+
 def buscar(request):
-    query = request.GET.get('q', '')  # Obtener el término de búsqueda desde la URL
-    resultados = Producto.objects.filter(nombre__icontains=query) if query else Producto.objects.none()
+    query = request.GET.get('q', '')  
+    if query:
+        resultados = Producto.objects.filter(Q(nombre__icontains=query) | Q(categoria__icontains=query))
+    else:
+        resultados = Producto.objects.none()
     return render(request, 'buscar.html', {'resultados': resultados, 'query': query})
+
 
 #____________________________________________________
 # Metodos de sistema login
@@ -170,4 +178,38 @@ def mostrar_carrito(request):
     }
     return render(request, 'miCarrito.html', contexto)
 
-#____________________________________________________________
+#__________MIS DESEADOS________________________________________
+
+@login_required
+def agregar_deseado(request, producto_id):
+    print(f"Usuario autenticado: {request.user.is_authenticated}")  # Verifica si el usuario está autenticado
+    producto = get_object_or_404(Producto, id=producto_id)
+    deseado, created = ListaDeseados.objects.get_or_create(usuario=request.user, producto=producto)
+
+    if created:
+        messages.success(request, f'¡Has añadido {producto.nombre} a tus deseados!')
+    else:
+        messages.info(request, f'{producto.nombre} ya está en tu lista de deseados.')
+    
+    return redirect('ver_deseados')
+
+@login_required
+def eliminar_deseado(request, deseado_id):
+    # Busca el objeto ListaDeseados por su ID
+    deseado = get_object_or_404(ListaDeseados, id=deseado_id, usuario=request.user)
+    deseado.delete()
+    messages.success(request, '¡Producto eliminado de la lista de deseados!')
+    return redirect('ver_deseados')
+
+
+
+@login_required
+def ver_deseados(request):
+    productos_deseados = ListaDeseados.objects.filter(usuario=request.user).select_related('producto')
+    return render(request, 'deseados.html', {'productos_deseados': productos_deseados})
+
+def deseados(request):
+    return render(request, 'deseados.html')
+
+
+#-----------------------------------------------
