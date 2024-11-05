@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from ecommerse.views import detalle_producto, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito, carritoid
+from ecommerse.views import detalle_producto, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito, carritoid , eliminar_deseado
 from ecommerse import views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
@@ -35,6 +35,13 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm_custom.html'), name='password_reset_confirm'),
     # URL para la vista cuando la contraseña ha sido reseteada con éxito
     path('reset_done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete_custom.html'), name='password_reset_complete'),
+
+
+    # URL PARA deseados 
+    path('deseados/', views.ver_deseados, name='ver_deseados'),  
+    path('agregar_deseado/<int:producto_id>/', views.agregar_deseado, name='agregar_deseado'),
+    path('deseados/', views.deseados, name='deseados'),
+    path('eliminar_deseado/<int:deseado_id>/', eliminar_deseado, name='eliminar_deseado'),
 
 ]
 
