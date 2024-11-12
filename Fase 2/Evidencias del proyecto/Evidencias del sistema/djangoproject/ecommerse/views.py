@@ -213,3 +213,91 @@ def deseados(request):
 
 
 #-----------------------------------------------
+
+#------------PARA HACER INGRESO DE PRODUCTOS AL DASHBOARD----------------------------
+
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
+from .models import Producto
+from .forms import ProductoForm
+
+# Decorador para permitir solo a administradores
+def admin_required(view_func):
+    return user_passes_test(lambda u: u.is_staff)(view_func)
+
+@admin_required
+def dashboard_admin(request):
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, '¡Producto agregado exitosamente!')
+            return redirect('dashboard_admin')
+    else:
+        form = ProductoForm()
+    
+    productos = Producto.objects.all()
+    context = {
+        'form': form,
+        'productos': productos
+    }
+    return render(request, 'dashboard_admin.html', context)
+
+
+
+def editar_producto(request, producto_id):
+    # Obtén el producto a editar
+    producto = get_object_or_404(Producto, id=producto_id)
+
+    # Si el formulario fue enviado con el método POST
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES, instance=producto)
+        if form.is_valid():
+            form.save()  # Guarda los cambios
+            messages.success(request, "¡Producto actualizado con éxito!")  
+            return redirect('dashboard_admin')  
+    else:
+        form = ProductoForm(instance=producto)  
+
+    return render(request, 'editar_producto.html', {'form': form, 'producto': producto})
+
+
+
+
+
+@admin_required
+def eliminar_producto(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    
+    if request.method == 'POST':
+        producto.delete()  # Elimina el producto
+        messages.success(request, "Producto eliminado con éxito.")  
+        return redirect('dashboard_admin') 
+    
+    context = {
+        'producto': producto
+    }
+    return render(request, 'eliminar_producto.html', context)
+
+
+
+
+#------------PARA HACER DASHBOARD GRAFICO----------------------------
+
+from django.shortcuts import render
+from django.db.models import Sum
+from .models import Producto, CarritoItem
+
+def dashboard_graficos(request):
+    # Obtenemos el total vendido por categoría
+    ventas_por_categoria = CarritoItem.objects.values('producto__categoria') \
+        .annotate(total_vendido=Sum('cantidad')) \
+        .order_by('-total_vendido')
+
+    print(ventas_por_categoria)  
+
+    # Pasamos los datos al template
+    return render(request, 'dashboard_graficos.html', {'ventas_por_categoria': ventas_por_categoria})
+

@@ -80,4 +80,17 @@ class CustomSetPasswordForm(SetPasswordForm):
             'password_entirely_numeric': 'La contraseña no puede ser solo numérica.'
         }
 
+from django import forms
+from .models import Producto
 
+class ProductoForm(forms.ModelForm):
+    class Meta:
+        model = Producto
+        fields = ['nombre', 'categoria', 'precio', 'descripcion', 'imagen']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'dashboard-input'}),
+            'categoria': forms.TextInput(attrs={'class': 'dashboard-input'}),  # Asegúrate de que sea Select si es un dropdown
+            'precio': forms.NumberInput(attrs={'class': 'dashboard-input'}),
+            'descripcion': forms.Textarea(attrs={'class': 'dashboard-input dashboard-textarea'}),
+            'imagen': forms.FileInput(attrs={'class': 'dashboard-input'}),
+        }

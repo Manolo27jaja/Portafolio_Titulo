@@ -93,3 +93,19 @@ class ListaDeseados(models.Model):
 
     class Meta:
         unique_together = ('usuario', 'producto')
+
+
+#_______________________________________________
+    
+
+# para dashboard ventas
+
+
+
+class Venta(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Venta de {self.usuario.nombre} por ${self.total}'
