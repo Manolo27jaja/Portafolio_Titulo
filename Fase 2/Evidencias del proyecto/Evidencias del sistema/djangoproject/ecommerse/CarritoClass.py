@@ -45,3 +45,8 @@ class CarritoClass:
     def limpiar(self):
         self.session["carrito"] = {}
         self.session.modified = True
+
+    # Método para obtener la cantidad de un producto
+    def obtener_cantidad(self, producto):
+        producto_id = str(producto.id)  # Asegúrate de convertir el ID a string si es necesario
+        return self.carrito.get(producto_id, {}).get('cantidad', 0)
