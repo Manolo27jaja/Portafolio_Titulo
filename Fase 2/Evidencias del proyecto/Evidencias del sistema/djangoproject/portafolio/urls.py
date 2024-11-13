@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from ecommerse.views import detalle_producto, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito, carritoid
+from ecommerse.views import modal, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito #, carritoid
 from ecommerse import views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
@@ -11,11 +11,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('buscar/', buscar, name='buscar'),
     path('', home, name='home'),
-    path('detalle_producto/', detalle_producto, name='detalle_producto'),
-    path('carritoid/<int:producto_id>/', carritoid, name='carritoid'),
+    path('detalle_producto/<int:producto_id>/', views.detalle_producto, name='detalle_producto'),
+    path('contenido_carrito/', views.contenido_carrito, name='contenido_carrito'),
+    ###########path('carritoid/<int:producto_id>/', carritoid, name='carritoid'),
     path('guardar_carrito/', guardar_carrito, name='guardar_carrito'),
     #Paths de Carrito de compras
+    path('modal/', modal, name="modal"),
     path('agregar/<int:producto_id>/', agregar_producto, name="Add"),
+    path('aumentar/<int:producto_id>/', views.aumentar_producto, name="Add"),
     path('eliminar/<int:producto_id>/', eliminar_producto, name="Del"),
     path('restar/<int:producto_id>/', restar_producto, name="Sub"),
     path('limpiar/', limpiar_carrito, name="CLS"),
