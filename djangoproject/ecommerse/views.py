@@ -16,65 +16,42 @@ from django.conf import settings
 import logging
 from django.shortcuts import render
 from django.contrib.auth import logout
+from django.views.decorators.csrf import csrf_exempt
 
 logging.basicConfig(level=logging.INFO)
 
 def pago_celular_bricks(request):
-    # Crear una instancia del SDK de Mercado Pago usando el Access Token
-    sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
-
-    # Definir los datos de la preferencia
+    return render(request, 'pago_celular.html', {
+        'mercado_pago_public_key': "TEST-0320cb86-4c8b-417b-b52d-c2b487754ddd"
+    })
+@csrf_exempt
+def create_preference(request):
+    sdk = mercadopago.SDK("TEST-1910207374097910-101613-31fb1ea48e3de8c63a41f466e1c817e5-2035864462")
+    
     preference_data = {
         "items": [
             {
-                "title": "Celular",
+                "title": "Celular de prueba",
                 "quantity": 1,
-                "currency_id": "CLP",
-                "unit_price": 1500.00
+                "unit_price": 1500  # Precio en CLP
             }
         ],
-        "payer": {
-            "email": "comprador@ejemplo.com"  # Asegúrate de usar un correo de prueba
-        },
-        "back_urls": {
-            "success": "http://localhost:8000/pago-exitoso/",
-            "failure": "http://localhost:8000/pago-fallido/"
-        },
-        "auto_return": "approved",
-        "payment_methods": {
-            "excluded_payment_types": [],  # Asegúrate de no excluir métodos si no es necesario
-            "installments": 12  # Máximo de 12 cuotas
-        },
-        "notification_url": "http://localhost:8000/notificaciones/",
-    }
-
-    # Intentar crear la preferencia y capturar la respuesta de la API
-    try:
-        preference = sdk.preference().create(preference_data)
-
-        # Capturar la respuesta de la API
-        response = preference.get('response', {})
-        status = preference.get('status', 'error')
         
-        # Log para depuración
-        logging.info(f"Mercado Pago API Response: {response}")
-
-        # Comprobar si se creó la preferencia correctamente
-        if status == 201:  # Status 201 indica éxito en la creación de la preferencia
-            context = {
-                'preference_id': response.get('id'),
-                'mercado_pago_public_key': settings.MERCADOPAGO_PUBLIC_KEY,
-                'sandbox_init_point': response.get('sandbox_init_point')  # Utilizar sandbox URL si es necesario
-            }
-            return render(request, 'pago_celular_bricks.html', context)
-        else:
-            # Si ocurre un error, mostrar el mensaje de error
-            logging.error(f"Error en la creación de la preferencia: {response}")
-            return JsonResponse({'error': 'No se pudo crear la preferencia', 'response': response}, status=400)
+        "back_urls": {
+            "success": "https://tusitio.com/pago-exitoso/",
+            "failure": "https://tusitio.com/pago-fallido/",
+        },
+        "auto_return": "approved"
+    }
     
-    except Exception as e:
-        logging.error(f"Error en la creación de la preferencia: {e}")
-        return JsonResponse({'error': 'Ocurrió un error en el servidor', 'details': str(e)}, status=500)
+    preference = sdk.preference().create(preference_data)
+    response = preference.get("response", {})
+    preference_id = response.get("id", None)
+    
+    return JsonResponse({"preference_id": preference_id}) if preference_id else JsonResponse({"error": "Error al crear la preferencia"}, status=400)
+
+def pagar(request):
+    return render(request, 'pago_celular.html')
 
 def home(request):
     producto_ids_1 = [1, 2, 3, 4, 5, 6]  # Primer conjunto de productos
@@ -92,6 +69,24 @@ def carrito(request):
     return render(request, 'carrito.html', {"productos":producto_d})
 
 @login_required
+def mis_compras(request):
+    # Carritos no comprados (pedidos)
+    pedidos = Carrito.objects.filter(usuario=request.user, comprado=False)
+    # Carritos comprados
+    compras = Carrito.objects.filter(usuario=request.user, comprado=True)
+
+    # Calcula el total para cada carrito
+    for carrito in pedidos:
+        carrito.total = carrito.calcular_total()
+    for carrito in compras:
+        carrito.total = carrito.calcular_total()
+
+    context = {
+        'pedidos': pedidos,
+        'compras': compras
+    }   
+    return render(request, 'mis_compras.html', context)
+
 def guardar_carrito(request):
     if request.method == 'POST':
         # Recuperar el carrito desde la sesión
