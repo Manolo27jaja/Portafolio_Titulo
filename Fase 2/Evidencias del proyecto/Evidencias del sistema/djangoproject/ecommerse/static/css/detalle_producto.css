@@ -1,0 +1,122 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Contenedor principal */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Tarjeta de producto */
+  .card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-body {
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 15px;
+  }
+  
+  /* Imagen del producto */
+  picture img {
+    width: 100%;
+    height: auto;
+    max-height: 150px; /* Altura máxima para la imagen */
+    object-fit: cover;
+  }
+  
+  /* Botón */
+  .btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Diseño de la disposición */
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+  
+  .col-8, .col-4, .col-12, .col-6 {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  
+  .col-8 {
+    width: 66.67%;
+  }
+  
+  .col-4 {
+    width: 33.33%;
+  }
+  
+  .col-12 {
+    width: 100%;
+  }
+  
+  .col-6 {
+    width: 50%;
+  }
+  
+  /* Responsividad */
+  @media only screen and (max-width: 768px) {
+    .col-8, .col-4 {
+        width: 100%;
+    }
+    
+    .card {
+        margin-bottom: 20px;
+    }
+  }
+  
+  @media only screen and (max-width: 576px) {
+    .col-6 {
+        width: 100%;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+  }
