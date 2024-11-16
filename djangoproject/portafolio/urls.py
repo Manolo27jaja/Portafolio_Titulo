@@ -7,7 +7,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('buscar/', buscar, name='buscar'),
-    path('', home, name='home'),
+    path('home', home, name='home'),
     path('modal/', modal, name='modal'),
     path('carrito/', carrito, name='carrito'),
     path('guardar_carrito/', guardar_carrito, name='guardar_carrito'),
@@ -35,6 +35,8 @@ urlpatterns = [
     # URL para la vistas de pago aceptado o rechazado
     path('pago-exitoso/', views.pago_exitoso, name='pago_exitoso'),
     path('pago-fallido/', views.pago_fallido, name='pago_fallido'),
-    path('pago-celular-bricks/', views.pago_celular_bricks, name='pago_celular_bricks'),
+    path('pago_celular/', views.pago_celular_bricks, name='pago_celular_bricks'),
+    path('create_preference/', views.create_preference, name='create_preference'),
+    path('mis-compras/', views.mis_compras, name='mis_compras'),
 ]
 

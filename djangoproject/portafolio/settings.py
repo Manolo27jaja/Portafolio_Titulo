@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ecommerse',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -143,14 +144,11 @@ EMAIL_HOST_USER = 'bastianmadrid72@gmail.com'  # Tu correo registrado en Brevo (
 EMAIL_HOST_PASSWORD = 'B19hYzSrVXqcjdD3'  # La clave SMTP que generaste en Brevo
 DEFAULT_FROM_EMAIL = 'bastianmadrid72@gmail.com'  # Dirección de remitente por defecto
 
-<<<<<<< HEAD
 #mercado pago credenciales
 MERCADOPAGO_ACCESS_TOKEN = config('MERCADOPAGO_ACCESS_TOKEN')
 MERCADOPAGO_PUBLIC_KEY = config('MERCADOPAGO_PUBLIC_KEY')
-=======
 #______
 
 LOGIN_URL = '/inicio_sesion/'
 
 #______
->>>>>>> c0be9ee8497bf9c5a572e29667e5bccf7b9e09d4

@@ -64,15 +64,24 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 class Carrito(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)  # Relación con el modelo de Usuario
     creado = models.DateTimeField(auto_now_add=True)  # Fecha de creación del carrito
+    comprado = models.BooleanField(default=False)  # Indica si el carrito ha sido comprado
 
-    def __str__(self):
-        return f'Carrito de {self.usuario.email}'
+    def calcular_total(self):
+        total = sum(item.precio * item.cantidad for item in self.items.all())
+        return total
+
+    def _str_(self):
+        estado = "Comprado" if self.comprado else "No comprado"
+        return f'Carrito de {self.usuario.email} - {estado}'
+
 class CarritoItem(models.Model):
     carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE, related_name='items')  # Relación con el carrito
     producto = models.ForeignKey('Producto', on_delete=models.CASCADE)  # Relación con el producto
     cantidad = models.IntegerField(default=1)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
+    comprado = models.BooleanField(default=False)  # Indica si el producto ha sido comprado
 
-    def __str__(self):
-        return f'{self.cantidad} x {self.producto.nombre} en el carrito de {self.carrito.usuario.email}'    
+    def _str_(self):
+        estado = "Comprado" if self.comprado else "No comprado"
+        return f'{self.cantidad} x {self.producto.nombre} en el carrito de {self.carrito.usuario.email} - {estado}'   
 #_______________________________________________
