@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-ul$&4-qpl76@d4xi&e2%=^az&c#$cr1=(10b_$*=t%q-=+spt^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.ngrok-free.app', '127.0.0.1', 'localhost']
+
 
 
 # Application definition
@@ -123,7 +124,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'ecommerse' / 'static']
 
 # Default primary key field type

@@ -11,6 +11,7 @@ from ecommerse.CarritoClass import CarritoClass
 # Bloque de importaciones del modelo de base de datos
 from ecommerse.models import Producto, Carrito, CarritoItem, Usuario
 from .models import Usuario
+from .stock_alerts import verificar_stock_bajo
 
 def detalle_producto(request):
     d_p = [1]
@@ -171,3 +172,14 @@ def mostrar_carrito(request):
     return render(request, 'miCarrito.html', contexto)
 
 #____________________________________________________________
+
+def realizar_compra(request, producto_id, cantidad):
+    producto = Producto.objects.get(id=producto_id)
+    producto.stock_actual -= cantidad
+    producto.save()
+
+    # Verificar stock bajo después de la compra
+    verificar_stock_bajo()
+
+    return render(request, 'compra_exitosa.html', {'producto': producto})
+#_____________________________________________________________

@@ -13,9 +13,17 @@ class Producto(models.Model):
     precio = models.IntegerField()
     imagen = models.ImageField()
     descripcion = models.CharField(max_length=255, default='Descripción por defecto')
+    stock_actual = models.PositiveIntegerField(default=0)
+    stock_minimo = models.PositiveIntegerField(default=10)
 
     def __str__(self):
         return f'{self.nombre} -> {self.precio}'
+
+    def __str__(self):
+        return self.nombre
+    
+    def es_stock_bajo(self):
+        return self.stock_actual <= self.stock_minimo
 #________________________________________________________        
 
 #___________________________________
