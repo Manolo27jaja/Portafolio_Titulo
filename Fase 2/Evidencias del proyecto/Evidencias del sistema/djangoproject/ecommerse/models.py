@@ -78,6 +78,13 @@ class Usuario(AbstractBaseUser, PermissionsMixin): # Definimos un modelo persona
 class Carrito(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)  # Relación con el modelo de Usuario
     creado = models.DateTimeField(auto_now_add=True)  # Fecha de creación del carrito
+    comprado = models.BooleanField(default=False)
+
+    def calcular_total(self):
+        total = 0
+        for item in self.items.all():
+            total += item.cantidad * item.precio
+        return total
 
     def __str__(self):
         return f'Carrito de {self.usuario.email}'

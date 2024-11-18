@@ -39,10 +39,17 @@ deactivate nondestructive
 if [ "${OSTYPE:-}" = "cygwin" ] || [ "${OSTYPE:-}" = "msys" ] ; then
     # transform D:\path\to\venv to /d/path/to/venv on MSYS
     # and to /cygdrive/d/path/to/venv on Cygwin
+<<<<<<< HEAD:djangoproject/env/Scripts/activate
+    export VIRTUAL_ENV=$(cygpath "C:\Users\Darla\Desktop\PORTAFOLIO\Portafolio_Titulo\djangoproject\env")
+else
+    # use the path as-is
+    export VIRTUAL_ENV="C:\Users\Darla\Desktop\PORTAFOLIO\Portafolio_Titulo\djangoproject\env"
+=======
     export VIRTUAL_ENV=$(cygpath "C:\Users\MANOLO\Desktop\Fase 2\Evidencias del proyecto\Evidencias del sistema\djangoproject\new_venv")
 else
     # use the path as-is
     export VIRTUAL_ENV="C:\Users\MANOLO\Desktop\Fase 2\Evidencias del proyecto\Evidencias del sistema\djangoproject\new_venv"
+>>>>>>> 687990acb064ef48c50e806dc08dd5a7e6bd4c2a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/new_venv/Scripts/activate
 fi
 
 _OLD_VIRTUAL_PATH="$PATH"

@@ -10,6 +10,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('buscar/', buscar, name='buscar'),
+    path('home', home, name='home'),
+    path('modal/', modal, name='modal'),
     path('', home, name='home'),
     path('detalle_producto/', detalle_producto, name='detalle_producto'),
     path('carritoid/<int:producto_id>/', carritoid, name='carritoid'),
@@ -34,6 +36,13 @@ urlpatterns = [
     # URL para la vista que procesa el enlace enviado por correo
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm_custom.html'), name='password_reset_confirm'),
     # URL para la vista cuando la contraseña ha sido reseteada con éxito
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    # URL para la vistas de pago aceptado o rechazado
+    path('pago-exitoso/', views.pago_exitoso, name='pago_exitoso'),
+    path('pago-fallido/', views.pago_fallido, name='pago_fallido'),
+    path('pago_celular/', views.pago_celular_bricks, name='pago_celular_bricks'),
+    path('create_preference/', views.create_preference, name='create_preference'),
+    path('mis-compras/', views.mis_compras, name='mis_compras'),
     path('reset_done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete_custom.html'), name='password_reset_complete'),
 
 ]
