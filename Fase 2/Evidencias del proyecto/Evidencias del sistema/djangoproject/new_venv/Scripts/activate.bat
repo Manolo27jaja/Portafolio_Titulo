@@ -8,7 +8,11 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
+<<<<<<< HEAD:djangoproject/env/Scripts/activate.bat
+set VIRTUAL_ENV=C:\Users\Darla\Desktop\PORTAFOLIO\Portafolio_Titulo\djangoproject\env
+=======
 set VIRTUAL_ENV=C:\Users\MANOLO\Desktop\Fase 2\Evidencias del proyecto\Evidencias del sistema\djangoproject\new_venv
+>>>>>>> 687990acb064ef48c50e806dc08dd5a7e6bd4c2a:Fase 2/Evidencias del proyecto/Evidencias del sistema/djangoproject/new_venv/Scripts/activate.bat
 
 if not defined PROMPT set PROMPT=$P$G
 

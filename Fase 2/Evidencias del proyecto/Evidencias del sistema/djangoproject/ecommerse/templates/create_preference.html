@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra con Wallet Brick</title>
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+</head>
+<body>
+    <h1>Comprar Producto</h1>
+    <p>Precio: 1,500 CLP</p>
+    
+    <button id="wallet-button">Pagar con Mercado Pago</button>
+
+    <script>
+      const mp = new MercadoPago('TEST-0320cb86-4c8b-417b-b52d-c2b487754ddd', { locale: 'es-CL' });
+      
+      document.getElementById('wallet-button').onclick = async function() {
+        try {
+          const response = await fetch('/create_preference', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          });
+          
+          const data = await response.json();
+          if (data.preference_id) {
+            mp.bricks().create('wallet', 'wallet-container', {
+              initialization: {
+                preferenceId: data.preference_id,
+              },
+              callbacks: {
+                onReady: () => console.log("Widget listo"),
+                onError: error => console.error("Error en el Widget:", error),
+              }
+            });
+          } else {
+            console.error("No se pudo obtener la preferencia.");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    </script>
+</body>
+</html>
