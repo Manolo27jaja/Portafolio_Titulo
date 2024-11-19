@@ -12,6 +12,48 @@ from ecommerse.CarritoClass import CarritoClass
 from ecommerse.models import Producto, Carrito, CarritoItem, Usuario ,ListaDeseados
 from .models import Usuario
 from django.db.models import Q # esto es para buscar en django mas especifico dicen 
+import mercadopago
+from django.conf import settings
+import logging
+from django.shortcuts import render
+from django.contrib.auth import logout
+from django.views.decorators.csrf import csrf_exempt
+
+logging.basicConfig(level=logging.INFO)
+
+def pago_celular_bricks(request):
+    return render(request, 'pago_celular.html', {
+        'mercado_pago_public_key': "TEST-0320cb86-4c8b-417b-b52d-c2b487754ddd"
+    })
+@csrf_exempt
+def create_preference(request):
+    sdk = mercadopago.SDK("TEST-1910207374097910-101613-31fb1ea48e3de8c63a41f466e1c817e5-2035864462")
+    
+    preference_data = {
+        "items": [
+            {
+                "title": "Celular de prueba",
+                "quantity": 1,
+                "unit_price": 1500  # Precio en CLP
+            }
+        ],
+        
+        "back_urls": {
+            "success": "https://tusitio.com/pago-exitoso/",
+            "failure": "https://tusitio.com/pago-fallido/",
+        },
+        "auto_return": "approved"
+    }
+    
+    preference = sdk.preference().create(preference_data)
+    response = preference.get("response", {})
+    preference_id = response.get("id", None)
+    
+    return JsonResponse({"preference_id": preference_id}) if preference_id else JsonResponse({"error": "Error al crear la preferencia"}, status=400)
+
+def pagar(request):
+    return render(request, 'pago_celular.html')
+
 
 def detalle_producto(request):
     d_p = [1]
@@ -33,6 +75,24 @@ def carritoid(request, producto_id):
     return render(request, 'carrito.html', {"productos":producto_d})
 
 @login_required
+def mis_compras(request):
+    # Carritos no comprados (pedidos)
+    pedidos = Carrito.objects.filter(usuario=request.user, comprado=False)
+    # Carritos comprados
+    compras = Carrito.objects.filter(usuario=request.user, comprado=True)
+
+    # Calcula el total para cada carrito
+    for carrito in pedidos:
+        carrito.total = carrito.calcular_total()
+    for carrito in compras:
+        carrito.total = carrito.calcular_total()
+
+    context = {
+        'pedidos': pedidos,
+        'compras': compras
+    }   
+    return render(request, 'mis_compras.html', context)
+
 def guardar_carrito(request):
     if request.method == 'POST':
         # Recuperar el carrito desde la sesión
@@ -158,6 +218,14 @@ def recuperar(request):
 
 def perfil(request):
     return render(request, 'perfil_usuario.html')
+
+def pago_exitoso(request):
+    """Vista para manejar pagos exitosos."""
+    return render(request, 'pago_exitoso.html')
+
+def pago_fallido(request):
+    """Vista para manejar pagos fallidos."""
+    return render(request, 'pago_fallido.html')
 
 # def generar_buy_order():
 #     return str(uuid.uuid4())
