@@ -49,4 +49,8 @@ class CarritoClass:
     # Método para obtener la cantidad de un producto
     def obtener_cantidad(self, producto):
         producto_id = str(producto.id)  # Asegúrate de convertir el ID a string si es necesario
-        return self.carrito.get(producto_id, {}).get('cantidad', 0)
+        return self.carrito.get(producto_id, {}).get('cantidad',0)
+    
+    def obtener_acumulado(self, producto):
+        producto_id = str(producto.id)  # Asegúrate de convertir el ID a string si es necesario
+        return self.carrito.get(producto_id, {}).get('acumulado',0)

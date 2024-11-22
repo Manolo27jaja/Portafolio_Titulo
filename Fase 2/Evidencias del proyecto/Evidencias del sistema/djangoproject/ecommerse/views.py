@@ -11,9 +11,7 @@ from ecommerse.CarritoClass import CarritoClass
 # Bloque de importaciones del modelo de base de datos
 from ecommerse.models import Producto, Carrito, CarritoItem, Usuario ,ListaDeseados
 from .models import Usuario
-<<<<<<< HEAD
 from django.http import JsonResponse
-=======
 from django.db.models import Q # esto es para buscar en django mas especifico dicen 
 import mercadopago
 from django.conf import settings
@@ -57,8 +55,6 @@ def create_preference(request):
 def pagar(request):
     return render(request, 'pago_celular.html')
 
->>>>>>> e5b0af839031bbe5af40f7913f7d8ea1a51aec12
-
 def modal(request):
     return render(request, 'modal.html')
 
@@ -72,7 +68,7 @@ def detalle_producto(request, producto_id):
     return render(request, 'detalle_producto.html', {"d_p_real": d_p_real, "productos_1": productos_1})
 
 def home(request):
-    producto_ids_1 = [1, 2, 3, 4, 5, 6]  # Primer conjunto de productos
+    producto_ids_1 = [1 , 2, 3, 4, 5, 6]  # Primer conjunto de productos
     producto_ids_2 = [7, 8, 9, 10, 11, 12]  # Segundo conjunto de productos para el otro carrusel
     productos_1 = Producto.objects.filter(id__in=producto_ids_1)
     productos_2 = Producto.objects.filter(id__in=producto_ids_2)
@@ -142,6 +138,7 @@ def agregar_producto(request, producto_id):
         "status": "Producto agregado al carrito",
         "producto_id": producto.id,
         "nueva_cantidad": carrito.obtener_cantidad(producto),
+        "acumulado": carrito.obtener_acumulado(producto) ,
         "html": html_carrito  # HTML del carrito para actualizar el modal
     })
     
@@ -149,12 +146,15 @@ def aumentar_producto(request, producto_id):
     carrito = CarritoClass(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.agregar(producto)  # Se asume que `agregar` también aumenta la cantidad si el producto ya está en el carrito
+    acumulado = carrito.obtener_acumulado(producto)
+    #total_carrito = carrito.obtener_total()
     return JsonResponse({
         "status": "Cantidad actualizada",
         "producto_id": producto.id,
-        "nueva_cantidad": carrito.obtener_cantidad(producto)#,  # Llamada al nuevo método para obtener la cantidad
-        #"total_carrito": carrito.obtener_total()  # Total actualizado
-    })
+        "nueva_cantidad": carrito.obtener_cantidad(producto),  # Llamada al nuevo método para obtener la cantidad
+        "acumulado": acumulado#,
+        #"total_carrito": total_carrito
+        })
 
 def eliminar_producto(request, producto_id):
     carrito = CarritoClass(request)
@@ -166,11 +166,14 @@ def restar_producto(request, producto_id):
     carrito = CarritoClass(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.restar(producto)
+    acumulado = carrito.obtener_acumulado(producto)
+    #total_carrito = carrito.obtener_total()
     return JsonResponse({
         "status": "Cantidad actualizada",
         "producto_id": producto.id,
-        "nueva_cantidad": carrito.obtener_cantidad(producto)#,  # Método que devuelve la nueva cantidad
-        #"total_carrito": carrito.obtener_total()  # Método que devuelve el total del carrito
+        "nueva_cantidad": carrito.obtener_cantidad(producto),  # Método que devuelve la nueva cantidad
+        "acumulado": acumulado#,
+        #"total_carrito": total_carrito
     })
 
 def limpiar_carrito(request):

@@ -10,7 +10,7 @@ agregarCarritoBtn.onclick = function(event) {
     const productoId = agregarCarritoBtn.getAttribute("data-producto-id");
 
     // Realizar la solicitud AJAX para agregar el producto al carrito
-    fetch(`/agregar/${productoId}/`, {
+    fetch(/agregar/${productoId}/, {
         method: "POST",
         headers: {
             "X-CSRFToken": getCookie("csrftoken"),
@@ -95,7 +95,7 @@ window.onclick = function(event) {
 
 
 function actualizarCantidad(productoId, accion) {
-    fetch(`/restar/${productoId}/`, {
+    fetch(/restar/${productoId}/, {
         method: "POST",
         headers: {
             "X-CSRFToken": getCookie("csrftoken"),
@@ -120,7 +120,7 @@ function actualizarCantidad(productoId, accion) {
 //__________________________________________________________________
 
 function actualizarCantidad(productoId, accion) {
-    const url = accion === "add" ? `/aumentar/${productoId}/` : `/restar/${productoId}/`;
+    const url = accion === "add" ? /aumentar/${productoId}/ : /restar/${productoId}/;
 
     fetch(url, {
         method: "POST",
@@ -133,9 +133,15 @@ function actualizarCantidad(productoId, accion) {
     .then(response => response.json())
     .then(data => {
         if (data.status === "Cantidad actualizada") {
-            // Actualiza solo la cantidad del producto en el DOM
+            // Actualiza la cantidad en el DOM
             document.getElementById("cantidad-" + productoId).textContent = data.nueva_cantidad;
-            
+
+            // Actualiza el acumulado en el DOM
+            const acumuladoElemento = document.getElementById("acumulado-" + productoId);
+            if (acumuladoElemento) {
+                acumuladoElemento.textContent = Acumulado: ${data.acumulado};
+            }
+
             // Actualiza el total del carrito en el modal
             document.getElementById("total-carrito").textContent = "$ " + data.total_carrito;
         }
@@ -145,3 +151,4 @@ function actualizarCantidad(productoId, accion) {
 
 
 //___________________________________________________________________
+
