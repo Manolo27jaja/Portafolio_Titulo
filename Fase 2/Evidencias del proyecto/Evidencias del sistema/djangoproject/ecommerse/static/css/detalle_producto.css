@@ -33,7 +33,7 @@
   text-decoration: none;
   cursor: pointer;
 }
-/*_____________________________________________________________________________*/
+/_/
 
 /* Diseño de la disposición del carrito en el modal*/
 .row {
@@ -65,7 +65,7 @@ width: 50%;
 }
 
 
-/*______________________________________________________________________________-*/
+/-/
 
 .product-detail {
   display: flex;
@@ -78,7 +78,7 @@ width: 50%;
 }
 
 
-/*____________________________________________________*/
+//
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -138,7 +138,13 @@ body {
   color: #555;
   margin-bottom: 10px;
 }
-
+.btn-circle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 5px;
+  cursor: pointer;
+}
 /* Botón de agregar al carrito */
 .btn {
   background-color: #050505;
@@ -187,7 +193,7 @@ body {
 
 
 
-/*__________________________________________________________________*/
+//
 
 #carrusel_css{
   margin: 0;
@@ -314,3 +320,71 @@ a{
 }
 
 
+/Especificaciones/
+
+
+.specifications-table {
+  max-width: 600px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.specifications-table h3 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 1.5em;
+  color: #0056b3;
+}
+
+.specifications-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.specifications-table th, 
+.specifications-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.specifications-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.specifications-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.specifications-table tbody tr:hover {
+  background-color: #e6f7ff;
+}
+
+.specifications-table td {
+  font-size: 0.95em;
+}
+
+
+/_Css Api Whatsapp_/
+
+.whatsapp-button {
+  position: fixed;
+  bottom: 20px; /* Ajusta la posición vertical */
+  right: 20px;  /* Ajusta la posición horizontal */
+  z-index: 1000; /* Asegúrate de que esté encima de otros elementos */
+}
+
+.whatsapp-button a img {
+  width: 60px; /* Tamaño del ícono */
+  height: 60px;
+  border-radius: 50%; /* Redondea los bordes */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Agrega un efecto de sombra */
+  transition: transform 0.3s ease; /* Efecto al pasar el cursor */
+}
+
+.whatsapp-button a img:hover {
+  transform: scale(1.1); /* Aumenta ligeramente el tamaño */
+}
