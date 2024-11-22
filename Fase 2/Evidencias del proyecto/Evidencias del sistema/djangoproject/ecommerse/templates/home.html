@@ -170,15 +170,9 @@
             <div class="carrusel-track" id="track">
                 {% for producto in productos_1 %}
                 <div class="carrusel">
-<<<<<<< HEAD
-                    <div>
-                        <a href="{% url 'detalle_producto' producto.id %}">
-                            <h4><small>{{ producto.nombre }}</small> ${{ producto.precio }}</h4>
-=======
                     <div class="producto">
-                        <a href="{% url 'carritoid' producto.id %}">
+                        <a href="{% url 'detalle_producto' producto.id %}">
                             <h4><small>{{ producto.nombre }}</small> ${{ producto.precio|intcomma }}</h4>
->>>>>>> e5b0af839031bbe5af40f7913f7d8ea1a51aec12
                             <picture>
                                 <img src="{% static 'imagenes/' %}{{ producto.imagen }}" alt="{{ producto.nombre }}">
                             </picture>
@@ -240,7 +234,7 @@
                 {% for producto in productos_2 %}
                 <div class="carrusel">
                     <div class="producto">
-                        <a href="{% url 'carritoid' producto.id %}">
+                        <a href="{% url 'detalle_producto' producto.id %}">
                             <h4><small>{{ producto.nombre }}</small> ${{ producto.precio }}</h4>
                             <picture>
                                 <img src="{% static 'imagenes/' %}{{ producto.imagen }}" alt="{{ producto.nombre }}">

@@ -13,9 +13,9 @@
 </head>
 <body>
     <script src="{% static 'js/detalle_producto.js' %}"></script>
-<!--___________________________termina el nav______________________________________-->
+<!--termina el nav_-->
 
-<!--____________________________________________________________________-->
+<!---->
 
 <!-- Lista del carrito del usuario -->
     <div class="container">
@@ -28,17 +28,23 @@
                             <picture>
                             <img class="img-fluid" src="{% static 'imagenes/' %}{{ producto.imagen }}" alt="{{ producto.nombre }}">
                             </picture>
+                            <div class="color-options">
+                                <p>Colores disponibles:</p>
+                                <button class="btn btn-circle" style="background-color: #000000;" title="Negro"></button>
+                                <button class="btn btn-circle" style="background-color: #FFFFFF; border: 1px solid #000;" title="Blanco"></button>
+                                <button class="btn btn-circle" style="background-color: #1E90FF;" title="Azul"></button>
+                                <button class="btn btn-circle" style="background-color: #FF4500;" title="Rojo"></button>
+                                <!-- Agrega más botones de color según las opciones disponibles -->
+                            </div>
                         </div>
                         {% endfor %}
                         {% for producto in d_p_real %}
                         <div class="col-6">
                             <h5 class="card-tittle">{{producto.nombre}}</h5>
                             <p class="card-text">{{producto.categoria}}</p>
-
                             <p class="card-text">${{producto.precio}}</p>
                             <p class="card-text">{{producto.descripcion}}</p>
-                            <button id="openModal">Abrir Modal</button>
-                            <a id="agregarCarrito" data-producto-id="{{ producto.id }}" href="javascript:void(0);" class="btn btn-dark">Agregar al Carrito</a>
+                            <a id="agregarCarrito" data-producto-id="{{ producto.id }}" href="javascript:void(0);" onclick="actualizarCantidad('{{ value.producto_id }}', 'add')" class="btn btn-dark">Agregar al Carrito</a>
                         </div>
                         {% endfor %}
                     </div>
@@ -46,7 +52,65 @@
             </div>
         </div>
     </div>
-<!--___________________Productos Relacionados, Carrusel de tarjetas_____________________-->
+<!---->
+<div class="container">
+    <div class="row">
+        <div class="card" >
+            <div class="card-body">
+                <div class="col-12">
+                    <div class="specifications-table">
+                        <h3>Especificaciones del Producto</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Característica</th>
+                                    <th>Detalle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Resolución de pantalla</td>
+                                    <td>Super Retina XDR</td>
+                                </tr>
+                                <tr>
+                                    <td>Memoria RAM</td>
+                                    <td>6GB</td>
+                                </tr>
+                                <tr>
+                                    <td>Sistema operativo</td>
+                                    <td>iOS</td>
+                                </tr>
+                                <tr>
+                                    <td>Capacidad de almacenamiento</td>
+                                    <td>128 GB</td>
+                                </tr>
+                                <tr>
+                                    <td>Cámara posterior</td>
+                                    <td>12 MP</td>
+                                </tr>
+                                <tr>
+                                    <td>Resistente al agua</td>
+                                    <td>IP68 (Protegido contra inmersión)</td>
+                                </tr>
+                                <tr>
+                                    <td>Alto</td>
+                                    <td>15.7 cm</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--API whatsapp_-->
+<div class="whatsapp-button">
+    <a href="https://wa.me/XXXXXXXXXXX" target="_blank" aria-label="Chat en WhatsApp">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
+    </a>
+</div>
+<!--Productos Relacionados, Carrusel de tarjetas-->
 <div class="container">
     <div class="row">
         <div class="card" >
@@ -96,7 +160,7 @@
         </div>    
     </div>   
 </div>
-<!--___________________________Modal_______________________________________-->
+<!--Modal-->
 
 <div id="myModal" class="modal">
     <div class="modal-content">
