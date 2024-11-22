@@ -22,6 +22,7 @@ class RegistroForm(forms.ModelForm): # La clase RegistroForm hereda de forms.Mod
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control'}),
+            
         }
 
     def clean_confirmar_password(self): # Metodo para validar que los campos de contraseña y confirmar contraseña coincidan
@@ -57,8 +58,8 @@ class RegistroForm(forms.ModelForm): # La clase RegistroForm hereda de forms.Mod
     def clean_telefono(self): # Metodo para que solamnte se ingresen numeros en el input de numero de telefono
         telefono = self.cleaned_data.get('telefono')
     # Validar si el número de teléfono tiene el formato correcto (solo números)
-        if not re.match(r'^\d{8,9}$', telefono):
-            raise ValidationError("El número de teléfono debe contener entre 8 y 9 dígitos")
+        if not re.match(r'^\d{9}$', telefono):
+            raise ValidationError("El número de teléfono debe contener 9 dígitos")
         return telefono
 
 
@@ -70,14 +71,14 @@ class LoginForm(forms.Form):
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
 
-class CustomSetPasswordForm(SetPasswordForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['new_password1'].error_messages = {
-            'password_too_similar': 'La nueva contraseña es demasiado similar a tu información personal.',
-            'password_too_short': 'La contraseña debe tener al menos 8 caracteres.',
-            'password_too_common': 'La contraseña es demasiado común.',
-            'password_entirely_numeric': 'La contraseña no puede ser solo numérica.'
-        }
+# class CustomSetPasswordForm(SetPasswordForm):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.fields['new_password1'].error_messages = {
+#             'password_too_similar': 'La nueva contraseña es demasiado similar a tu información personal.',
+#             'password_too_short': 'La contraseña debe tener al menos 8 caracteres.',
+#             'password_too_common': 'La contraseña es demasiado común.',
+#             'password_entirely_numeric': 'La contraseña no puede ser solo numérica.'
+#         }
 
 

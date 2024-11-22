@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from decouple import config
+from django.contrib.messages import constants as messages
 
 import os
 
@@ -160,3 +161,11 @@ LOGIN_URL = '/inicio_sesion/'
 # Para mostrar las imagenes en mi carrito
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#______________________________________________
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+# Opcional: Define niveles de mensajes personalizados si no lo has hecho
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',  # Si usas Bootstrap, se traduce a una clase CSS
+}
