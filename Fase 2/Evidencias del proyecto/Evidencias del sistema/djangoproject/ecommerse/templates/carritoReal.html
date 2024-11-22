@@ -48,4 +48,9 @@
         {% csrf_token %}
         <button type="submit" class="btn btn-success">Guardar</button>
     </form>
+
+  <form method="POST" action="{% url 'deseados' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">agregar a deseados</button>
+  </form>  
 </div>
