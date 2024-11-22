@@ -9,9 +9,55 @@ from django.template.loader import render_to_string
 # Bloque de importaciones del carrito
 from ecommerse.CarritoClass import CarritoClass
 # Bloque de importaciones del modelo de base de datos
-from ecommerse.models import Producto, Carrito, CarritoItem, Usuario
+from ecommerse.models import Producto, Carrito, CarritoItem, Usuario ,ListaDeseados
 from .models import Usuario
+<<<<<<< HEAD
 from django.http import JsonResponse
+=======
+from django.db.models import Q # esto es para buscar en django mas especifico dicen 
+import mercadopago
+from django.conf import settings
+import logging
+from django.shortcuts import render
+from django.contrib.auth import logout
+from django.views.decorators.csrf import csrf_exempt
+
+logging.basicConfig(level=logging.INFO)
+
+def pago_celular_bricks(request):
+    return render(request, 'pago_celular.html', {
+        'mercado_pago_public_key': "TEST-0320cb86-4c8b-417b-b52d-c2b487754ddd"
+    })
+@csrf_exempt
+def create_preference(request):
+    sdk = mercadopago.SDK("TEST-1910207374097910-101613-31fb1ea48e3de8c63a41f466e1c817e5-2035864462")
+    
+    preference_data = {
+        "items": [
+            {
+                "title": "Celular de prueba",
+                "quantity": 1,
+                "unit_price": 1500  # Precio en CLP
+            }
+        ],
+        
+        "back_urls": {
+            "success": "https://tusitio.com/pago-exitoso/",
+            "failure": "https://tusitio.com/pago-fallido/",
+        },
+        "auto_return": "approved"
+    }
+    
+    preference = sdk.preference().create(preference_data)
+    response = preference.get("response", {})
+    preference_id = response.get("id", None)
+    
+    return JsonResponse({"preference_id": preference_id}) if preference_id else JsonResponse({"error": "Error al crear la preferencia"}, status=400)
+
+def pagar(request):
+    return render(request, 'pago_celular.html')
+
+>>>>>>> e5b0af839031bbe5af40f7913f7d8ea1a51aec12
 
 def modal(request):
     return render(request, 'modal.html')
@@ -38,6 +84,24 @@ def home(request):
 
 
 @login_required
+def mis_compras(request):
+    # Carritos no comprados (pedidos)
+    pedidos = Carrito.objects.filter(usuario=request.user, comprado=False)
+    # Carritos comprados
+    compras = Carrito.objects.filter(usuario=request.user, comprado=True)
+
+    # Calcula el total para cada carrito
+    for carrito in pedidos:
+        carrito.total = carrito.calcular_total()
+    for carrito in compras:
+        carrito.total = carrito.calcular_total()
+
+    context = {
+        'pedidos': pedidos,
+        'compras': compras
+    }   
+    return render(request, 'mis_compras.html', context)
+
 def guardar_carrito(request):
     if request.method == 'POST':
         # Recuperar el carrito desde la sesión
@@ -122,10 +186,17 @@ def miCarrito(request):
     return render(request, 'miCarrito.html', {'carrito': carrito.carrito})  # Pasar carrito al template
 #_____________________________________________________
 
+
+#_______________buscar corregido______________________________________
+
 def buscar(request):
-    query = request.GET.get('q', '')  # Obtener el término de búsqueda desde la URL
-    resultados = Producto.objects.filter(nombre__icontains=query) if query else Producto.objects.none()
+    query = request.GET.get('q', '')  
+    if query:
+        resultados = Producto.objects.filter(Q(nombre__icontains=query) | Q(categoria__icontains=query))
+    else:
+        resultados = Producto.objects.none()
     return render(request, 'buscar.html', {'resultados': resultados, 'query': query})
+
 
 #____________________________________________________
 # Metodos de sistema login
@@ -179,6 +250,14 @@ def recuperar(request):
 def perfil(request):
     return render(request, 'perfil_usuario.html')
 
+def pago_exitoso(request):
+    """Vista para manejar pagos exitosos."""
+    return render(request, 'pago_exitoso.html')
+
+def pago_fallido(request):
+    """Vista para manejar pagos fallidos."""
+    return render(request, 'pago_fallido.html')
+
 # def generar_buy_order():
 #     return str(uuid.uuid4())
 
@@ -198,4 +277,139 @@ def mostrar_carrito(request):
     }
     return render(request, 'miCarrito.html', contexto)
 
-#____________________________________________________________
+#__________MIS DESEADOS________________________________________
+
+@login_required
+def agregar_deseado(request, producto_id):
+    print(f"Usuario autenticado: {request.user.is_authenticated}")  # Verifica si el usuario está autenticado
+    producto = get_object_or_404(Producto, id=producto_id)
+    deseado, created = ListaDeseados.objects.get_or_create(usuario=request.user, producto=producto)
+
+    if created:
+        messages.success(request, f'¡Has añadido {producto.nombre} a tus deseados!')
+    else:
+        messages.info(request, f'{producto.nombre} ya está en tu lista de deseados.')
+    
+    return redirect('ver_deseados')
+
+@login_required
+def eliminar_deseado(request, deseado_id):
+    # Busca el objeto ListaDeseados por su ID
+    deseado = get_object_or_404(ListaDeseados, id=deseado_id, usuario=request.user)
+    deseado.delete()
+    messages.success(request, '¡Producto eliminado de la lista de deseados!')
+    return redirect('ver_deseados')
+
+
+
+@login_required
+def ver_deseados(request):
+    productos_deseados = ListaDeseados.objects.filter(usuario=request.user).select_related('producto')
+    return render(request, 'deseados.html', {'productos_deseados': productos_deseados})
+
+def deseados(request):
+    return render(request, 'deseados.html')
+
+
+#-----------------------------------------------
+
+#------------PARA HACER INGRESO DE PRODUCTOS AL DASHBOARD----------------------------
+
+from django.db import connection
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
+from .models import Producto
+from .forms import ProductoForm
+
+# Decorador para permitir solo a administradores
+def admin_required(view_func):
+    return user_passes_test(lambda u: u.is_staff)(view_func)
+
+
+@admin_required
+def dashboard_admin(request):
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Extraer los datos del formulario
+            nombre = form.cleaned_data['nombre']
+            categoria = form.cleaned_data['categoria']
+            precio = form.cleaned_data['precio']
+            imagen = form.cleaned_data['imagen']
+            descripcion = form.cleaned_data['descripcion']
+            
+            # Llamar al procedimiento almacenado
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "CALL InsertarProducto(%s, %s, %s, %s, %s)", 
+                    [nombre, categoria, precio, imagen.name, descripcion]
+                )
+            
+            messages.success(request, '¡Producto agregado exitosamente!')
+            return redirect('dashboard_admin')
+    else:
+        form = ProductoForm()
+    
+    productos = Producto.objects.all()  # Para mostrar los productos en el dashboard
+    context = {
+        'form': form,
+        'productos': productos
+    }
+    return render(request, 'dashboard_admin.html', context)
+
+
+
+def editar_producto(request, producto_id):
+    # Obtén el producto a editar
+    producto = get_object_or_404(Producto, id=producto_id)
+
+    # Si el formulario fue enviado con el método POST
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES, instance=producto)
+        if form.is_valid():
+            form.save()  # Guarda los cambios
+            messages.success(request, "¡Producto actualizado con éxito!")  
+            return redirect('dashboard_admin')  
+    else:
+        form = ProductoForm(instance=producto)  
+
+    return render(request, 'editar_producto.html', {'form': form, 'producto': producto})
+
+
+
+
+
+@admin_required
+def eliminar_producto(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    
+    if request.method == 'POST':
+        producto.delete()  # Elimina el producto
+        messages.success(request, "Producto eliminado con éxito.")  
+        return redirect('dashboard_admin') 
+    
+    context = {
+        'producto': producto
+    }
+    return render(request, 'eliminar_producto.html', context)
+
+
+
+
+#------------PARA HACER DASHBOARD GRAFICO----------------------------
+
+from django.shortcuts import render
+from django.db.models import Sum
+from .models import Producto, CarritoItem
+
+def dashboard_graficos(request):
+    # Obtenemos el total vendido por categoría
+    ventas_por_categoria = CarritoItem.objects.values('producto__categoria') \
+        .annotate(total_vendido=Sum('cantidad')) \
+        .order_by('-total_vendido')
+
+    print(ventas_por_categoria)  
+
+    # Pasamos los datos al template
+    return render(request, 'dashboard_graficos.html', {'ventas_por_categoria': ventas_por_categoria})

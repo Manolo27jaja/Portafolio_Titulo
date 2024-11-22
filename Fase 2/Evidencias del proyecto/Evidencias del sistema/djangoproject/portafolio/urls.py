@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django.urls import path
+<<<<<<< HEAD
 from ecommerse.views import modal, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito #, carritoid
+=======
+from ecommerse.views import detalle_producto, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito, carritoid , eliminar_deseado,dashboard_admin
+>>>>>>> e5b0af839031bbe5af40f7913f7d8ea1a51aec12
 from ecommerse import views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
@@ -10,6 +14,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('buscar/', buscar, name='buscar'),
+    path('home', home, name='home'),
+    path('modal/', modal, name='modal'),
     path('', home, name='home'),
     path('detalle_producto/<int:producto_id>/', views.detalle_producto, name='detalle_producto'),
     path('contenido_carrito/', views.contenido_carrito, name='contenido_carrito'),
@@ -37,7 +43,28 @@ urlpatterns = [
     # URL para la vista que procesa el enlace enviado por correo
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm_custom.html'), name='password_reset_confirm'),
     # URL para la vista cuando la contraseña ha sido reseteada con éxito
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    # URL para la vistas de pago aceptado o rechazado
+    path('pago-exitoso/', views.pago_exitoso, name='pago_exitoso'),
+    path('pago-fallido/', views.pago_fallido, name='pago_fallido'),
+    path('pago_celular/', views.pago_celular_bricks, name='pago_celular_bricks'),
+    path('create_preference/', views.create_preference, name='create_preference'),
+    path('mis-compras/', views.mis_compras, name='mis_compras'),
     path('reset_done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete_custom.html'), name='password_reset_complete'),
+
+
+    # URL PARA deseados 
+    path('deseados/', views.ver_deseados, name='ver_deseados'),  
+    path('agregar_deseado/<int:producto_id>/', views.agregar_deseado, name='agregar_deseado'),
+    path('deseados/', views.deseados, name='deseados'),
+    path('eliminar_deseado/<int:deseado_id>/', eliminar_deseado, name='eliminar_deseado'),
+
+
+    
+    path('admin_dashboard/', dashboard_admin, name='dashboard_admin'),
+    path('editar/<int:producto_id>/', views.editar_producto, name='editar_producto'),
+    path('eliminar/<int:producto_id>/', views.eliminar_producto, name='eliminar_producto'),
+    path('dashboard-graficos/', views.dashboard_graficos, name='dashboard_graficos'),
 
 ]
 
