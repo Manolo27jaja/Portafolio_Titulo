@@ -1,10 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-<<<<<<< HEAD
-from ecommerse.views import modal, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito #, carritoid
-=======
-from ecommerse.views import detalle_producto, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito, carritoid , eliminar_deseado,dashboard_admin
->>>>>>> e5b0af839031bbe5af40f7913f7d8ea1a51aec12
+from ecommerse.views import detalle_producto, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito,  eliminar_deseado,dashboard_admin
 from ecommerse import views
 from django.contrib.auth import views as auth_views
 from django.conf import settings

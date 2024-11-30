@@ -177,3 +177,20 @@ img:hover {
     background-color: #0056b3; 
     border-color: #0056b3; 
 }
+
+
+.card-img-top {
+    max-height: 200px; /* Limita la altura de la imagen */
+    object-fit: cover; /* Mantiene proporciones y recorta si es necesario */
+}
+
+.card {
+    max-width: 350px; /* Opcional: limita el tamaño horizontal */
+    margin: 0 auto;   /* Centra las tarjetas si es necesario */
+}
+
+.no-results {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+}

@@ -11,9 +11,8 @@ from ecommerse.CarritoClass import CarritoClass
 # Bloque de importaciones del modelo de base de datos
 from ecommerse.models import Producto, Carrito, CarritoItem, Usuario ,ListaDeseados
 from .models import Usuario
-<<<<<<< HEAD
 from django.http import JsonResponse
-=======
+
 from django.db.models import Q # esto es para buscar en django mas especifico dicen 
 import mercadopago
 from django.conf import settings
@@ -57,7 +56,7 @@ def create_preference(request):
 def pagar(request):
     return render(request, 'pago_celular.html')
 
->>>>>>> e5b0af839031bbe5af40f7913f7d8ea1a51aec12
+
 
 def modal(request):
     return render(request, 'modal.html')

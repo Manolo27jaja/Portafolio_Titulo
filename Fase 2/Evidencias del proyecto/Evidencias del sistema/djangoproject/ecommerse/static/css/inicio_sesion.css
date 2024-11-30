@@ -1,63 +1,99 @@
-.logo{
-    width: 50px;
-    height: auto;
-    border-radius: 50%;
-    margin-left: 10px;
+/* Estilo global para el body */
+body {
+    background-color: #f3f4f6;  /* Fondo suave */
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-.container-fluid {
-    display: flex;
-}
-
-.top{
-    margin-top: 5%;
-    margin-left: 35%;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-}
-
-.custom-img{
-    width: 100%;
-    height: 100%;
-}
-
-.center{
-    text-align: center;
-    align-items: center;
-}
-
-body{
-    background-color: aliceblue;
-}
-
-.navbar-nav .nav-link:hover {
-    color:darksalmon ;
-}
-
-.buttom{
+/* Card de login */
+.card.inicio-sesion {
     background-color: white;
-    margin-top: 15%;
-    display: flex;
-}
-
-.margen{
-    margin: 5%;
-
-}
-
-.logo_2{
-    width: 50px;
-    height: auto;
-    border-radius: 50%;
-}
-
-.ancho_foot{
-    width: max-content;
-}
-
-footer{
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin: 50px auto;
     width: 100%;
+    max-width: 400px;
+    text-align: center;
 }
 
-/* CCS formulario*/
+/* Título del formulario */
+.card.inicio-sesion .margen h2 {
+    font-size: 28px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* Estilo para los campos del formulario */
+.form-floating {
+    margin-bottom: 20px;
+}
+
+/* Estilo para los campos de entrada */
+.inicio-sesion input[type="text"], 
+.inicio-sesion input[type="password"], 
+.inicio-sesion input[type="email"] {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #333;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+/* Efecto cuando un campo está en foco */
+.inicio-sesion input[type="text"]:focus, 
+.inicio-sesion input[type="password"]:focus, 
+.inicio-sesion input[type="email"]:focus {
+    outline: none;
+    border-color: #007bff;
+    background-color: #fff;
+}
+
+/* Estilo del botón de inicio de sesión */
+.inicio-sesion button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Efecto hover para el botón */
+.inicio-sesion button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Enlaces de recuperación de contraseña y registro */
+.inicio-sesion p {
+    font-size: 14px;
+    color: #555;
+}
+
+.inicio-sesion p a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Efecto hover en los enlaces */
+.inicio-sesion p a:hover {
+    text-decoration: underline;
+}
+
+/* Media query para dispositivos pequeños */
+@media (max-width: 768px) {
+    .card.inicio-sesion {
+        width: 80%;  /* Reduce el tamaño de la card en dispositivos pequeños */
+    }
+}
+
+
