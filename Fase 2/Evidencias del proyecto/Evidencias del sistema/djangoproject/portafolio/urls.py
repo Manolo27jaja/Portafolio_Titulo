@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django.urls import path
-from ecommerse.views import detalle_producto, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito, carritoid
+<<<<<<< HEAD
+from ecommerse.views import modal, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito #, carritoid
+=======
+from ecommerse.views import detalle_producto, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito, carritoid , eliminar_deseado,dashboard_admin
+>>>>>>> e5b0af839031bbe5af40f7913f7d8ea1a51aec12
 from ecommerse import views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
@@ -13,11 +17,14 @@ urlpatterns = [
     path('home', home, name='home'),
     path('modal/', modal, name='modal'),
     path('', home, name='home'),
-    path('detalle_producto/', detalle_producto, name='detalle_producto'),
-    path('carritoid/<int:producto_id>/', carritoid, name='carritoid'),
+    path('detalle_producto/<int:producto_id>/', views.detalle_producto, name='detalle_producto'),
+    path('contenido_carrito/', views.contenido_carrito, name='contenido_carrito'),
+    ###########path('carritoid/<int:producto_id>/', carritoid, name='carritoid'),
     path('guardar_carrito/', guardar_carrito, name='guardar_carrito'),
     #Paths de Carrito de compras
+    path('modal/', modal, name="modal"),
     path('agregar/<int:producto_id>/', agregar_producto, name="Add"),
+    path('aumentar/<int:producto_id>/', views.aumentar_producto, name="Add"),
     path('eliminar/<int:producto_id>/', eliminar_producto, name="Del"),
     path('restar/<int:producto_id>/', restar_producto, name="Sub"),
     path('limpiar/', limpiar_carrito, name="CLS"),
@@ -44,6 +51,20 @@ urlpatterns = [
     path('create_preference/', views.create_preference, name='create_preference'),
     path('mis-compras/', views.mis_compras, name='mis_compras'),
     path('reset_done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete_custom.html'), name='password_reset_complete'),
+
+
+    # URL PARA deseados 
+    path('deseados/', views.ver_deseados, name='ver_deseados'),  
+    path('agregar_deseado/<int:producto_id>/', views.agregar_deseado, name='agregar_deseado'),
+    path('deseados/', views.deseados, name='deseados'),
+    path('eliminar_deseado/<int:deseado_id>/', eliminar_deseado, name='eliminar_deseado'),
+
+
+    
+    path('admin_dashboard/', dashboard_admin, name='dashboard_admin'),
+    path('editar/<int:producto_id>/', views.editar_producto, name='editar_producto'),
+    path('eliminar/<int:producto_id>/', views.eliminar_producto, name='eliminar_producto'),
+    path('dashboard-graficos/', views.dashboard_graficos, name='dashboard_graficos'),
 
 ]
 

@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ['.ngrok-free.app', '127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'ecommerse',
     'django_extensions',
     'widget_tweaks'
+    
 ]
 
 MIDDLEWARE = [
@@ -84,12 +86,12 @@ WSGI_APPLICATION = 'portafolio.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mpagency',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.mysql',  
+        'NAME': 'mpagency',                    
+        'USER': 'root',                        
+        'PASSWORD': '',                        
+        'HOST': 'localhost',                  
+        'PORT': '3306',                       
     }
 }
 

@@ -1,0 +1,159 @@
+
+.barra-arcoiris {
+    width: 100%; /* Ocupa todo el ancho de la página */
+    height: 20px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: linear-gradient(270deg, 
+        #ff0000,
+        #ff7f00, 
+        #00ff00, 
+        #0000ff, 
+        #4b0082, 
+        #9400d3, 
+        #ff1493,
+        #00ffff, 
+        #ff4500  
+    ); 
+    background-size: 600%; 
+    animation: animar-colores 5s linear infinite; 
+    position: relative; 
+    z-index: 1000; 
+}
+
+@keyframes animar-colores {
+    0% { background-position: 0%; }
+    100% { background-position: 100%; }
+}
+
+.texto-arcoiris {
+    color: white; 
+    font-size: 1rem; 
+    margin: 0; 
+    position: relative; 
+    z-index: 1001; /* Asegura que el texto esté por encima de la barra */
+}
+
+
+
+
+
+/*______________para modificar el header ___________________________*/
+.logo {
+    width: 40px;
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+a:hover .logo {
+    filter: drop-shadow(0px 0px 10px rgba(255, 20, 147, 0.8));
+    transform: scale(1.2); /* Aumenta más el tamaño para el efecto de pulso */
+}
+
+
+
+
+
+
+.navbar  {
+    position: sticky; /* Cambia a sticky */
+    top: 0; /* Se queda en la parte superior */
+    width: 100%;
+    z-index: 2000; /* Para asegurarte de que esté por encima */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 90px; /* Ajusta la altura aquí */
+    
+    
+}
+
+
+.content {
+    margin-top: 60px; /* O ajusta según la altura del navbar */
+}
+
+
+
+
+.menu {
+    display: flex;
+    justify-content: center;
+    background-color: #f8f9fa; 
+    padding: 10px 0; 
+    position: sticky; /* Mantiene el menú en la parte superior */
+    top: 0; 
+    z-index: 1000; /* Para asegurarte de que esté por encima */
+}
+
+.menu-item {
+    position: relative;
+    margin: 0 15px; 
+}
+
+.menu-item a {
+    text-decoration: none; 
+    color: #000; 
+}
+
+.dropdown-content {
+    display: none; 
+    position: absolute; 
+    background-color: white; 
+    min-width: 160px; 
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
+    z-index: 1; 
+}
+
+.menu-item:hover .dropdown-content {
+    display: block; /* Mostrar el contenido del dropdown al pasar el ratón */
+}
+
+.content {
+    margin-top: 20px; /* Espacio entre el menú y el contenido */
+}
+
+
+/* esto es para cambiarle el color al header  */
+.bg-body-tertiary {
+    --bs-bg-opacity: 1;
+    background-color: rgb(0 0 0) !important;
+}
+
+
+.logo{
+    width: 50px;
+    height: auto;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.ancho_nav{
+    width: auto;
+}
+
+
+
+
+/* Estilo para los gráficos */
+.chart-animate {
+    width: 100%;   /* Usamos todo el ancho del contenedor */
+    height: 150px; /* Reducimos la altura aún más */
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.grafico-container {
+    margin: 10px auto;
+    width: 40%;     /* Reducimos aún más el contenedor a un 40% del tamaño de la página */
+    padding: 8px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1); /* Menos sombra */
+    text-align: center;  /* Centrar el contenido */
+}
+
+.chart-labels {
+    font-size: 0.75rem;  /* Reducimos aún más el tamaño de la fuente */
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 6px;   /* Reducimos el margen inferior */
+}

@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +17,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="icon" type="image/png" href="{% static 'imagenes/' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/home.css'%}">
-    <script src="{% static 'js/home.js' %}"></script>
+
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -25,6 +25,8 @@
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         })(window, document, "clarity", "script", "oxjexcyto6");
     </script>
+
+
 </head>
 <!-- Google tag (gtag.js) -->
 <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-449T3X34HB"></script>
@@ -36,12 +38,9 @@
   gtag('config', 'G-449T3X34HB');
 </script> -->
 
-
-
 <div class="barra-arcoiris">
     <h2 class="texto-arcoiris">¡Bienvenido a Nuestra Tienda!</h2>
 </div>
-
 
 <body style="background-color: white;"> 
     <!-- Google Tag Manager (noscript) -->
@@ -54,7 +53,9 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <img src="{% static 'imagenes/Logo_mauri_agency.jpeg' %}" class="logo" alt="Logo de Mauri Agency">
+            <a href="{% url 'home' %}"> <!-- Cambia 'home' por el nombre de tu URL correspondiente -->
+                <img src="{% static 'imagenes/Logo_mauri_agency.jpeg' %}" class="logo" alt="Logo de Mauri Agency">
+            </a>
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <div class="d-flex mx-auto align-items-center">
                     <form method="GET" action="{% url 'buscar' %}" class="d-flex">
@@ -62,6 +63,10 @@
                         <button class="btn btn-outline-light" type="submit">Buscar</button>
                     </form>
                 </div>
+                <!-- Corazón creado con CSS -->
+                <a href="{% url 'deseados' %}">
+                    <img src="{% static 'imagenes/love_icon.png' %}" alt="deseados" class="logo">
+                </a>
                 <a href="{% url 'miCarrito' %}">
                     <img src="{% static 'imagenes/carrito_white.png' %}" alt="Carrito" class="logo">
                 </a>
@@ -94,6 +99,9 @@
             </div>
         </div>
     </nav>
+</body>
+</html>
+
 
     <!-- Navbar secundaria -->
     <div class="menu">
@@ -105,14 +113,14 @@
             </div>
         </div>
         <div class="menu-item">
-            <a href="{% url 'buscar' %}?q=Computadores">Computadores</a>
+            <a href="{% url 'buscar' %}?q=Notebook">Computadores</a>
             <div class="dropdown-content">
                 <a href="{% url 'buscar' %}?q=Computadores">Ver</a>
                 <a href="{% url 'buscar' %}?q=Notebook">Notebooks</a>
             </div>
         </div>
         <div class="menu-item">
-            <a href="{% url 'buscar' %}?q=Teléfonos">Teléfonos</a>
+            <a href="{% url 'buscar' %}?q=celulares">Teléfonos</a>
             <div class="dropdown-content">
                 <a href="{% url 'buscar' %}?q=Teléfonos">Ver</a>
                 <a href="{% url 'buscar' %}?q=Action">Another Action</a>
@@ -173,8 +181,6 @@
 
 
 <!--__________________________________Carrusel _______________________-->
-
-
 <h5 class="rainbow-text">Nuestras Ofertas</h5>
 
 <div class="container" id="carrusel_css">
@@ -183,13 +189,7 @@
         <div class="carrusel-list" id="carrusel-list">
             <!-- Botón anterior del carrusel -->
             <button class="carrusel-arrow carrusel-prev" id="button-prev" data-button="button-prev">
-                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left"
-                    class="svg-inline--fa fa-chevron-left fa-w-10" role="img" xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 320 512">
-                    <path fill="currentColor"
-                        d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z">
-                    </path>
-                </svg>
+                <!-- SVG para el botón anterior -->
             </button>
 
             <!-- Productos del carrusel -->
@@ -197,12 +197,18 @@
                 {% for producto in productos_1 %}
                 <div class="carrusel">
                     <div>
-                        <a href="{% url 'carritoid' producto.id %}">
+                        <a href="{% url 'detalle_producto' producto.id %}">
                             <h4><small>{{ producto.nombre }}</small> ${{ producto.precio }}</h4>
+
+                    
                             <picture>
                                 <img src="{% static 'imagenes/' %}{{ producto.imagen }}" alt="{{ producto.nombre }}">
-                                <!--<img src="{% static 'imagenes/macbook_14.jpg'%}" alt="imagen">-->
                             </picture>
+                        </a>
+                        <a href="{% url 'agregar_deseado' producto.id %}" class="heart-button" aria-label="Agregar a deseados">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
                         </a>
                     </div>
                 </div>
@@ -211,13 +217,7 @@
 
             <!-- Botón siguiente del carrusel -->
             <button class="carrusel-arrow carrusel-next" id="button-next" data-button="button-next">
-                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right"
-                    class="svg-inline--fa fa-chevron-right fa-w-10" role="img" xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 320 512">
-                    <path fill="currentColor"
-                        d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z">
-                    </path>
-                </svg>
+                <!-- SVG para el botón siguiente -->
             </button>
         </div>
     </div>
@@ -246,47 +246,46 @@
     {% endfor %}
 </div>
 <!--_______________________segundo carrusel______________________________-->
+<h5 class="rainbow-text">Nuestras Ofertas</h5>
+
 <div class="container" id="carrusel_css">
     <div class="carousel">
         <h2></h2>
         <div class="carrusel-list" id="carrusel-list">
-            <button class="carrusel-arrow carrusel-prev" id="button-prev" data-button="button-prev"
-                onclick="app.processingButton(event)">
-                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left"
-                    class="svg-inline--fa fa-chevron-left fa-w-10" role="img" xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 320 512">
-                    <path fill="currentColor"
-                        d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z">
-                    </path>
-                </svg>
+            <!-- Botón anterior del carrusel -->
+            <button class="carrusel-arrow carrusel-prev" id="button-prev" data-button="button-prev">
+                <!-- SVG para el botón anterior -->
             </button>
+
+            <!-- Productos del carrusel -->
             <div class="carrusel-track" id="track">
                 {% for producto in productos_2 %}
                 <div class="carrusel">
-                    <div>
-                        <a href="/">
-                            <h4><small>{{producto.nombre}}</small>${{producto.precio}}</h4>
+                    <div class="producto">
+                        <a href="{% url 'carritoid' producto.id %}">
+                            <h4><small>{{ producto.nombre }}</small> ${{ producto.precio }}</h4>
                             <picture>
                                 <img src="{% static 'imagenes/' %}{{ producto.imagen }}" alt="{{ producto.nombre }}">
                             </picture>
+                        </a>
+                        <a href="{% url 'agregar_deseado' producto.id %}" class="heart-button" aria-label="Agregar a deseados">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
                         </a>
                     </div>
                 </div>
                 {% endfor %}
             </div>
-            <button class="carrusel-arrow carrusel-next" id="button-next" data-button="button-next"
-                onclick="app.processingButton(event)">
-                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right"
-                    class="svg-inline--fa fa-chevron-right fa-w-10" role="img" xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 320 512">
-                    <path fill="currentColor"
-                        d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z">
-                    </path>
-                </svg>
+
+            <!-- Botón siguiente del carrusel -->
+            <button class="carrusel-arrow carrusel-next" id="button-next" data-button="button-next">
+                <!-- SVG para el botón siguiente -->
             </button>
         </div>
     </div>
 </div>
+
 
 <!-- TERCERA OPCION DE PRODUCTOS  CARRUSEL -->
 <h5 class="rainbow-text">Complementa tu experiencia con productos increíbles</h5>
