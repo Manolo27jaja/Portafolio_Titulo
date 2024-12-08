@@ -1,2 +1,47 @@
-<h1>SI</h1>
-<p>SI</p>
+{% extends "base.html" %}
+{% block content %}
+{% load humanize %}
+<div class="container mt-5">
+    <h1 class="text-center text-success">¡Pago Exitoso!</h1>
+    <p class="text-center">Gracias por tu compra. Tu orden ha sido procesada exitosamente.</p>
+    
+    <!-- Número de orden -->
+    <div class="text-center mt-4">
+        <h4>Número de Orden: <strong>{{ orden.id }}</strong></h4>
+        <p>Fecha de creación: {{ orden.creado }}</p>
+    </div>
+
+    <!-- Tabla de detalles de la orden -->
+    <table class="table table-striped table-hover mt-4">
+        <thead class="table-dark">
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles %}
+            <tr>
+                <td>{{ detalle.producto.nombre }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>${{ detalle.precio|floatformat:0|intcomma }}</td>
+                <td>${{ detalle.subtotal|floatformat:0|intcomma }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Total de la orden -->
+    <div class="text-end mt-3">
+        <h4 class="text-danger">Total: ${{ total_orden|floatformat:0|intcomma }}</h4>
+    </div>
+
+    <!-- Botón para regresar al inicio -->
+    <div class="text-center mt-4">
+        <a href="{% url 'home' %}" class="btn btn-primary">Volver al inicio</a>
+    </div>
+</div>
+{% endblock %}
+

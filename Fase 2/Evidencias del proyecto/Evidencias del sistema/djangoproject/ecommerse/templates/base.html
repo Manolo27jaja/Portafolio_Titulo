@@ -41,10 +41,13 @@
                         <img src="{% static 'imagenes/Logo_usuario_cuenta.jpeg' %}" class="logo" alt="Usuario">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="{% url 'inicio_sesion' %}">Iniciar Sesión</a></li>
-                        <li><a class="dropdown-item" href="{% url 'registro' %}">Registrarse</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{% url 'cerrar_sesion' %}">Cerrar Sesión</a></li>
+                        {% if request.user.is_authenticated %}
+                            <li><a class="dropdown-item" href="{% url 'mis_compras' %}">Mis Compras</a></li>
+                            <li><a class="dropdown-item" href="{% url 'cerrar_sesion' %}">Cerrar Sesión</a></li>
+                        {% else %}
+                            <li><a class="dropdown-item" href="{% url 'inicio_sesion' %}">Iniciar Sesión</a></li>
+                            <li><a class="dropdown-item" href="{% url 'registro' %}">Registrarse</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -64,7 +67,7 @@
         {% block content %}{% endblock %}
     </div>
 
-    <!-- Footer -->
+    <!--___________________________ Footer _______________________________-->
     <footer class="bg-light text-dark pt-5 pb-4">
         <div class="container text-center text-md-start">
             <div class="row text-center text-md-start ">
@@ -73,10 +76,14 @@
                 </div>
                 <div class="col-md-3 col-lg-3 col-lx-3 mx-auto mt-3">
                     <h5 class="text-uppercase mb-4 font-weight-bold text-primary">Nosotros</h5>
-                    <p>Página web diseñada y construida con el fin de formar una comunidad de entusiastas en la tecnología.</p>
+                    <hr class="mb-4">
+                    <p>
+                        Página web diseñada y construida con el fin de formar una comunidad de entusiastas en la tecnología.
+                    </p>
                 </div>
                 <div class="col-md-2 col-lg-2 col-xl-2 ms-auto mt-3">
                     <h5 class="text-uppercase mb-4 font-weight-bold text-primary">Catálogo</h5>
+                    <hr class="mb-4">
                     <p><a href="#" class="text-dark">Apple</a></p>
                     <p><a href="#" class="text-dark">Computadoras</a></p>
                     <p><a href="#" class="text-dark">Teléfonos</a></p>
@@ -84,29 +91,30 @@
                 </div>
                 <div class="col-md-2 col-lg-2 col-xl-2 ms-auto mt-3">
                     <h5 class="text-uppercase mb-4 font-weight-bold text-primary">Haz dinero</h5>
+                    <hr class="mb-4">
                     <p><a href="#" class="text-dark">Promociona tu negocio</a></p>
+                    <p><a href="#" class="text-dark">Tus órdenes</a></p>
+                    <p><a href="#" class="text-dark">Manejo de cuenta</a></p>
                 </div>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
                 <div class="col-md-2 col-lg-2 col-xl-2 ms-auto mt-3">
                     <h5 class="text-uppercase mb-4 font-weight-bold text-primary">Contacto</h5>
-                    <p><i class="fas fa-home me-3"></i> Chile - Melipilla</p>
-                    <p><i class="fas fa-envelope me-3"></i> test@gmail.com</p>
-                    <p><i class="fas fa-phone me-3"></i> +56911111111</p>
+                    <hr class="mb-4">
+                    <p><li class="fas fa-home me-3"></li> Chile - Melipilla</p>
+                    <p><li class="fas fa-envelope me-3"></li> test@gmail.com</p>
+                    <p><li class="fas fa-phone me-3"></li> +56911111111</p>
                 </div>
             </div>
-            <div class="text-center mt-4">
+            <div class="text-center">
                 <ul class="list-unstyled list-inline">
-                    
-                    
+                    <li class="list-inline-item"><a href="#" class="text-dark"><i class="fab fa-facebook"></i></a></li>
+                    <li class="list-inline-item"><a href="#" class="text-dark"><i class="fab fa-twitter"></i></a></li>
+                    <li class="list-inline-item"><a href="#" class="text-dark"><i class="fab fa-linkedin-in"></i></a></li>
+                    <li class="list-inline-item"><a href="#" class="text-dark"><i class="fab fa-instagram"></i></a></li>
                 </ul>
             </div>
         </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
-
-
-<!-- creacion del base para todas las paginas con el diseño-->

@@ -122,7 +122,7 @@
     <div class="product-cards">
         {% for producto in productos %}
         <div class="product-card">
-            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="product-image">
+            
             <div class="product-name">{{ producto.nombre }}</div>
             <div class="product-category">{{ producto.categoria }}</div>
             <div class="product-price">${{ producto.precio }}</div>

@@ -1,10 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-<<<<<<< HEAD
-from ecommerse.views import modal, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito #, carritoid
-=======
-from ecommerse.views import detalle_producto, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito, carritoid , eliminar_deseado,dashboard_admin
->>>>>>> e5b0af839031bbe5af40f7913f7d8ea1a51aec12
+from ecommerse.views import detalle_producto, agregar_producto, eliminar_producto, limpiar_carrito, restar_producto, home, buscar, modal, guardar_carrito , eliminar_deseado,dashboard_admin
 from ecommerse import views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
@@ -28,8 +24,7 @@ urlpatterns = [
     path('eliminar/<int:producto_id>/', eliminar_producto, name="Del"),
     path('restar/<int:producto_id>/', restar_producto, name="Sub"),
     path('limpiar/', limpiar_carrito, name="CLS"),
-    path('miCarrito/', views.miCarrito, name="miCarrito"),
-    path('miCarrito/', views.mostrar_carrito, name='miCarrito'),
+    path('miCarrito/', views.mi_carrito, name="miCarrito"),
     #Paths de Sistema Login
     path('registro/', views.registro, name='registro'),
     path('inicio_sesion/', views.inicio_sesion, name='inicio_sesion'),
@@ -48,7 +43,7 @@ urlpatterns = [
     path('pago-exitoso/', views.pago_exitoso, name='pago_exitoso'),
     path('pago-fallido/', views.pago_fallido, name='pago_fallido'),
     path('pago_celular/', views.pago_celular_bricks, name='pago_celular_bricks'),
-    path('create_preference/', views.create_preference, name='create_preference'),
+    # path('create_preference/', views.create_preference, name='create_preference'),
     path('mis-compras/', views.mis_compras, name='mis_compras'),
     path('reset_done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete_custom.html'), name='password_reset_complete'),
 
@@ -58,6 +53,9 @@ urlpatterns = [
     path('agregar_deseado/<int:producto_id>/', views.agregar_deseado, name='agregar_deseado'),
     path('deseados/', views.deseados, name='deseados'),
     path('eliminar_deseado/<int:deseado_id>/', eliminar_deseado, name='eliminar_deseado'),
+    path('aumentar-cantidad/<int:producto_id>/', views.aumentar_producto_carrito, name='aumentar_producto_carrito'),
+    path('disminuir-producto/<int:producto_id>/', views.disminuir_producto_carrito, name='disminuir_producto_carrito'),
+    path('eliminar-producto-carrito/<int:producto_id>/', views.eliminar_producto_carrito, name='eliminar_producto_carrito'),
 
 
     
@@ -65,6 +63,7 @@ urlpatterns = [
     path('editar/<int:producto_id>/', views.editar_producto, name='editar_producto'),
     path('eliminar/<int:producto_id>/', views.eliminar_producto, name='eliminar_producto'),
     path('dashboard-graficos/', views.dashboard_graficos, name='dashboard_graficos'),
+
 
 ]
 

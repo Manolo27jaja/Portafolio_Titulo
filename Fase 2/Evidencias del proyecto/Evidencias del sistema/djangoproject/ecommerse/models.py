@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 # Importa la libreria de dijango para hacer modelos de base de datos
 from django.db import models
 from django.conf import settings
+from django.utils.timezone import now
+
 
 # Aqui se crea la base de datos
 # Crea la base de datos del carrito de compras, una base de datos basica para hacer funcionar funcionalidades.
@@ -87,6 +89,10 @@ class CarritoItem(models.Model):
     cantidad = models.IntegerField(default=1)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
 
+    @property
+    def subtotal(self):
+        return self.cantidad * self.precio
+
     def __str__(self):
         return f'{self.cantidad} x {self.producto.nombre} en el carrito de {self.carrito.usuario.email}'    
 #_______________________________________________
@@ -100,3 +106,34 @@ class ListaDeseados(models.Model):
 
     class Meta:
         unique_together = ('usuario', 'producto')
+
+
+#ordenes
+class Orden(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    creado = models.DateTimeField(default=now)
+    numero_orden = models.PositiveIntegerField(unique=True, editable=False)  # Campo para número de orden
+
+    def save(self, *args, **kwargs):
+        if not self.numero_orden:
+            # Obtiene el número de orden más alto y le suma 1
+            ultimo_numero = Orden.objects.aggregate(max_numero=models.Max('numero_orden'))['max_numero']
+            self.numero_orden = 1 if ultimo_numero is None else ultimo_numero + 1
+        super(Orden, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Orden #{self.numero_orden} de {self.usuario.email}"
+
+
+class DetalleOrden(models.Model):
+    orden = models.ForeignKey(Orden, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.IntegerField()
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+
+    @property
+    def subtotal(self):
+        return self.cantidad * self.precio
+
+    def __str__(self):
+        return f"{self.cantidad} x {self.producto.nombre} - {self.orden.id}"

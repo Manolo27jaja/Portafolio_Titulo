@@ -1,53 +1,66 @@
-/*______________________________Navegador___________________________*/
-.logo{
-    width: 50px;
-    height: auto;
-    border-radius: 50%;
-    margin-left: 10px;
+/* miCarrito.css */
+.titulo-carrito {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-top: 20px;
+    color: #333;
+    font-weight: bold;
 }
 
-.ancho_nav{
-    width: auto;
+/* Contenedor general para centrar el contenido */
+.carrito-contenedor {
+    margin-top: 50px; /* Espacio superior */
+    margin-bottom: 50px; /* Espacio inferior */
+    display: flex;
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: flex-start; /* Alinear al inicio vertical */
 }
 
-/*__________________________________________Footer__________________________*/
-.navbar-nav .nav-link:hover {
-    color:peru ;
+/* Tabla tipo carta */
+.tabla-carrito {
+    width: 90%; /* Ajusta el ancho de la carta */
+    max-width: 1200px; /* Ancho máximo */
+    background-color: #fff; /* Fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+    overflow: hidden; /* Oculta contenido desbordado */
 }
 
-.margen{
-    margin: 5%;
+.table-striped {
+    background-color: #f9f9f9;
 }
 
-.logo_2{
-    width: 50px;
-    height: auto;
-    border-radius: 50%;
+.table-dark th {
+    text-align: center;
 }
 
-.ancho_foot{
-    width: max-content;
+.img-thumbnail {
+    border: none;
 }
 
-footer{
-    width: 100%;
+.text-end h4 {
+    font-size: 1.5rem;
+    color: red; /* Texto en rojo */
+    margin-top: 10px;
 }
 
-.tamano_bus{
-    width: 400px;
+.alert-info {
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 15px;
+    border-radius: 5px;
 }
 
-.alto_nav{
-    height: 35px;
+.btn-success {
+    padding: 5px 10px;
+    font-size: 14px;
 }
 
-.nav-link{
-    color: black;
+.btn-danger {
+    padding: 5px 10px;
+    font-size: 14px;
 }
 
-/* ------------------------------------------------------------- */
-
-.tarjeta{
-    margin-top: 2%;
-    margin-bottom: 2%;
+.table img {
+    border-radius: 5px;
 }

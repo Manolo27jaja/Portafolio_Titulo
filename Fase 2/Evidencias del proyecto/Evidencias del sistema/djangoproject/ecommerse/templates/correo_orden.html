@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orden Confirmada</title>
+</head>
+<body>
+    <h1>¡Gracias por tu compra!</h1>
+    <p>Tu número de orden es: {{ orden.id }}</p>
+    <p>Fecha: {{ orden.creado }}</p>
+    <p>Total: ${{ total_orden }}</p>
+    <h2>Detalles de tu orden:</h2>
+    <ul>
+        {% for detalle in detalles %}
+        <li>{{ detalle.cantidad }} x {{ detalle.producto.nombre }} - ${{ detalle.precio }}</li>
+        {% endfor %}
+    </ul>
+    <p>¡Gracias por comprar con nosotros!</p>
+</body>
+</html>
