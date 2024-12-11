@@ -87,7 +87,7 @@
 {% endif %}
 
     <div class="dashboard-container">
-        <h1 class="dashboard-title">Dashboard - Agregar Producto</h1>
+        <h1 class="dashboard-title">Admin - Agregar Producto</h1>
         
         <div class="form-card">
             <h2 class="form-card-title">Nuevo Producto</h2>
@@ -113,6 +113,38 @@
                     <label for="descripcion">Descripción</label>
                     {{ form.descripcion }}
                 </div>
+                <div class="form-group">
+                    <label for="modelo">Modelo</label>
+                    {{ producto_modelo_form.modelo }}
+                </div>       
+                <div class="form-group">
+                    <label for="color">Color</label>
+                    {{ producto_color_form.color }}
+                </div>
+                <div class="form-group">
+                    <label for="color">Codigo Hex</label>
+                    {{ producto_color_form.codigo_hex }}
+                </div>              
+                <div class="form-group">
+                    <label for="almacenamiento">Almacenamiento</label>
+                    {{ producto_almacenamiento_form.capacidad }}
+                </div>    
+                <button type="submit" class="submit-btn">Agregar Producto</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <h1 class="dashboard-title">Admin - Agregar Producto</h1>
+        
+        <div class="form-card">
+            <h2 class="form-card-title">Nuevo Almacenamiento</h2>
+            <form method="POST" enctype="multipart/form-data" class="product-form">
+                {% csrf_token %}            
+                <div class="form-group">
+                    <label for="almacenamiento">Almacenamiento</label>
+                    {{ producto_almacenamiento_form.capacidad }}
+                </div>    
                 <button type="submit" class="submit-btn">Agregar Producto</button>
             </form>
         </div>

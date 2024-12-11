@@ -18,7 +18,36 @@ from django.conf import settings
 import logging
 from django.shortcuts import render
 from django.contrib.auth import logout
+import os
 from django.views.decorators.csrf import csrf_exempt
+import openai
+import json 
+
+#_____________________________________________________________
+# Configura tu clave de API
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+@csrf_exempt
+def chat_with_gpt(request):
+    if request.method == "POST":
+        body = json.loads(request.body)
+        user_message = body.get("message", "")
+        try:
+            response = openai.ChatCompletion.acreate(
+                model="gpt-4",
+                messages=[{"role": "user", "content": user_message}],
+            )
+            gpt_response = response.choices[0].message.content
+            return JsonResponse({"response": gpt_response})
+        except Exception as e:
+            print(str(e))  # Esto imprimirá el error en la consola
+            return JsonResponse({"error": "Error interno del servidor"}, status=500)
+    elif request.method == "GET":
+        # Devuelve una página simple para usar el chat
+        return render(request, "openai.html")
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
+#_____________________________________________________________
 
 logging.basicConfig(level=logging.INFO)
 
@@ -65,10 +94,16 @@ def detalle_producto(request, producto_id):
     d_p_real = Producto.objects.filter(id=producto_id)
     producto_ids_1 = [1, 2, 3, 4, 5, 6, 7, 8] 
     productos_1 = Producto.objects.filter(id__in=producto_ids_1)
-    return render(request, 'detalle_producto.html', {"d_p_real": d_p_real, "productos_1": productos_1})
+    almacenamiento = Almacenamiento.objects.filter(
+        id__in=ProductoAlmacenamiento.objects.filter(producto_id=producto_id).values_list('almacenamiento_id', flat=True)
+    )
+    return render(
+        request, 
+        'detalle_producto.html', 
+        {"d_p_real": d_p_real, "productos_1": productos_1, "almacenamiento": almacenamiento})
 
 def home(request):
-    producto_ids_1 = [1 , 2, 3, 4, 5, 6]  # Primer conjunto de productos
+    producto_ids_1 = [16 , 2, 3, 4, 5, 6]  # Primer conjunto de productos
     producto_ids_2 = [7, 8, 9, 10, 11, 12]  # Segundo conjunto de productos para el otro carrusel
     productos_1 = Producto.objects.filter(id__in=producto_ids_1)
     productos_2 = Producto.objects.filter(id__in=producto_ids_2)
@@ -322,46 +357,91 @@ from django.db import connection
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
-from .models import Producto
-from .forms import ProductoForm
+from .models import Producto, Modelo, ProductoModelo, Color, ProductoColor, Almacenamiento, ProductoAlmacenamiento
+from .forms import ProductoForm, ProductoModeloForm, ProductoColorForm, ProductoAlmacenamientoForm
+from django.core.files.storage import default_storage
+
 
 # Decorador para permitir solo a administradores
 def admin_required(view_func):
     return user_passes_test(lambda u: u.is_staff)(view_func)
+#---------------------------------
 
-
+#---------------------------------
 @admin_required
 def dashboard_admin(request):
     if request.method == 'POST':
+        # Crear instancias de los formularios con los datos enviados
         form = ProductoForm(request.POST, request.FILES)
-        if form.is_valid():
-            # Extraer los datos del formulario
+        producto_modelo_form = ProductoModeloForm(request.POST)
+        producto_color_form = ProductoColorForm(request.POST)
+        producto_almacenamiento_form = ProductoAlmacenamientoForm(request.POST)
+        
+        if form.is_valid() and producto_modelo_form.is_valid() and producto_color_form.is_valid() and producto_almacenamiento_form.is_valid():
+            # Extraer los datos del formulario de Producto
             nombre = form.cleaned_data['nombre']
             categoria = form.cleaned_data['categoria']
             precio = form.cleaned_data['precio']
             imagen = form.cleaned_data['imagen']
             descripcion = form.cleaned_data['descripcion']
             
-            # Llamar al procedimiento almacenado
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    "CALL InsertarProducto(%s, %s, %s, %s, %s)", 
-                    [nombre, categoria, precio, imagen.name, descripcion]
-                )
+            # Guardar la imagen
+            imagen_path = default_storage.save('productos/' + imagen.name, imagen)
             
-            messages.success(request, '¡Producto agregado exitosamente!')
+            # Crear el producto
+            producto = Producto.objects.create(
+                nombre=nombre, 
+                categoria=categoria, 
+                precio=precio, 
+                imagen=imagen_path, 
+                descripcion=descripcion
+            )
+            # Procesar el modelo (buscar o crear)
+            modelo_nombre = producto_modelo_form.cleaned_data['modelo']
+            modelo_instance, created = Modelo.objects.get_or_create(nombre=modelo_nombre)
+            #Procesar el color (Buscar o crearlo)
+            color_nombre = producto_color_form.cleaned_data['color']
+            color_codigo_hex = producto_color_form.cleaned_data['codigo_hex']
+            color_instance, created = Color.objects.get_or_create(nombre=color_nombre, defaults={'codigo_hex': color_codigo_hex})
+            if not created and color_instance.codigo_hex != color_codigo_hex:
+                messages.error(request, f'El color {color_nombre} ya existe con un código diferente.')
+                return redirect('dashboard_admin')
+            #Procedar el almacenamiento (Buscar o crear)
+            almacenamiento_nombre = producto_almacenamiento_form.cleaned_data['capacidad']
+            almacenamiento_instance, created = Almacenamiento.objects.get_or_create(capacidad=almacenamiento_nombre)
+            # Asociar el producto con el modelo
+            ProductoModelo.objects.create(producto=producto, modelo=modelo_instance)
+            ProductoColor.objects.create(producto=producto, color=color_instance)
+            ProductoAlmacenamiento.objects.create(producto=producto, almacenamiento=almacenamiento_instance)
+            
+            messages.success(request, '¡Producto, modelo, almacenamiento y color agregados exitosamente!')
             return redirect('dashboard_admin')
     else:
+        # Si no es POST, mostrar formularios vacíos
         form = ProductoForm()
-    
-    productos = Producto.objects.all()  # Para mostrar los productos en el dashboard
+        producto_modelo_form = ProductoModeloForm()
+        producto_color_form = ProductoColorForm()
+        producto_almacenamiento_form = ProductoAlmacenamientoForm()
+        
+    # Mostrar todos los productos existentes en el dashboard
+    productos = Producto.objects.all()
     context = {
         'form': form,
-        'productos': productos
+        'producto_modelo_form': producto_modelo_form,
+        'producto_color_form': producto_color_form,
+        'productos': productos,
+        'producto_almacenamiento_form': producto_almacenamiento_form
     }
     return render(request, 'dashboard_admin.html', context)
 
 
+#-----------------instancia para el modelo
+
+def crear_modelos():
+    # Crear instancias de Modelo solo si no existen previamente
+    Modelo.objects.get_or_create(nombre="Modelo 1")
+    Modelo.objects.get_or_create(nombre="Modelo 2")
+#---------------------------------------
 
 def editar_producto(request, producto_id):
     # Obtén el producto a editar

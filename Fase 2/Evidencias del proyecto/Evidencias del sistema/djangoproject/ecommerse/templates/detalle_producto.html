@@ -47,6 +47,11 @@
                             <a id="agregarCarrito" data-producto-id="{{ producto.id }}" href="javascript:void(0);" onclick="actualizarCantidad('{{ value.producto_id }}', 'add')" class="btn btn-dark">Agregar al Carrito</a>
                         </div>
                         {% endfor %}
+                        <ul>
+                            {% for item in almacenamiento %}
+                            <li>{{ item.capacidad }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             </div>

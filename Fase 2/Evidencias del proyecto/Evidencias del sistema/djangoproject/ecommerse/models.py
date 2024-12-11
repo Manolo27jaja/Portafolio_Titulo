@@ -100,3 +100,49 @@ class ListaDeseados(models.Model):
 
     class Meta:
         unique_together = ('usuario', 'producto')
+
+
+#________________________________almacenamiento, color y modelo_________________________
+
+
+class Almacenamiento(models.Model):
+    capacidad = models.CharField(max_length=16)  # Ejemplo: "128GB", "256GB"
+
+    def __str__(self):
+        return self.capacidad
+
+class Color(models.Model):
+    nombre = models.CharField(max_length=32)
+    codigo_hex = models.CharField(max_length=7, null=True, blank=True)  # Opcional: código HEX para representar el color
+
+    def __str__(self):
+        return self.nombre
+
+class Modelo(models.Model):
+    nombre = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.nombre
+    
+#_________________________
+    
+class ProductoAlmacenamiento(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    almacenamiento = models.ForeignKey(Almacenamiento, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('producto', 'almacenamiento')  # Asegura combinaciones únicas
+
+class ProductoColor(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    color = models.ForeignKey(Color, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('producto', 'color')
+
+class ProductoModelo(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    modelo = models.ForeignKey(Modelo, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('producto', 'modelo')

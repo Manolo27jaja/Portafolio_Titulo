@@ -8,6 +8,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
+    path('openai/', views.chat_with_gpt, name='openai'),
     path('admin/', admin.site.urls),
     path('buscar/', buscar, name='buscar'),
     path('home', home, name='home'),

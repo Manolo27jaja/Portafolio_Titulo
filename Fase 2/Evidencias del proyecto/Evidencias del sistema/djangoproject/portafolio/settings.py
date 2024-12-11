@@ -43,11 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ecommerse',
     'django_extensions',
-    'widget_tweaks'
-    
+    'widget_tweaks',
+    'corsheaders',  # OpenAI
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # OpenAI
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -56,6 +57,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Configuración de CORS
+CORS_ALLOW_ALL_ORIGINS = True
+
+#__________________________________________
 
 ROOT_URLCONF = 'portafolio.urls'
 
@@ -161,3 +167,6 @@ LOGIN_URL = '/inicio_sesion/'
 # Para mostrar las imagenes en mi carrito
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#_____________________openai_____________________
+OPENAI_API_KEY = config("OPENAI_API_KEY")

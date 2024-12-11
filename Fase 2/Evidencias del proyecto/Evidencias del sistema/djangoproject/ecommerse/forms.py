@@ -1,5 +1,5 @@
 from django import forms # Se importa el modulo de formularios de django, permite crear formularios personalizados
-from .models import Usuario # Se importa el modelo Usuario, este modelo representa al usuario en la base de datos
+from .models import Modelo, Usuario # Se importa el modelo Usuario, este modelo representa al usuario en la base de datos
 from django.core.exceptions import ValidationError
 import re
 from django.contrib.auth.forms import SetPasswordForm
@@ -80,12 +80,13 @@ class CustomSetPasswordForm(SetPasswordForm):
             'password_entirely_numeric': 'La contraseña no puede ser solo numérica.'
         }
 
-
+#-------------------------------Dashboard--------------------------------
 
 from django import forms
-from .models import Producto
+from .models import Producto, ProductoModelo
 
 class ProductoForm(forms.ModelForm):
+    #modelo = forms.ModelChoiceField(queryset=Modelo.objects.all(), required=True, widget=forms.Select(attrs={'class': 'dashboard-input'}))
     class Meta:
         model = Producto
         fields = ['nombre', 'categoria', 'precio', 'descripcion', 'imagen']
@@ -96,3 +97,35 @@ class ProductoForm(forms.ModelForm):
             'descripcion': forms.Textarea(attrs={'class': 'dashboard-input dashboard-textarea'}),
             'imagen': forms.FileInput(attrs={'class': 'dashboard-input'}),
         }
+
+class ProductoModeloForm(forms.Form):
+    modelo = forms.CharField(
+        max_length=64,
+        widget=forms.TextInput(attrs={'class': 'dashboard-input'}),
+        required=True
+    )
+
+class ProductoColorForm(forms.Form):
+    color = forms.CharField(
+        max_length=64,
+        widget=forms.TextInput(attrs={'class': 'dashboard-input'}),
+        required=True
+    )
+    codigo_hex = forms.CharField(
+        max_length=7,
+        widget=forms.TextInput(attrs={'class': 'dashboard-input', 'placeholder': '#RRGGBB'}),
+        required=True
+    )
+
+class ProductoAlmacenamientoForm(forms.Form):
+    producto_id = forms.ModelChoiceField(
+        queryset=Producto.objects.all(),
+        widget=forms.Select(attrs={'class': 'dashboard-input'}),
+        required=True,
+        label="Producto"
+    )
+    capacidad = forms.CharField(
+        max_length=64,
+        widget=forms.TextInput(attrs={'class': 'dashboard-input'}),
+        required=True
+    )
