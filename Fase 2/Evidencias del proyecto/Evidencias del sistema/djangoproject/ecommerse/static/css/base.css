@@ -1,0 +1,266 @@
+.barra-arcoiris {
+    width: 100%; /* Ocupa todo el ancho de la página */
+    height: 20px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: linear-gradient(270deg, 
+        #ff0000,
+        #ff7f00, 
+        #00ff00, 
+        #0000ff, 
+        #4b0082, 
+        #9400d3, 
+        #ff1493,
+        #00ffff, 
+        #ff4500  
+    ); 
+    background-size: 600%; 
+    animation: animar-colores 5s linear infinite; 
+    position: relative; 
+    z-index: 1000; 
+}
+
+@keyframes animar-colores {
+    0% { background-position: 0%; }
+    100% { background-position: 100%; }
+}
+
+.texto-arcoiris {
+    color: white; 
+    font-size: 1rem; 
+    margin: 0; 
+    position: relative; 
+    z-index: 1001; /* Asegura que el texto esté por encima de la barra */
+}
+
+
+
+
+
+/*______________para modificar el header ___________________________*/
+.logo {
+    width: 40px;
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+a:hover .logo {
+    filter: drop-shadow(0px 0px 10px rgba(255, 20, 147, 0.8));
+    transform: scale(1.2); /* Aumenta más el tamaño para el efecto de pulso */
+}
+
+
+
+
+
+
+
+.navbar  {
+    position: sticky; /* Cambia a sticky */
+    top: 0; /* Se queda en la parte superior */
+    width: 100%;
+    z-index: 2000; /* Para asegurarte de que esté por encima */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 90px; /* Ajusta la altura aquí */
+    
+    
+}
+
+
+.content {
+    margin-top: 60px; /* O ajusta según la altura del navbar */
+}
+
+
+
+
+.menu {
+    display: flex;
+    justify-content: center;
+    background-color: #f8f9fa; 
+    padding: 10px 0; 
+    position: sticky; /* Mantiene el menú en la parte superior */
+    top: 0; 
+    z-index: 1000; /* Para asegurarte de que esté por encima */
+}
+
+.menu-item {
+    position: relative;
+    margin: 0 15px; 
+}
+
+.menu-item a {
+    text-decoration: none; 
+    color: #000; 
+}
+
+.dropdown-content {
+    display: none; 
+    position: absolute; 
+    background-color: white; 
+    min-width: 160px; 
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
+    z-index: 1; 
+}
+
+.menu-item:hover .dropdown-content {
+    display: block; /* Mostrar el contenido del dropdown al pasar el ratón */
+}
+
+.content {
+    margin-top: 20px; /* Espacio entre el menú y el contenido */
+}
+
+
+/* esto es para cambiarle el color al header  */
+.bg-body-tertiary {
+    --bs-bg-opacity: 1;
+    background-color: rgb(0 0 0) !important;
+}
+
+
+.logo{
+    width: 50px;
+    height: auto;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.ancho_nav{
+    width: auto;
+}
+
+
+
+/* Estilos footer */
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+footer {
+    width: 100%;
+    background-color: #000000 !important; 
+    color: #fff !important; 
+    padding: 20px 0;
+    box-sizing: border-box;
+    margin: 0; 
+    margin-top: auto;
+}
+
+footer .row {
+    margin: 0;
+    padding: 0;
+    background-color: #000000 !important; 
+}
+
+footer .text-dark {
+    color: #fff !important; 
+}
+
+footer .text-primary {
+    color: rgb(203, 211, 221) !important; 
+}
+
+footer p {
+    color: #fff !important; 
+}
+
+footer a {
+    color: #fff !important;
+}
+
+footer a:hover {
+    color: rgb(203, 211, 221) !important; 
+}
+
+footer.bg-light {
+    background-color: #000000 !important; 
+}
+
+/* para poner las letras de abajo en blanco */
+.text-dark {
+    --bs-text-opacity: 1;
+    color: #f3f3f3 !important;
+}
+
+.logo-footer {
+    width: 160px; /* Ajusta el tamaño del logo según sea necesario */
+    height: auto; /* Mantiene la proporción del logo */
+    margin-right: 30px; /* Espacio a la derecha del logo */
+    margin-top: -10px;
+}
+
+footer .row {
+    display: flex;
+    align-items: flex-start; /* Alinea el logo verticalmente al centro con el resto del contenido */
+}
+
+/* ------------------------------------------------------- */
+/* Ajustes para el formulario de búsqueda dentro del menú lateral */
+.sidebar form input {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+/* Asegura que los enlaces dropdown en el menú lateral tengan buen estilo */
+.sidebar .dropdown-menu {
+    background-color: #444;
+    border: none;
+}
+
+.sidebar .dropdown-menu a {
+    color: #fff;
+}
+
+.sidebar .dropdown-menu a:hover {
+    background-color: #555;
+}
+
+/* Ajustes de estilo generales para que coincidan con el resto del menú */
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+/* css menu lateral */
+.menu-lateral {
+    background-color: #000; /* Fondo negro */
+    color: #fff; /* Texto blanco */
+}
+
+.menu-lateral .btn-close-white {
+    filter: invert(1); /* Cierra el botón en blanco */
+}
+
+.menu-lateral a {
+    color: #fff; /* Enlaces en blanco */
+}
+
+.menu-lateral a:hover {
+    color: #ccc; /* Enlaces en gris al pasar el mouse */
+}
+
+.menu-lateral .form-control {
+    background-color: #333; /* Fondo gris oscuro del campo de búsqueda */
+    color: #fff; /* Texto blanco del campo de búsqueda */
+    border: 1px solid #555; /* Borde gris */
+}
+
+.menu-lateral .btn-outline-light {
+    color: #fff; /* Texto blanco en el botón */
+    border-color: #fff; /* Borde blanco */
+}
+
+.menu-lateral .btn-outline-light:hover {
+    background-color: #555; /* Fondo gris oscuro al pasar el mouse */
+    color: #fff;
+}
+
+
+/* fin css menu lateral */
+

@@ -89,11 +89,14 @@ from .models import Producto
 class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
-        fields = ['nombre', 'categoria', 'precio', 'descripcion', 'imagen']
+        fields = ['nombre', 'categoria', 'precio', 'descripcion', 'imagen','stock_actual',]
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'dashboard-input'}),
-            'categoria': forms.TextInput(attrs={'class': 'dashboard-input'}),  # Asegúrate de que sea Select si es un dropdown
+            'categoria': forms.TextInput(attrs={'class': 'dashboard-input'}),  
             'precio': forms.NumberInput(attrs={'class': 'dashboard-input'}),
             'descripcion': forms.Textarea(attrs={'class': 'dashboard-input dashboard-textarea'}),
             'imagen': forms.FileInput(attrs={'class': 'dashboard-input'}),
+            'stock_actual': forms.NumberInput(attrs={'class':'dashboard-input'}),
         }
+
+

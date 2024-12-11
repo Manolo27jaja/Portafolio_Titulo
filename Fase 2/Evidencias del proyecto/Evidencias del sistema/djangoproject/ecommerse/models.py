@@ -25,6 +25,8 @@ class Producto(models.Model):
     
     def es_stock_bajo(self):
         return self.stock_actual <= self.stock_minimo
+
+
 #________________________________________________________        
 
 #___________________________________

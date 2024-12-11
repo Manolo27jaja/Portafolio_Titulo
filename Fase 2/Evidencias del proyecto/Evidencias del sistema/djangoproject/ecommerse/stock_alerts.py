@@ -1,20 +1,27 @@
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import Producto
 
-def verificar_stock_bajo():
-    productos_bajo_stock = Producto.objects.filter(stock_actual__lte=models.F('stock_minimo'))
-    
-    if productos_bajo_stock.exists():
-        mensaje = "Los siguientes productos tienen stock bajo:\n"
-        for producto in productos_bajo_stock:
-            mensaje += f"{producto.nombre} (Stock actual: {producto.stock_actual})\n"
+@receiver(post_save, sender=Producto)
+def verificar_stock_bajo(sender, instance, **kwargs):
+    """
+    Envía un correo si el stock actual de un producto es menor o igual al stock mínimo
+    después de guardar el producto.
+    """
+    if instance.stock_actual <= instance.stock_minimo:
+        mensaje = (
+            f"El producto '{instance.nombre}' tiene stock bajo.\n"
+            f"Stock actual: {instance.stock_actual}\n"
+            f"Stock mínimo: {instance.stock_minimo}\n"
+        )
         
-        # Enviar un correo electrónico de alerta (si es necesario)
+        # Enviar correo de alerta
         send_mail(
-            'Alerta: Productos con bajo stock',
+            'Alerta: Producto con bajo stock',
             mensaje,
             settings.DEFAULT_FROM_EMAIL,
-            [settings.bastianmandrid72@gmail.com],  # Cambia esto a tu correo de admin
+            ['ba.madrid@duocuc.cl'],  # Cambia a tu correo o una lista de correos
             fail_silently=False,
         )

@@ -352,31 +352,35 @@ def dashboard_admin(request):
     if request.method == 'POST':
         form = ProductoForm(request.POST, request.FILES)
         if form.is_valid():
-            # Extraer los datos del formulario
-            nombre = form.cleaned_data['nombre']
-            categoria = form.cleaned_data['categoria']
-            precio = form.cleaned_data['precio']
-            imagen = form.cleaned_data['imagen']
-            descripcion = form.cleaned_data['descripcion']
-            
-            # Llamar al procedimiento almacenado
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    "CALL InsertarProducto(%s, %s, %s, %s, %s)", 
-                    [nombre, categoria, precio, imagen.name, descripcion]
+            try:
+                # Crear un nuevo producto con los datos del formulario
+                producto = Producto.objects.create(
+                    nombre=form.cleaned_data['nombre'],
+                    categoria=form.cleaned_data['categoria'],
+                    precio=form.cleaned_data['precio'],
+                    imagen=form.cleaned_data['imagen'],
+                    descripcion=form.cleaned_data['descripcion'],
+                    stock_actual=form.cleaned_data['stock_actual']
                 )
-            
-            messages.success(request, '¡Producto agregado exitosamente!')
+                producto.save()
+                messages.success(request, '¡Producto agregado exitosamente!')
+            except Exception as e:
+                messages.error(request, f"Error al agregar el producto: {e}")
             return redirect('dashboard_admin')
+        else:
+            messages.error(request, "Por favor corrige los errores del formulario.")
     else:
         form = ProductoForm()
     
-    productos = Producto.objects.all()  # Para mostrar los productos en el dashboard
+    # Obtener todos los productos para mostrarlos en el dashboard
+    productos = Producto.objects.all()
     context = {
         'form': form,
         'productos': productos
     }
     return render(request, 'dashboard_admin.html', context)
+
+
 
 
 
@@ -433,3 +437,16 @@ def dashboard_graficos(request):
 
     # Pasamos los datos al template
     return render(request, 'dashboard_graficos.html', {'ventas_por_categoria': ventas_por_categoria})
+
+# Para las alertas en el admin
+from django.contrib import messages
+from django.shortcuts import render
+
+def vista_alerta(request):
+    # Ejemplo: Detectar stock bajo
+    stock_bajo = True  # Cambia esto por la lógica real de tu aplicación
+
+    if stock_bajo:
+        messages.warning(request, "¡El stock de un producto es bajo!")
+
+    return render(request, 'dashboard_admin.html')  # Cambia por tu plantilla HTML

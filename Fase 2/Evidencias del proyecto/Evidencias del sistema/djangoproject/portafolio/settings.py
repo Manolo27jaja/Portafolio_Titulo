@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-ul$&4-qpl76@d4xi&e2%=^az&c#$cr1=(10b_$*=t%q-=+spt^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.ngrok-free.app', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['.ngrok-free.app', '127.0.0.1', 'localhost', 'mpfone.com', ]
 
 
 
@@ -132,6 +132,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'ecommerse' / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -149,7 +151,7 @@ EMAIL_PORT = 587  # Puerto 587 es para TLS (Transport Layer Security), protocolo
 EMAIL_USE_TLS = True  # Activar TLS
 EMAIL_HOST_USER = 'bastianmadrid72@gmail.com'  # correo registrado en Brevo, este corre envia los email al usuario que quiera cambiar la contraseña
 EMAIL_HOST_PASSWORD = 'B19hYzSrVXqcjdD3'  # La clave SMTP que generaste en Brevo
-DEFAULT_FROM_EMAIL = 'bastianmadrid72@gmail.com'  # Dirección de remitente por defecto
+DEFAULT_FROM_EMAIL = 'ba.madrid@duocuc.cl'  # Dirección de remitente por defecto
 
 #mercado pago credenciales
 MERCADOPAGO_ACCESS_TOKEN = config('MERCADOPAGO_ACCESS_TOKEN')

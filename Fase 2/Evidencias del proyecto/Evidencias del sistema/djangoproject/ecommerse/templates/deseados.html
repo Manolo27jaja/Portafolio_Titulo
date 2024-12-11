@@ -1,3 +1,4 @@
+{% extends 'base.html' %}
 {% load static %}
 {% load humanize %}
 
@@ -13,96 +14,7 @@
 </head>
 <body style="background-color: white;">
 
-    <!-- Barra de Bienvenida -->
-    <div class="barra-arcoiris text-center">
-        <h2 class="texto-arcoiris">¡Bienvenido a Nuestra Tienda!</h2>
-    </div>
-
-    <!-- Navbar principal -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a href="{% url 'home' %}">
-                <img src="{% static 'imagenes/Logo_mauri_agency.jpeg' %}" class="logo" alt="Logo de Mauri Agency">
-            </a>
-            
-            <div class="collapse navbar-collapse" id="navbarToggler">
-                <div class="d-flex mx-auto align-items-center">
-                    <form method="GET" action="{% url 'buscar' %}" class="d-flex">
-                        <input class="form-control me-2 tamano_bus" type="text" name="q" placeholder="Buscar productos..." aria-label="Search" style="width: 500px;">
-                        <button class="btn btn-outline-light" type="submit" aria-label="Buscar productos">Buscar</button>
-                    </form>
-                </div>
-                <a href="{% url 'deseados' %}">
-                    <img src="{% static 'imagenes/love_icon.png' %}" alt="deseados" class="logo">
-                </a>
-                <a href="{% url 'miCarrito' %}">
-                    <img src="{% static 'imagenes/carrito_white.png' %}" alt="Carrito de Compras" class="logo">
-                </a>
-                <div class="dropdown">
-                    <a class="dropdown-toggle ancho_nav" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{% static 'imagenes/Logo_usuario_cuenta.jpeg' %}" class="logo" alt="Usuario">
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li>
-                            <a class="dropdown-item" href="{% url 'inicio_sesion' %}">
-                                <img src="{% static 'imagenes/iniciar_sesion_icono.png' %}" alt="Icono Iniciar sesión" style="width: 20px; margin-right: 8px;">
-                                Iniciar Sesión
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="{% url 'registro' %}">
-                                <img src="{% static 'imagenes/registrarse_icono.png' %}" alt="Icono Registrarse" style="width: 20px; margin-right: 8px;">
-                                Registrarse
-                            </a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item" href="{% url 'cerrar_sesion' %}">
-                                <img src="{% static 'imagenes/cerrar_sesion_icono.png' %}" alt="Icono Cerrar sesión" style="width: 20px; margin-right: 8px;">
-                                Cerrar Sesión
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Navbar secundaria -->
-    <div class="menu">
-        <div class="menu-item">
-            <a href="{% url 'buscar' %}?q=Mac">Mac</a>
-            <div class="dropdown-content">
-                <a href="{% url 'buscar' %}?q=Mac">Ver</a>
-                <a href="{% url 'buscar' %}?q=Mac">Todo sobre Mac</a>
-            </div>
-        </div>
-        <div class="menu-item">
-            <a href="{% url 'buscar' %}?q=Computadores">Computadores</a>
-            <div class="dropdown-content">
-                <a href="{% url 'buscar' %}?q=Computadores">Ver</a>
-                <a href="{% url 'buscar' %}?q=Notebook">Notebooks</a>
-            </div>
-        </div>
-        <div class="menu-item">
-            <a href="{% url 'buscar' %}?q=Teléfonos">Teléfonos</a>
-            <div class="dropdown-content">
-                <a href="{% url 'buscar' %}?q=Teléfonos">Ver</a>
-                <a href="{% url 'buscar' %}?q=Action">Another Action</a>
-            </div>
-        </div>
-        <div class="menu-item">
-            <a href="{% url 'buscar' %}?q=Accesorios">Accesorios</a>
-            <div class="dropdown-content">
-                <a href="{% url 'buscar' %}?q=Accesorios">Ver</a>
-                <a href="{% url 'buscar' %}?q=Another">Another Action</a>
-            </div>
-        </div>
-    </div>
-
+    {% block content %}
     <!-- Contenido principal de lista de deseados -->
     <div class="container my-4">
         <div class="row">
@@ -145,6 +57,6 @@
             </div>
         </div>
     </div>
-
+    {% endblock %}
 </body>
 </html>

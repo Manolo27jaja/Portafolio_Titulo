@@ -314,3 +314,49 @@ a{
 }
 
 
+/* Especificaciones tecnicas */
+.specifications-table {
+  max-width: 600px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.specifications-table h3 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 1.5em;
+  color: #0056b3;
+}
+
+.specifications-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.specifications-table th, 
+.specifications-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.specifications-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.specifications-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.specifications-table tbody tr:hover {
+  background-color: #e6f7ff;
+}
+
+.specifications-table td {
+  font-size: 0.95em;
+}
+
+/* Fin Especificaciones tecnicas */
