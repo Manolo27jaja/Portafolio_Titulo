@@ -196,15 +196,26 @@ def pago_exitoso(request):
             creado=now()
         )
 
-        # Crear los detalles de la orden
+        # Crear los detalles de la orden y actualizar el stock
         for carrito in carritos:
             for item in carrito.items.all():
+                # Crear un detalle de orden
                 DetalleOrden.objects.create(
                     orden=orden,
                     producto=item.producto,
                     cantidad=item.cantidad,
                     precio=item.precio,
                 )
+                
+                # Actualizar el stock del producto
+                producto = item.producto
+                if producto.stock >= item.cantidad:
+                    producto.stock -= item.cantidad
+                    producto.save()
+                else:
+                    print(f"Stock insuficiente para el producto {producto.nombre}")
+                    return render(request, 'pago_fallido.html', {"error": f"Stock insuficiente para el producto {producto.nombre}"})
+
             # Eliminar el carrito después de guardar los detalles
             carrito.delete()
 
@@ -256,6 +267,7 @@ Detalles de tu orden:
     except Exception as e:
         print(f"Error en la vista pago_exitoso: {e}")
         return JsonResponse({"error": str(e)}, status=500)
+
 #_______________________________________________________
 
 #____________________________________________________
@@ -502,7 +514,15 @@ def eliminar_deseado(request, deseado_id):
     messages.success(request, '¡Producto eliminado de la lista de deseados!')
     return redirect('ver_deseados')
 
-
+@login_required
+@require_POST
+def actualizar_stock(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    nuevo_stock = request.POST.get('stock')
+    if nuevo_stock.isdigit():
+        producto.stock = int(nuevo_stock)
+        producto.save()
+    return redirect('dashboard_admin')
 
 @login_required
 def ver_deseados(request):

@@ -18,8 +18,6 @@
         <h2 class="texto-arcoiris">¡Bienvenido a Nuestra Tienda!</h2>
     </div>
 
-   
-
     <!-- Navbar principal -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
@@ -29,7 +27,6 @@
             <a href="{% url 'home' %}">
                 <img src="{% static 'imagenes/Logo_mauri_agency.jpeg' %}" class="logo" alt="Logo de Mauri Agency">
             </a>
-            
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <div class="d-flex mx-auto align-items-center">
                     <form method="GET" action="{% url 'buscar' %}" class="d-flex">
@@ -40,7 +37,6 @@
                 <a href="{% url 'dashboard_graficos' %}">
                     <img src="{% static 'imagenes/graficos_foto_3.png' %}" alt="dashboard_graficos" class="logo">
                 </a>
-                
                 <a href="{% url 'deseados' %}">
                     <img src="{% static 'imagenes/love_icon.png' %}" alt="deseados" class="logo">
                 </a>
@@ -76,18 +72,17 @@
             </div>
         </div>
     </nav>
-  
-  
+
     {% if messages %}
     <div class="message-container">
         {% for message in messages %}
             <div class="message {{ message.tags }}">{{ message }}</div>
         {% endfor %}
     </div>
-{% endif %}
+    {% endif %}
 
     <div class="dashboard-container">
-        <h1 class="dashboard-title">Dashboard - Agregar Producto</h1>
+        <h1 class="dashboard-title">Dashboard - Administrar Productos</h1>
         
         <div class="form-card">
             <h2 class="form-card-title">Nuevo Producto</h2>
@@ -113,34 +108,38 @@
                     <label for="descripcion">Descripción</label>
                     {{ form.descripcion }}
                 </div>
+                <div class="form-group">
+                    <label for="stock">Stock</label>
+                    {{ form.stock }}
+                </div>
                 <button type="submit" class="submit-btn">Agregar Producto</button>
             </form>
         </div>
     </div>
-    
-    
+
     <div class="product-cards">
         {% for producto in productos %}
-        <div class="product-card">
-            
-            <div class="product-name">{{ producto.nombre }}</div>
-            <div class="product-category">{{ producto.categoria }}</div>
-            <div class="product-price">${{ producto.precio }}</div>
-            <div class="product-description">{{ producto.descripcion }}</div>
-    
-            <!-- Botón para editar producto -->
-            <a href="{% url 'editar_producto' producto.id %}" class="btn btn-primary">Editar</a>
-    
-            <!-- Botón para eliminar producto -->
-            <form action="{% url 'eliminar_producto' producto.id %}" method="POST" style="display: inline;">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este producto?')">Eliminar</button>
-            </form>
+        <div class="product-card card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ producto.nombre }}</h5>
+                <p><strong>Categoría:</strong> {{ producto.categoria }}</p>
+                <p><strong>Precio:</strong> ${{ producto.precio|intcomma }}</p>
+                <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+                <form method="POST" action="{% url 'actualizar_stock' producto.id %}" class="mt-2">
+                    {% csrf_token %}
+                    <label for="stock_{{ producto.id }}"><strong>Stock:</strong></label>
+                    <input type="number" name="stock" id="stock_{{ producto.id }}" value="{{ producto.stock }}" class="form-control d-inline-block w-25 mx-2" min="0">
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                </form>
+                <a href="{% url 'editar_producto' producto.id %}" class="btn btn-warning mt-2">Editar</a>
+                <form action="{% url 'eliminar_producto' producto.id %}" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger mt-2" onclick="return confirm('¿Estás seguro de eliminar este producto?')">Eliminar</button>
+                </form>
+            </div>
         </div>
         {% endfor %}
     </div>
-
-
 
     {% if messages %}
     <div class="alert-container">
@@ -152,5 +151,6 @@
     </div>
     {% endif %}
  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

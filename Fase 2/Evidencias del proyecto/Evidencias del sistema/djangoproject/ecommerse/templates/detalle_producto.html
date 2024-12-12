@@ -1,5 +1,7 @@
 {% load static %}
 
+{% load humanize %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,34 +20,45 @@
 <!--____________________________________________________________________-->
 
 <!-- Lista del carrito del usuario -->
-    <div class="container">
-        <div class="row">
-            <div class="card" >
-                <div class="card-body">
-                    <div class="col-12">
-                        {% for producto in d_p_real %}
-                        <div class="col-6">
-                            <picture>
+<div class="container">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-12">
+                    {% for producto in d_p_real %}
+                    <div class="col-6">
+                        <picture>
                             <img class="img-fluid" src="{% static 'imagenes/' %}{{ producto.imagen }}" alt="{{ producto.nombre }}">
-                            </picture>
-                        </div>
-                        {% endfor %}
-                        {% for producto in d_p_real %}
-                        <div class="col-6">
-                            <h5 class="card-tittle">{{producto.nombre}}</h5>
-                            <p class="card-text">{{producto.categoria}}</p>
-
-                            <p class="card-text">${{producto.precio}}</p>
-                            <p class="card-text">{{producto.descripcion}}</p>
-                            <button id="openModal">Abrir Modal</button>
-                            <a id="agregarCarrito" data-producto-id="{{ producto.id }}" href="javascript:void(0);" class="btn btn-dark">Agregar al Carrito</a>
-                        </div>
-                        {% endfor %}
+                        </picture>
                     </div>
+                    {% endfor %}
+                    {% for producto in d_p_real %}
+                    <div class="col-6">
+                        <h5 class="card-tittle">{{ producto.nombre }}</h5>
+                        <p class="card-text"><strong>Categoría:</strong> {{ producto.categoria }}</p>
+                        <p class="card-text"><strong>Precio:</strong> ${{ producto.precio|intcomma }}</p>
+                        <p class="card-text"><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+                        <p class="card-text"><strong>Stock:</strong> 
+                            {% if producto.stock > 0 %}
+                                {{ producto.stock }} disponibles
+                            {% else %}
+                                <span class="text-danger">Sin stock</span>
+                            {% endif %}
+                        </p>
+                        
+                        <!-- Botón de agregar al carrito -->
+                        {% if producto.stock > 0 %}
+                            <a id="agregarCarrito" data-producto-id="{{ producto.id }}" href="javascript:void(0);" class="btn btn-dark">Agregar al Carrito</a>
+                        {% else %}
+                            <button class="btn btn-secondary" disabled>Sin stock</button>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
+</div>
 <!--___________________Productos Relacionados, Carrusel de tarjetas_____________________-->
 <div class="container">
     <div class="row">

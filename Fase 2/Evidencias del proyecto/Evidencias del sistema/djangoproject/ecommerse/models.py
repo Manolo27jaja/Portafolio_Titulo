@@ -16,6 +16,7 @@ class Producto(models.Model):
     precio = models.IntegerField()
     imagen = models.ImageField()
     descripcion = models.CharField(max_length=255, default='Descripción por defecto')
+    stock = models.IntegerField(default=0)  # Nuevo campo de stock
 
     def __str__(self):
         return f'{self.nombre} -> {self.precio}'

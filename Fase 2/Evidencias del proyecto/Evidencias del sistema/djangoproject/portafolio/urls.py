@@ -56,6 +56,8 @@ urlpatterns = [
     path('aumentar-cantidad/<int:producto_id>/', views.aumentar_producto_carrito, name='aumentar_producto_carrito'),
     path('disminuir-producto/<int:producto_id>/', views.disminuir_producto_carrito, name='disminuir_producto_carrito'),
     path('eliminar-producto-carrito/<int:producto_id>/', views.eliminar_producto_carrito, name='eliminar_producto_carrito'),
+    path('actualizar-stock/<int:producto_id>/', views.actualizar_stock, name='actualizar_stock'),
+
 
 
     
