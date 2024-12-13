@@ -62,6 +62,10 @@ urlpatterns = [
     path('eliminar/<int:producto_id>/', views.eliminar_producto, name='eliminar_producto'),
     path('dashboard-graficos/', views.dashboard_graficos, name='dashboard_graficos'),
 
+
+    #para el detalle producto
+    path('producto/<int:producto_id>/', views.especificaciones_producto, name='especificaciones_producto'),
+
 ]
 
 if settings.DEBUG:

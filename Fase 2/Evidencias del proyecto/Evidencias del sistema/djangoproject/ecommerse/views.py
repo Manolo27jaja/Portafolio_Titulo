@@ -12,7 +12,7 @@ from ecommerse.CarritoClass import CarritoClass
 from ecommerse.models import Producto, Carrito, CarritoItem, Usuario ,ListaDeseados
 from .models import Usuario
 
-
+from django.core.files.storage import default_storage
 from .stock_alerts import verificar_stock_bajo
 
 
@@ -25,6 +25,7 @@ import logging
 from django.shortcuts import render
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
+from .models import Modelo
 
 logging.basicConfig(level=logging.INFO)
 
@@ -80,8 +81,8 @@ def detalle_producto(request, producto_id):
     return render(request, 'detalle_producto.html', {"d_p_real": d_p_real, "productos_1": productos_1})
 
 def home(request):
-    producto_ids_1 = [1, 2, 3, 4, 5, 6]  # Primer conjunto de productos
-    producto_ids_2 = [7, 8, 9, 10, 11, 12]  # Segundo conjunto de productos para el otro carrusel
+    producto_ids_1 = [1, 2, 3, 4,]  # Primer conjunto de productos
+    producto_ids_2 = [5, 6, 7, 8, 9,]  # Segundo conjunto de productos para el otro carrusel
     productos_1 = Producto.objects.filter(id__in=producto_ids_1)
     productos_2 = Producto.objects.filter(id__in=producto_ids_2)
     por_categorias_1 = Producto.objects.filter(categoria="Consola")[:4]
@@ -347,41 +348,121 @@ def admin_required(view_func):
     return user_passes_test(lambda u: u.is_staff)(view_func)
 
 
+# @admin_required
+# def dashboard_admin(request):
+#     if request.method == 'POST':
+#         form = ProductoForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             try:
+                # Crear un nuevo producto con los datos del formulario
+    #             producto = Producto.objects.create(
+    #                 nombre=form.cleaned_data['nombre'],
+    #                 categoria=form.cleaned_data['categoria'],
+    #                 precio=form.cleaned_data['precio'],
+    #                 imagen=form.cleaned_data['imagen'],
+    #                 descripcion=form.cleaned_data['descripcion'],
+    #                 stock_actual=form.cleaned_data['stock_actual']
+    #             )
+    #             producto.save()
+    #             messages.success(request, '¡Producto agregado exitosamente!')
+    #         except Exception as e:
+    #             messages.error(request, f"Error al agregar el producto: {e}")
+    #         return redirect('dashboard_admin')
+    #     else:
+    #         messages.error(request, "Por favor corrige los errores del formulario.")
+    # else:
+    #     form = ProductoForm()
+    
+    # Obtener todos los productos para mostrarlos en el dashboard
+    # productos = Producto.objects.all()
+    # context = {
+    #     'form': form,
+    #     'productos': productos
+    # }
+    # return render(request, 'dashboard_admin.html', context)
+from .forms import ProductoAlmacenamientoForm, ProductoColorForm, ProductoModeloForm
+
 @admin_required
 def dashboard_admin(request):
     if request.method == 'POST':
+        # Crear instancias de los formularios con los datos enviados
         form = ProductoForm(request.POST, request.FILES)
-        if form.is_valid():
-            try:
-                # Crear un nuevo producto con los datos del formulario
-                producto = Producto.objects.create(
-                    nombre=form.cleaned_data['nombre'],
-                    categoria=form.cleaned_data['categoria'],
-                    precio=form.cleaned_data['precio'],
-                    imagen=form.cleaned_data['imagen'],
-                    descripcion=form.cleaned_data['descripcion'],
-                    stock_actual=form.cleaned_data['stock_actual']
-                )
-                producto.save()
-                messages.success(request, '¡Producto agregado exitosamente!')
-            except Exception as e:
-                messages.error(request, f"Error al agregar el producto: {e}")
+        producto_modelo_form = ProductoModeloForm(request.POST)
+        producto_color_form = ProductoColorForm(request.POST)
+        producto_almacenamiento_form = ProductoAlmacenamientoForm(request.POST)
+        
+        if form.is_valid() and producto_modelo_form.is_valid() and producto_color_form.is_valid() and producto_almacenamiento_form.is_valid():
+            # Extraer los datos del formulario de Producto
+            nombre = form.cleaned_data['nombre']
+            categoria = form.cleaned_data['categoria']
+            precio = form.cleaned_data['precio']
+            imagen = form.cleaned_data['imagen']
+            descripcion = form.cleaned_data['descripcion']
+            stock_actual = form.cleaned_data['stock_actual']
+            memoria_ram = form.cleaned_data['memoria_ram']
+            sistema_operativo = form.cleaned_data['sistema_operativo']
+            tamaño_pantalla = form.cleaned_data['tamaño_pantalla']
+            procesador = form.cleaned_data['procesador']
+            tarjeta_grafica = form.cleaned_data['tarjeta_grafica']
+            descripcion_tg = form.cleaned_data['descripcion_tg']
+            
+            # Guardar la imagen
+            imagen_path = default_storage.save('productos/' + imagen.name, imagen)
+            
+            # Crear el producto
+            producto = Producto.objects.create(
+                nombre=nombre, 
+                categoria=categoria, 
+                precio=precio, 
+                imagen=imagen_path, 
+                descripcion=descripcion,
+                stock_actual=stock_actual,
+                memoria_ram=memoria_ram,
+                sistema_operativo=sistema_operativo,
+                tamaño_pantalla=tamaño_pantalla,
+                procesador=procesador,
+                tarjeta_grafica=tarjeta_grafica,
+                descripcion_tg=descripcion_tg
+
+            )
+            # Procesar el modelo (buscar o crear)
+            modelo_nombre = producto_modelo_form.cleaned_data['modelo']
+            modelo_instance, created = Modelo.objects.get_or_create(nombre=modelo_nombre)
+            #Procesar el color (Buscar o crearlo)
+            color_nombre = producto_color_form.cleaned_data['color']
+            color_codigo_hex = producto_color_form.cleaned_data['codigo_hex']
+            color_instance, created = Color.objects.get_or_create(nombre=color_nombre, defaults={'codigo_hex': color_codigo_hex})
+            if not created and color_instance.codigo_hex != color_codigo_hex:
+                messages.error(request, f'El color {color_nombre} ya existe con un código diferente.')
+                return redirect('dashboard_admin')
+            #Procedar el almacenamiento (Buscar o crear)
+            almacenamiento_nombre = producto_almacenamiento_form.cleaned_data['capacidad']
+            almacenamiento_instance, created = Almacenamiento.objects.get_or_create(capacidad=almacenamiento_nombre)
+            # Asociar el producto con el modelo
+            ProductoModelo.objects.create(producto=producto, modelo=modelo_instance)
+            ProductoColor.objects.create(producto=producto, color=color_instance)
+            ProductoAlmacenamiento.objects.create(producto=producto, almacenamiento=almacenamiento_instance)
+            
+            messages.success(request, '¡Producto, modelo, almacenamiento y color agregados exitosamente!')
             return redirect('dashboard_admin')
-        else:
-            messages.error(request, "Por favor corrige los errores del formulario.")
     else:
+        # Si no es POST, mostrar formularios vacíos
         form = ProductoForm()
-    
-    # Obtener todos los productos para mostrarlos en el dashboard
+        producto_modelo_form = ProductoModeloForm()
+        producto_color_form = ProductoColorForm()
+        producto_almacenamiento_form = ProductoAlmacenamientoForm()
+        
+    # Mostrar todos los productos existentes en el dashboard
     productos = Producto.objects.all()
     context = {
         'form': form,
-        'productos': productos
+        'producto_modelo_form': producto_modelo_form,
+        'producto_color_form': producto_color_form,
+        'productos': productos,
+        'producto_almacenamiento_form': producto_almacenamiento_form
     }
     return render(request, 'dashboard_admin.html', context)
-
-
-
+    #return render(request, 'dashboard_admin.html', context)
 
 
 def editar_producto(request, producto_id):
@@ -425,7 +506,7 @@ def eliminar_producto(request, producto_id):
 
 from django.shortcuts import render
 from django.db.models import Sum
-from .models import Producto, CarritoItem
+from .models import Producto, CarritoItem, Color, Almacenamiento, ProductoModelo, ProductoColor, ProductoAlmacenamiento
 
 def dashboard_graficos(request):
     # Obtenemos el total vendido por categoría
@@ -450,3 +531,17 @@ def vista_alerta(request):
         messages.warning(request, "¡El stock de un producto es bajo!")
 
     return render(request, 'dashboard_admin.html')  # Cambia por tu plantilla HTML
+
+
+def especificaciones_producto(request, producto_id):
+    # Obtén el producto por su ID
+    producto = Producto.objects.get(id=producto_id)
+    # Pasa el producto al contexto de la plantilla
+    return render(request, 'detalle_producto.html', {'producto': producto})
+
+
+# csrf token
+from django.shortcuts import render
+
+def custom_csrf_failure_view(request, reason=""):
+    return render(request, "csrf_failure.html", {"reason": reason}, status=403)

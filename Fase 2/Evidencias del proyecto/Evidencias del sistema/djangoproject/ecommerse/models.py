@@ -16,12 +16,18 @@ class Producto(models.Model):
     descripcion = models.CharField(max_length=255, default='Descripción por defecto')
     stock_actual = models.PositiveIntegerField(default=0)
     stock_minimo = models.PositiveIntegerField(default=10)
+    memoria_ram = models.CharField(max_length=20 , default='2 ram') 
+    sistema_operativo = models.CharField(max_length=50,default='Windows')
+    tamaño_pantalla = models.CharField(max_length=30, default='1470 x 2010')
+    procesador = models.CharField(max_length=100, default='Sin descripción')
+    tarjeta_grafica = models.CharField(max_length=50, default='Si')
+    descripcion_tg = models.CharField(max_length=200, default='tarjeta amd alta gama')
 
     def __str__(self):
         return f'{self.nombre} -> {self.precio}'
 
-    def __str__(self):
-        return self.nombre
+    # def __str__(self):
+    #     return self.nombre
     
     def es_stock_bajo(self):
         return self.stock_actual <= self.stock_minimo
@@ -110,3 +116,49 @@ class ListaDeseados(models.Model):
 
     class Meta:
         unique_together = ('usuario', 'producto')
+
+
+class Almacenamiento(models.Model):
+    capacidad = models.CharField(max_length=16)  # Ejemplo: "128GB", "256GB"
+
+    def __str__(self):
+        return self.capacidad
+
+class Color(models.Model):
+    nombre = models.CharField(max_length=32)
+    codigo_hex = models.CharField(max_length=7, null=True, blank=True)  # Opcional: código HEX para representar el color
+
+    def __str__(self):
+        return self.nombre
+
+class Modelo(models.Model):
+    nombre = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.nombre
+    
+#_________________________
+    
+class ProductoAlmacenamiento(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    almacenamiento = models.ForeignKey(Almacenamiento, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('producto', 'almacenamiento')  # Asegura combinaciones únicas
+
+class ProductoColor(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    color = models.ForeignKey(Color, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('producto', 'color')
+
+class ProductoModelo(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    modelo = models.ForeignKey(Modelo, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('producto','modelo')
+
+    # class Meta:
+    #     unique_together = ('producto', 'modelo')

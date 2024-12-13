@@ -3,8 +3,14 @@ from .models import Usuario # Se importa el modelo Usuario, este modelo represen
 from django.core.exceptions import ValidationError
 import re
 from django.contrib.auth.forms import SetPasswordForm
+from .models import Producto, ProductoModelo
 
-class RegistroForm(forms.ModelForm): # La clase RegistroForm hereda de forms.ModelForm, lo que significa que se basa en un modelo de Django (en este caso, el modelo Usuario) y permite generar automáticamente un formulario con campos que corresponden a ese modelo.
+
+from django import forms
+from .models import Usuario  # Asegúrate de que este es tu modelo personalizado de usuario
+
+class RegistroForm(forms.ModelForm):
+    # Campos personalizados
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         min_length=8,
@@ -14,6 +20,26 @@ class RegistroForm(forms.ModelForm): # La clase RegistroForm hereda de forms.Mod
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         label="Confirmar contraseña"
     )
+
+    class Meta:
+        model = Usuario  # Define el modelo asociado
+        fields = ['nombre', 'email', 'telefono', 'password']  # Lista de campos a incluir en el formulario
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+    def clean(self):
+        """Validación personalizada para verificar que las contraseñas coincidan"""
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirmar_password = cleaned_data.get("confirmar_password")
+
+        if password and confirmar_password and password != confirmar_password:
+            self.add_error('confirmar_password', "Las contraseñas no coinciden.")
+
+        return cleaned_data
 
     class Meta: # Es una clase interna que define las configuraciones para el formulario.
         model = Usuario # Se especifica el modelo que se usara
@@ -89,7 +115,7 @@ from .models import Producto
 class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
-        fields = ['nombre', 'categoria', 'precio', 'descripcion', 'imagen','stock_actual',]
+        fields = ['nombre', 'categoria', 'precio', 'descripcion', 'imagen','stock_actual','memoria_ram','sistema_operativo','tamaño_pantalla','procesador','tarjeta_grafica','descripcion_tg']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'dashboard-input'}),
             'categoria': forms.TextInput(attrs={'class': 'dashboard-input'}),  
@@ -97,6 +123,43 @@ class ProductoForm(forms.ModelForm):
             'descripcion': forms.Textarea(attrs={'class': 'dashboard-input dashboard-textarea'}),
             'imagen': forms.FileInput(attrs={'class': 'dashboard-input'}),
             'stock_actual': forms.NumberInput(attrs={'class':'dashboard-input'}),
+            'memoria_ram': forms.TextInput(attrs={'class': 'dashboard-input'}),
+            'sistema_operativo': forms.TextInput(attrs={'class': 'dashboard-input'}),
+            'tamaño_pantalla': forms.TextInput(attrs={'class': 'dashboard-input'}),
+            'procesador': forms.TextInput(attrs={'class': 'dashboard-input'}),
+            'tarjeta_grafica': forms.TextInput(attrs={'class': 'dashboard-input'}),
+            'descripcion_tg': forms.TextInput(attrs={'class': 'dashboard-input'}),
+            
+
         }
+
+
+class ProductoModeloForm(forms.Form):
+    modelo = forms.CharField(
+        max_length=64,
+        widget=forms.TextInput(attrs={'class': 'dashboard-input'}),
+        required=True
+    )
+
+class ProductoColorForm(forms.Form):
+    color = forms.CharField(
+        max_length=64,
+        widget=forms.TextInput(attrs={'class': 'dashboard-input'}),
+        required=True
+    )
+    codigo_hex = forms.CharField(
+        max_length=7,
+        widget=forms.TextInput(attrs={'class': 'dashboard-input', 'placeholder': '#RRGGBB'}),
+        required=True
+    )
+
+class ProductoAlmacenamientoForm(forms.Form):
+    capacidad = forms.CharField(
+        max_length=64,
+        widget=forms.TextInput(attrs={'class':'dashboard-input'}),
+        required=True
+    )
+
+
 
 
