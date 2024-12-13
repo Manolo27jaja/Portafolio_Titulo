@@ -334,21 +334,20 @@
 
 
     <!-- _______________________________Tarjetas______________________________________-->
-     <div class="container" id="tarjetas_margen">
+    <div class="container" id="tarjetas_margen">
         {% for producto in por_categorias_1 %}
         <div class="card">
             <figure>
                 <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
             </figure>
             <div class="content">
-                <h3>{{producto.nombre}}</h3>
-                <p>{{producto.precio}}</p>
+                <h3>{{ producto.nombre }}</h3>
+                <p>{{ producto.precio }}</p>
                 <a href="#">Añadir al Carrito</a>
             </div>
-        </div> 
-        {% endfor %} 
-    </div> 
-  
+        </div>
+        {% endfor %}
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
