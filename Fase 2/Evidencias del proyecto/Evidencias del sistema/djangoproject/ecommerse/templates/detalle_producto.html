@@ -44,14 +44,22 @@
                             <p class="card-text">{{producto.categoria}}</p>
                             <p class="card-text">${{producto.precio}}</p>
                             <p class="card-text">{{producto.descripcion}}</p>
-                            <a id="agregarCarrito" data-producto-id="{{ producto.id }}" href="javascript:void(0);" onclick="actualizarCantidad('{{ value.producto_id }}', 'add')" class="btn btn-dark">Agregar al Carrito</a>
+                            
+                            <!--<a id="agregarCarrito" data-producto-id="{{ producto.id }}" href="javascript:void(0);" onclick="actualizarCantidad('{{ value.producto_id }}', 'add')" class="btn btn-dark">Agregar al Carrito</a>-->
+                            <a id="agregarCarrito" data-producto-id="{{ producto.id }}" href="javascript:void(0);" onclick="agregarProductoAlCarrito('{{ producto.id }}')" class="btn btn-dark">Agregar al Carrito</a>
                         </div>
                         {% endfor %}
-                        <ul>
-                            {% for item in almacenamiento %}
-                            <li>{{ item.capacidad }}</li>
-                            {% endfor %}
-                        </ul>
+                        <div class="col-6">
+                            <ul class="almacenamiento-list">
+                                {% for item in almacenamiento %}
+                                    <li class="almacenamiento-item">
+                                        <button class="almacenamiento-btn" onclick="seleccionarCapacidad('{{ item.capacidad }}')">
+                                            {{ item.capacidad }}
+                                        </button>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

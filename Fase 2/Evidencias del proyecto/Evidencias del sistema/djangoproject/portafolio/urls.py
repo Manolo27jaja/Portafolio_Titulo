@@ -59,6 +59,7 @@ urlpatterns = [
 
     
     path('admin_dashboard/', dashboard_admin, name='dashboard_admin'),
+    path('agregar_almacenamiento/', views.agregar_almacenamiento, name='agregar_almacenamiento'),
     path('editar/<int:producto_id>/', views.editar_producto, name='editar_producto'),
     path('eliminar/<int:producto_id>/', views.eliminar_producto, name='eliminar_producto'),
     path('dashboard-graficos/', views.dashboard_graficos, name='dashboard_graficos'),

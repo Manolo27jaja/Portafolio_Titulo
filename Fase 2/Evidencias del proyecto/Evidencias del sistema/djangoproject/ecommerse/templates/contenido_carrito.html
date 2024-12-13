@@ -27,12 +27,7 @@
                 </td>
             </tr>
             {% endfor %}
-            {% else %}
-            <tr>
-                <td colspan="3">
-                    <div class="alert alert-danger text-center">SIN PRODUCTOS</div>
-                </td>
-            </tr>
+            
             {% endif %}
             <tr>
                 <th scope="row"></th>
@@ -43,7 +38,7 @@
     <hr>
 </div>
 <div class="row text-center">
-    <div class="col-6"><a href="{% url 'CLS' %}" class="btn btn-danger">Limpiar</a></div>
+    <div class="col-6"></div>
         <form method="POST" action="{% url 'guardar_carrito' %}">
                 {% csrf_token %}
             <button type="submit" class="btn btn-success">Guardar</button>

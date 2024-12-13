@@ -106,7 +106,7 @@ class ListaDeseados(models.Model):
 
 
 class Almacenamiento(models.Model):
-    capacidad = models.CharField(max_length=16)  # Ejemplo: "128GB", "256GB"
+    capacidad = models.IntegerField(unique=True)  # Ejemplo: "128GB", "256GB"
 
     def __str__(self):
         return self.capacidad

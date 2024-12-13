@@ -37,13 +37,21 @@ agregarCarritoBtn.onclick = function(event) {
             if (cantidadElemento) {
                 // Si el elemento existe, actualiza su contenido
                 cantidadElemento.textContent = data.nueva_cantidad;
+                const filaProducto = document.querySelector(`#fila-${productoId}`);
+                if (filaProducto) {
+                    filaProducto.querySelector(".nombre-producto").textContent = data.nombre_producto;
+                    filaProducto.querySelector(`#acumulado-${productoId}`).textContent = `Total: $ ${data.precio_producto}`;
+                }
             } else {
                 // Si el elemento no existe, añade una nueva fila en el carrito
                 const carritoTabla = document.querySelector(".table tbody");
                 const nuevaFila = document.createElement("tr");
+                nuevaFila.id = `fila-${productoId}`;
                 nuevaFila.innerHTML = `
-                    <td>${data.nombre_producto}</td>
-                    <td>${data.precio_producto}</td>
+                    <td class="nombre-producto">${data.nombre_producto || "Producto no definido"}</td>
+                    <td>
+                        <span id="acumulado-${productoId}">Total: $ ${data.precio_producto || "0"}</span>
+                    </td>
                     <td>
                         <a href="#" class="badge btn btn-dark badge-dark" onclick="actualizarCantidad('${productoId}', 'add')">+</a>
                         <span id="cantidad-${productoId}">${data.nueva_cantidad}</span>
@@ -52,7 +60,7 @@ agregarCarritoBtn.onclick = function(event) {
                 `;
                 carritoTabla.appendChild(nuevaFila);
             }
-
+            
             // Actualiza el total del carrito en el modal si es necesario
             const totalCarritoElemento = document.getElementById("total-carrito");
             if (totalCarritoElemento) {
@@ -62,7 +70,6 @@ agregarCarritoBtn.onclick = function(event) {
     })
     .catch(error => console.error("Error:", error));
 };
-
 // Función para obtener el CSRF token
 function getCookie(name) {
     let cookieValue = null;
@@ -79,55 +86,83 @@ function getCookie(name) {
     return cookieValue;
 }
 // _______________________________________________________
-// Cerrar el modal cuando se hace clic en la "X"
+// _________________________________________Cerrar el modal cuando se hace clic en la "X"
 closeModalBtn.onclick = function() {
     modal.style.display = "none";
 };
-
 // Cerrar el modal cuando se hace clic fuera del modal
 window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
 };
-
 //_____________________________________________________________________________________
 
 
 
 //__________________________________________________________________
 
-function actualizarCantidad(productoId, accion) {
-    const url = accion === "add" ? `/aumentar/${productoId}/` : `/restar/${productoId}/`;
 
+
+
+//___________________________________________________________________
+
+function actualizarCarritoModal(data) {
+    // Reemplaza las filas existentes del carrito con los nuevos datos
+    const carritoTabla = document.querySelector(".table tbody");
+    carritoTabla.innerHTML = ''; // Limpiar el contenido actual
+
+    data.carrito.items.forEach(item => {
+        const nuevaFila = document.createElement('tr');
+        nuevaFila.innerHTML = `
+            <td>${item.nombre}</td>
+            <td><span id="acumulado-${item.producto_id}">Total: ${item.acumulado}</span></td>
+            <td>
+                <a href="#" class="badge btn btn-dark badge-dark" onclick="actualizarCantidad('${item.producto_id}', 'add')">+</a>
+                <span id="cantidad-${item.producto_id}">${item.cantidad}</span>
+                <a href="#" class="badge btn btn-dark badge-dark" onclick="actualizarCantidad('${item.producto_id}', 'sub')">-</a>
+            </td>
+        `;
+        carritoTabla.appendChild(nuevaFila);
+    });
+
+    // Actualiza el total del carrito
+    const totalCarritoElemento = document.getElementById("total-carrito");
+    if (totalCarritoElemento) {
+        totalCarritoElemento.textContent = '$ ' + data.carrito.total;
+    }
+}
+
+function actualizarCantidad(productoId, accion) {
+    const url = accion === 'add' ? `/aumentar/${productoId}/` : `/restar/${productoId}/`;
     fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers: {
-            "X-CSRFToken": getCookie("csrftoken"),
-            "Content-Type": "application/json"
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({ producto_id: productoId })
     })
     .then(response => response.json())
     .then(data => {
-        if (data.status === "Cantidad actualizada") {
-            // Actualiza la cantidad en el DOM
-            document.getElementById("cantidad-" + productoId).textContent = data.nueva_cantidad;
-
-            // Actualiza el acumulado en el DOM
-            const acumuladoElemento = document.getElementById("acumulado-" + productoId);
-            if (acumuladoElemento) {
-                acumuladoElemento.textContent = `Acumulado: ${data.acumulado}`;
+        if (data.status === 'Cantidad actualizada') {
+            // Actualiza la cantidad y el acumulado en el modal
+            const cantidadElemento = document.getElementById(`cantidad-${productoId}`);
+            if (cantidadElemento) {
+                cantidadElemento.textContent = data.nueva_cantidad;
             }
 
-            // Actualiza el total del carrito en el modal
-            document.getElementById("total-carrito").textContent = "$ " + data.total_carrito;
+            const acumuladoElemento = document.getElementById(`acumulado-${productoId}`);
+            if (acumuladoElemento) {
+                acumuladoElemento.textContent = `Total: ${data.acumulado}`;
+            }
+
+            // Actualiza el total del carrito
+            const totalCarritoElemento = document.getElementById("total-carrito");
+            if (totalCarritoElemento) {
+                totalCarritoElemento.textContent = '$ ' + data.total_carrito;
+            }
         }
     })
-    .catch(error => console.error("Error:", error));
-    
+    .catch(error => console.error('Error:', error));
 }
-
-
-//___________________________________________________________________
-

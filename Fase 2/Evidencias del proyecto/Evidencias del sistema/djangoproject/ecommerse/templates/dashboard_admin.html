@@ -135,17 +135,20 @@
     </div>
 
     <div class="dashboard-container">
-        <h1 class="dashboard-title">Admin - Agregar Producto</h1>
-        
+        <h1 class="dashboard-title">Admin - Agregar Capacidad de Almacenamiento</h1>
         <div class="form-card">
-            <h2 class="form-card-title">Nuevo Almacenamiento</h2>
-            <form method="POST" enctype="multipart/form-data" class="product-form">
-                {% csrf_token %}            
+            <h2 class="form-card-title">Nueva Capacidad de Almacenamiento</h2>
+            <form method="POST" action="{% url 'agregar_almacenamiento' %}" enctype="multipart/form-data" class="product-form">
+                {% csrf_token %}
                 <div class="form-group">
-                    <label for="almacenamiento">Almacenamiento</label>
+                    <label for="producto_id">ID del Producto</label>
+                    <input type="number" name="producto_id" class="dashboard-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="capacidad">Capacidad de Almacenamiento</label>
                     {{ producto_almacenamiento_form.capacidad }}
-                </div>    
-                <button type="submit" class="submit-btn">Agregar Producto</button>
+                </div>
+                <button type="submit" class="submit-btn">Agregar Capacidad</button>
             </form>
         </div>
     </div>
@@ -155,6 +158,7 @@
         {% for producto in productos %}
         <div class="product-card">
             <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="product-image">
+            <div class="product-id">{{ producto.id }}</div>
             <div class="product-name">{{ producto.nombre }}</div>
             <div class="product-category">{{ producto.categoria }}</div>
             <div class="product-price">${{ producto.precio }}</div>

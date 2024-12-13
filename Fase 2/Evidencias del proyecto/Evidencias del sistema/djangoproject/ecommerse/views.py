@@ -96,7 +96,16 @@ def detalle_producto(request, producto_id):
     productos_1 = Producto.objects.filter(id__in=producto_ids_1)
     almacenamiento = Almacenamiento.objects.filter(
         id__in=ProductoAlmacenamiento.objects.filter(producto_id=producto_id).values_list('almacenamiento_id', flat=True)
-    )
+    )    # Obtén el último producto visitado desde la sesión
+    ultimo_producto_id = request.session.get('ultimo_producto_id')
+
+    # Si hay un producto previo y es diferente al actual, limpia el carrito
+    if ultimo_producto_id and ultimo_producto_id != producto_id:
+        carrito = CarritoClass(request)
+        carrito.limpiar()
+
+    # Actualiza el producto actual en la sesión
+    request.session['ultimo_producto_id'] = producto_id
     return render(
         request, 
         'detalle_producto.html', 
@@ -137,10 +146,13 @@ def guardar_carrito(request):
     if request.method == 'POST':
         # Recuperar el carrito desde la sesión
         carrito_session = request.session.get('carrito', {})
+        
         if not carrito_session:
             return redirect('home')  # Si no hay nada en el carrito, redirigir
+        
         # Crear un nuevo objeto de carrito en la base de datos
         carrito = Carrito.objects.create(usuario=request.user)
+        
         # Guardar cada producto en CarritoItem
         for key, value in carrito_session.items():
             CarritoItem.objects.create(
@@ -149,9 +161,12 @@ def guardar_carrito(request):
                 cantidad=value['cantidad'],
                 precio=value['acumulado'],
             )
+        
         # Limpiar el carrito de la sesión después de guardarlo
-        request.session['carrito'] = {}
-        request.session.modified = True
+        request.session['carrito'] = {}  # Vacía el carrito
+        request.session.modified = True  # Marca la sesión como modificada
+        
+        # Redirigir al home
         return redirect('home')
     
 #_______________________________________________________
@@ -174,6 +189,8 @@ def agregar_producto(request, producto_id):
         "producto_id": producto.id,
         "nueva_cantidad": carrito.obtener_cantidad(producto),
         "acumulado": carrito.obtener_acumulado(producto) ,
+        "nombre_producto":producto.nombre,
+        "precio_producto":producto.precio,
         "html": html_carrito  # HTML del carrito para actualizar el modal
     })
     
@@ -181,13 +198,13 @@ def aumentar_producto(request, producto_id):
     carrito = CarritoClass(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.agregar(producto)  # Se asume que `agregar` también aumenta la cantidad si el producto ya está en el carrito
-    acumulado = carrito.obtener_acumulado(producto)
+    carrito.obtener_acumulado(producto)
     #total_carrito = carrito.obtener_total()
     return JsonResponse({
         "status": "Cantidad actualizada",
         "producto_id": producto.id,
         "nueva_cantidad": carrito.obtener_cantidad(producto),  # Llamada al nuevo método para obtener la cantidad
-        "acumulado": acumulado#,
+        "acumulado": carrito.obtener_acumulado(producto)#,
         #"total_carrito": total_carrito
         })
 
@@ -201,20 +218,20 @@ def restar_producto(request, producto_id):
     carrito = CarritoClass(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.restar(producto)
-    acumulado = carrito.obtener_acumulado(producto)
+    carrito.obtener_acumulado(producto)
     #total_carrito = carrito.obtener_total()
     return JsonResponse({
         "status": "Cantidad actualizada",
         "producto_id": producto.id,
         "nueva_cantidad": carrito.obtener_cantidad(producto),  # Método que devuelve la nueva cantidad
-        "acumulado": acumulado#,
+        "acumulado": carrito.obtener_acumulado(producto)#,
         #"total_carrito": total_carrito
     })
 
 def limpiar_carrito(request):
     carrito = CarritoClass(request)
     carrito.limpiar()
-    return redirect('carritoid')
+    return redirect('detalle_producto')
 
 # def miCarrito(request):
 #     return render(request, 'miCarrito.html') 
@@ -367,7 +384,7 @@ def admin_required(view_func):
     return user_passes_test(lambda u: u.is_staff)(view_func)
 #---------------------------------
 
-#---------------------------------
+#---------------------------------Agregar productos desde el Admin
 @admin_required
 def dashboard_admin(request):
     if request.method == 'POST':
@@ -433,21 +450,43 @@ def dashboard_admin(request):
         'producto_almacenamiento_form': producto_almacenamiento_form
     }
     return render(request, 'dashboard_admin.html', context)
+#---------------------- almacenar una capacidad desde el admin
 
+@admin_required
+def agregar_almacenamiento(request):
+    if request.method == 'POST':
+        producto_almacenamiento_form = ProductoAlmacenamientoForm(request.POST)
+        producto_id = request.POST.get('producto_id')  # Capturar la ID del producto desde el formulario
+        if producto_almacenamiento_form.is_valid():
+            capacidad = producto_almacenamiento_form.cleaned_data['capacidad']
+            # Buscar el producto por su ID
+            try:
+                producto = Producto.objects.get(id=producto_id)
+            except Producto.DoesNotExist:
+                messages.error(request, 'El producto con esa ID no existe.')
+                return redirect('dashboard_admin')
+            # Buscar o crear la capacidad de almacenamiento
+            almacenamiento, created = Almacenamiento.objects.get_or_create(capacidad=capacidad)
+            # Asociar el producto con la capacidad de almacenamiento
+            ProductoAlmacenamiento.objects.create(producto=producto, almacenamiento=almacenamiento)
+            messages.success(request, f'Capacidad de {capacidad} añadida al producto {producto.nombre} exitosamente.')
+            return redirect('dashboard_admin')
+        # Si el formulario no es válido
+        messages.error(request, 'Formulario no válido. Verifica los datos ingresados.')
+        return redirect('dashboard_admin')
+    # Si no es POST, redirigir al dashboard
+    return redirect('dashboard_admin')
 
 #-----------------instancia para el modelo
 
-def crear_modelos():
-    # Crear instancias de Modelo solo si no existen previamente
-    Modelo.objects.get_or_create(nombre="Modelo 1")
-    Modelo.objects.get_or_create(nombre="Modelo 2")
+
 #---------------------------------------
 
 def editar_producto(request, producto_id):
-    # Obtén el producto a editar
+    # Obtén el producto a editar-------------
     producto = get_object_or_404(Producto, id=producto_id)
 
-    # Si el formulario fue enviado con el método POST
+    # Si el formulario fue enviado con el método POST------
     if request.method == 'POST':
         form = ProductoForm(request.POST, request.FILES, instance=producto)
         if form.is_valid():

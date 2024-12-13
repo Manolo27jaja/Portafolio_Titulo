@@ -29,3 +29,22 @@ function App(){}
             track.style.left = `${-1 * (leftPosition + carruselWidth)}px`;
         }
     }
+
+function agregarProductoAlCarrito(productoId) {
+    fetch(`/agregar/${productoId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ producto_id: productoId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'Producto agregado al carrito') {
+            // Actualiza el contenido del modal con los nuevos datos
+            actualizarCarritoModal(data);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}

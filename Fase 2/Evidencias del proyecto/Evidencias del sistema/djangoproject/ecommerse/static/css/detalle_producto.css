@@ -388,3 +388,54 @@ a{
 .whatsapp-button a img:hover {
   transform: scale(1.1); /* Aumenta ligeramente el tamaño */
 }
+
+/*___________________________________________________________________*/
+
+/* Estilo para la lista */
+.almacenamiento-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Estilo para cada item de la lista */
+.almacenamiento-item {
+  display: inline-block;
+}
+
+/* Estilo para los botones */
+.almacenamiento-btn {
+  background-color: #007bff; /* Color de fondo azul */
+  color: white; /* Color del texto */
+  border: 2px solid #007bff;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+}
+
+/* Efecto de hover para cuando el mouse está sobre el botón */
+.almacenamiento-btn:hover {
+  background-color: #0056b3; /* Cambio de color al pasar el mouse */
+  border-color: #0056b3;
+}
+
+/* Estilo para el botón seleccionado */
+.almacenamiento-btn.selected {
+  background-color: #28a745; /* Color verde para el botón seleccionado */
+  border-color: #28a745;
+}
+
+.almacenamiento-btn:focus {
+  outline: none; /* Eliminar el borde azul por defecto */
+}
+
+/* Opcional: Añadir un borde adicional en el primer elemento de la lista */
+.almacenamiento-list li:first-child {
+  margin-left: 0;
+}
