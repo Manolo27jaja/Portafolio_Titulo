@@ -33,7 +33,7 @@
   text-decoration: none;
   cursor: pointer;
 }
-/*_____________________________________________________________________________*/
+/_/
 
 /* Diseño de la disposición del carrito en el modal*/
 .row {
@@ -65,7 +65,7 @@ width: 50%;
 }
 
 
-/*______________________________________________________________________________-*/
+/-/
 
 .product-detail {
   display: flex;
@@ -78,7 +78,7 @@ width: 50%;
 }
 
 
-/*____________________________________________________*/
+//
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -138,7 +138,13 @@ body {
   color: #555;
   margin-bottom: 10px;
 }
-
+.btn-circle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 5px;
+  cursor: pointer;
+}
 /* Botón de agregar al carrito */
 .btn {
   background-color: #050505;
@@ -187,7 +193,7 @@ body {
 
 
 
-/*__________________________________________________________________*/
+//
 
 #carrusel_css{
   margin: 0;
@@ -314,7 +320,13 @@ a{
 }
 
 
+<<<<<<< HEAD
 /* Especificaciones tecnicas */
+=======
+/Especificaciones/
+
+
+>>>>>>> 98d406b1be4352fe88cdf65176fdc7016d7e08db
 .specifications-table {
   max-width: 600px;
   margin: 20px auto;
@@ -356,7 +368,34 @@ a{
 }
 
 .specifications-table td {
+<<<<<<< HEAD
   font-size: 0.95em;
 }
 
 /* Fin Especificaciones tecnicas */
+=======
+  font-size: 0.95em;
+}
+
+
+/_Css Api Whatsapp_/
+
+.whatsapp-button {
+  position: fixed;
+  bottom: 20px; /* Ajusta la posición vertical */
+  right: 20px;  /* Ajusta la posición horizontal */
+  z-index: 1000; /* Asegúrate de que esté encima de otros elementos */
+}
+
+.whatsapp-button a img {
+  width: 60px; /* Tamaño del ícono */
+  height: 60px;
+  border-radius: 50%; /* Redondea los bordes */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Agrega un efecto de sombra */
+  transition: transform 0.3s ease; /* Efecto al pasar el cursor */
+}
+
+.whatsapp-button a img:hover {
+  transform: scale(1.1); /* Aumenta ligeramente el tamaño */
+}
+>>>>>>> 98d406b1be4352fe88cdf65176fdc7016d7e08db

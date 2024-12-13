@@ -94,28 +94,6 @@ window.onclick = function(event) {
 //_____________________________________________________________________________________
 
 
-function actualizarCantidad(productoId, accion) {
-    fetch(`/restar/${productoId}/`, {
-        method: "POST",
-        headers: {
-            "X-CSRFToken": getCookie("csrftoken"),
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ producto_id: productoId, accion: accion })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === "Cantidad actualizada") {
-            // Actualiza solo la cantidad del producto en el DOM
-            document.getElementById("cantidad-" + productoId).textContent = data.nueva_cantidad;
-            
-            // Actualiza el total del carrito en el modal
-            document.getElementById("total-carrito").textContent = "$ " + data.total_carrito;
-        }
-    })
-    .catch(error => console.error("Error:", error));
-}
-
 
 //__________________________________________________________________
 
@@ -133,15 +111,23 @@ function actualizarCantidad(productoId, accion) {
     .then(response => response.json())
     .then(data => {
         if (data.status === "Cantidad actualizada") {
-            // Actualiza solo la cantidad del producto en el DOM
+            // Actualiza la cantidad en el DOM
             document.getElementById("cantidad-" + productoId).textContent = data.nueva_cantidad;
-            
+
+            // Actualiza el acumulado en el DOM
+            const acumuladoElemento = document.getElementById("acumulado-" + productoId);
+            if (acumuladoElemento) {
+                acumuladoElemento.textContent = `Acumulado: ${data.acumulado}`;
+            }
+
             // Actualiza el total del carrito en el modal
             document.getElementById("total-carrito").textContent = "$ " + data.total_carrito;
         }
     })
     .catch(error => console.error("Error:", error));
+    
 }
 
 
 //___________________________________________________________________
+

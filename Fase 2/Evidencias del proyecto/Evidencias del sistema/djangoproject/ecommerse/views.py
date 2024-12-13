@@ -151,6 +151,7 @@ def agregar_producto(request, producto_id):
         "status": "Producto agregado al carrito",
         "producto_id": producto.id,
         "nueva_cantidad": carrito.obtener_cantidad(producto),
+        "acumulado": carrito.obtener_acumulado(producto) ,
         "html": html_carrito  # HTML del carrito para actualizar el modal
     })
     
@@ -158,12 +159,15 @@ def aumentar_producto(request, producto_id):
     carrito = CarritoClass(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.agregar(producto)  # Se asume que `agregar` también aumenta la cantidad si el producto ya está en el carrito
+    acumulado = carrito.obtener_acumulado(producto)
+    #total_carrito = carrito.obtener_total()
     return JsonResponse({
         "status": "Cantidad actualizada",
         "producto_id": producto.id,
-        "nueva_cantidad": carrito.obtener_cantidad(producto)#,  # Llamada al nuevo método para obtener la cantidad
-        #"total_carrito": carrito.obtener_total()  # Total actualizado
-    })
+        "nueva_cantidad": carrito.obtener_cantidad(producto),  # Llamada al nuevo método para obtener la cantidad
+        "acumulado": acumulado#,
+        #"total_carrito": total_carrito
+        })
 
 def eliminar_producto(request, producto_id):
     carrito = CarritoClass(request)
@@ -175,11 +179,14 @@ def restar_producto(request, producto_id):
     carrito = CarritoClass(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.restar(producto)
+    acumulado = carrito.obtener_acumulado(producto)
+    #total_carrito = carrito.obtener_total()
     return JsonResponse({
         "status": "Cantidad actualizada",
         "producto_id": producto.id,
-        "nueva_cantidad": carrito.obtener_cantidad(producto)#,  # Método que devuelve la nueva cantidad
-        #"total_carrito": carrito.obtener_total()  # Método que devuelve el total del carrito
+        "nueva_cantidad": carrito.obtener_cantidad(producto),  # Método que devuelve la nueva cantidad
+        "acumulado": acumulado#,
+        #"total_carrito": total_carrito
     })
 
 def limpiar_carrito(request):

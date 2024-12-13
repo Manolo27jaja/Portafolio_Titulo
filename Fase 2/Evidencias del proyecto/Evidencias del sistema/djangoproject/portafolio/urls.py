@@ -15,7 +15,7 @@ urlpatterns = [
     path('', home, name='home'),
     path('detalle_producto/<int:producto_id>/', views.detalle_producto, name='detalle_producto'),
     path('contenido_carrito/', views.contenido_carrito, name='contenido_carrito'),
-    ###########path('carritoid/<int:producto_id>/', carritoid, name='carritoid'),
+    #####path('carritoid/<int:producto_id>/', carritoid, name='carritoid'),
     path('guardar_carrito/', guardar_carrito, name='guardar_carrito'),
     #Paths de Carrito de compras
     path('modal/', modal, name="modal"),

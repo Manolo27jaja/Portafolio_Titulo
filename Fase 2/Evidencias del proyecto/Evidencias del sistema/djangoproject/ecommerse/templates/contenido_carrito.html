@@ -17,7 +17,9 @@
             {% for key, value in request.session.carrito.items %}
             <tr>
                 <td>{{value.nombre}}</td>
-                <td> Acumulado: {{value.acumulado}}</td>
+                <td> 
+                    <span id="acumulado-{{ value.producto_id }}">Total: {{ value.acumulado }}</span>
+                </td>
                 <td>
                     <a href="#" class="badge btn btn-dark badge-dark" onclick="actualizarCantidad('{{ value.producto_id }}', 'add')">+</a>
                     <span id="cantidad-{{ value.producto_id }}">{{ value.cantidad }}</span>
